@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>MakeaMove — stop swiping, start matching</title>
-<meta name="description" content="Dating apps get paid while you keep looking. MakeaMove is a live matchmaking game show for Nigerian and African singles: answer what matters, react Move or Stay, and meet the people who pass.">
+<meta name="description" content="MakeaMove is an online matchmaking game show that connects compatible partners. 2 people, 20 posers, a 70% pass mark and 1 date possibility.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -160,6 +160,22 @@
   .hero .inner > :nth-child(2){animation-delay:.25s} .hero .inner > :nth-child(3){animation-delay:.4s}
   .hero .inner > :nth-child(4){animation-delay:.5s} .hero .inner > :nth-child(5){animation-delay:.55s}
   @keyframes rise{from{opacity:0; transform:translateY(18px)}}
+
+  /* the marquee: MakeaMove as a lit sign (bulb run + pink neon rim), as on the app's S-A1 */
+  .marquee{position:relative; padding:clamp(16px, 2.2vw, 26px) clamp(28px, 4vw, 52px); border-radius:18px;
+    background:linear-gradient(180deg, var(--stage-800), var(--stage-850)); box-shadow:0 0 0 2px rgba(255,45,111,.65), var(--glow-move)}
+  .marquee::before{content:""; position:absolute; inset:8px; border:3px dotted var(--bulb); border-radius:11px; pointer-events:none;
+    filter:drop-shadow(0 0 5px rgba(255,182,39,.85)); animation:marq 2.2s steps(2) infinite}
+  @keyframes marq{50%{border-color:var(--bulb-soft); opacity:.75}}
+  .marquee .mark{display:block; font-family:var(--display); font-weight:900; text-transform:uppercase; letter-spacing:.04em; line-height:1;
+    font-size:clamp(2.4rem, 6.5vw, 5.25rem)}
+  .marquee .mark i{font-style:normal; color:var(--move)}
+  .hero .marquee{animation:marqdrop .9s var(--ease-show) both}
+  @keyframes marqdrop{0%{transform:scale(.55) translateY(-46px); opacity:0; filter:brightness(3.2)} 55%{filter:brightness(1.9)} 100%{transform:none; opacity:1; filter:none}}
+  .tagline{margin-top:clamp(22px, 3.2vw, 38px); font-family:var(--display); font-weight:900; text-transform:uppercase; letter-spacing:.01em;
+    line-height:.92; font-size:clamp(2.2rem, 10.5vw, 6.25rem)}
+  @media (max-height:700px){ .hero .inner{padding-top:70px} }
+  .tagline span{display:block; color:var(--move); text-shadow:0 0 34px rgba(255,45,111,.45)}
 
   /* ============ pinned scenes ============ */
   .pin{position:relative}
@@ -319,7 +335,7 @@
   .bug i{width:10px; height:10px; border-radius:50%; background:var(--move); box-shadow:0 0 12px var(--move); animation:blink 1.2s infinite}
   .tc{position:absolute; top:clamp(76px, 12vh, 110px); left:28px; font-family:var(--display); font-weight:700; letter-spacing:.1em; font-size:1rem;
     color:var(--ink-dim); font-variant-numeric:tabular-nums}
-  .onair-q{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:min(92vw, 16ch); text-align:center;
+  .onair-q{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:min(calc(100% - 2 * var(--gutter)), 16ch); text-align:center;
     font-size:clamp(2.6rem, 7vw, 6.5rem); color:#fff;
     text-shadow:3px 0 rgba(255,45,111,.75), -3px 0 rgba(47,107,255,.75), 0 0 30px rgba(0,0,0,.6)}
   .lower{position:absolute; left:50%; bottom:9%; transform:translateX(-50%); display:flex; align-items:stretch; white-space:nowrap}
@@ -507,7 +523,7 @@
 </head>
 <body>
 <header class="slate" id="slate">
-  <a class="brand" href="#top"><b>Make<i>a</i>Move</b>The live matchmaking<br>game show</a>
+  <a class="brand" href="#top"><b>Make<i>a</i>Move</b>The online matchmaking<br>game show</a>
   <span class="season">Season one</span>
   <nav class="pill" aria-label="Page">
     <a href="#top" class="on" data-sec="top">Show</a><a href="#board" data-sec="board">Play</a><a href="#rules" data-sec="rules">House rules</a>
@@ -518,7 +534,7 @@
 
 <nav class="rundown" id="rundown" aria-label="Show rundown">
   <a href="#top" data-sec="top"><i><b></b></i><span>Stop swiping</span></a>
-  <a href="#walkon" data-sec="walkon"><i><b></b></i><span>Sound familiar</span></a>
+  <a href="#walkon" data-sec="walkon"><i><b></b></i><span>The show</span></a>
   <a href="#board" data-sec="board"><i><b></b></i><span>How it works</span></a>
   <a href="#onair" data-sec="onair"><i><b></b></i><span>On air</span></a>
   <a href="#verdict" data-sec="verdict"><i><b></b></i><span>The verdict</span></a>
@@ -534,26 +550,24 @@
     <div class="cone b" aria-hidden="true"></div>
     <div class="floor" aria-hidden="true"></div>
     <div class="inner">
-      <h1 class="sr" id="h-top">Stop swiping. Start matching.</h1>
-      <canvas class="led" id="ledHero" aria-hidden="true" data-lines="STOP SWIPING.|START MATCHING." data-lines-sm="STOP|SWIPING.|START|MATCHING."></canvas>
-      <p class="host">For Nigerian and African singles who want a partner, not another year of swiping.</p>
-      <a class="cta" href="index.html#S-A2">Find your forever person</a>
-      <p class="note"><b>Free during launch.</b> Ten questions to get in.</p>
+      <div class="marquee"><span class="mark" role="img" aria-label="MakeaMove">Make<i>a</i>Move</span></div>
+      <h1 class="tagline" id="h-top">Stop swiping. <span>Start matching.</span></h1>
+      <p class="host">An online matchmaking game show that connects compatible partners.</p>
+      <a class="cta" href="index.html#S-A2">Meet your match</a>
+      <p class="note">Ten questions to get in.</p>
     </div>
-    <div class="cue" aria-hidden="true"><span>Scroll to see why</span><span class="chev"><i></i><i></i><i></i><i></i><i></i></span></div>
+    <div class="cue" aria-hidden="true"><span>Scroll to make a move</span><span class="chev"><i></i><i></i><i></i><i></i><i></i></span></div>
   </section>
 
   <!-- 2 · WALK-ON -->
-  <section class="pin wall" id="walkon" aria-label="Why dating apps keep you swiping">
+  <section class="pin wall" id="walkon" aria-label="How the show works">
     <div class="stick">
-      <div class="wline" data-dir="1">Dating apps get paid</div>
-      <div class="wline" data-dir="-1">while you <em>keep looking.</em></div>
-      <div class="wline" data-dir="1">So you swipe <span class="obj tkw movew">Right</span> and <span class="obj tkw stayw">Left</span> till midnight,</div>
-      <div class="wline" data-dir="-1">match with <span class="obj face g2" style="background-image:url('https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=240&amp;h=180&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="a match"></span><span class="obj face" style="background-image:url('https://images.unsplash.com/photo-1531901599143-df5010ab9438?w=240&amp;h=180&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="another match"></span> people who never reply,</div>
-      <div class="wline" data-dir="1">chat <span class="obj heart" aria-hidden="true">♥</span> for weeks, and find out on date three</div>
-      <div class="wline" data-dir="-1">they <em>never wanted children.</em></div>
-      <p class="tag">You're not bad at dating. You've been playing a game built never to end.</p>
-      <div class="applause" id="applause" aria-hidden="true">Familiar?</div>
+      <div class="wline" data-dir="1">2 people <span class="obj face g2" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=240&amp;h=180&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="Tolu"></span><span class="obj face" style="background-image:url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=240&amp;h=180&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="David"></span></div>
+      <div class="wline" data-dir="-1">20 posers</div>
+      <div class="wline" data-dir="1"><em>70%</em> pass</div>
+      <div class="wline" data-dir="-1"><em>1 date possibility!</em> <span class="obj heart" aria-hidden="true">♥</span></div>
+      <p class="tag">10 questions each. Move or Stay reactions.</p>
+      <div class="applause" id="applause" aria-hidden="true">Applause</div>
     </div>
   </section>
 
@@ -562,7 +576,7 @@
     <div class="stick">
       <h2 class="sr" id="h-board">What MakeaMove is, how it works, and why it’s different</h2>
       <div class="side l">
-        <div class="who"><span class="frame" style="background-image:url('https://images.unsplash.com/photo-1531901599143-df5010ab9438?w=140&amp;h=140&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')"></span><div><div class="nm">David, 41</div><div class="meta">Your match tonight. Two kids. London.</div></div></div>
+        <div class="who"><span class="frame" style="background-image:url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=140&amp;h=140&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')"></span><div><div class="nm">David, 41</div><div class="meta">Your match tonight. Two kids. London.</div></div></div>
         <div class="turnlbl" id="turnlbl">Turn <b>1</b> of 4</div>
       </div>
       <div class="box3d">
@@ -603,12 +617,12 @@
   <section class="pin tv" id="onair" aria-labelledby="h-onair">
     <div class="stick">
       <div class="feed" id="feed">
-        <div class="cam you"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=900&amp;h=1100&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg" alt="Tolu, on camera" onerror="this.remove()"><span class="lbl">Camera 1. Tolu</span></div>
-        <div class="cam"><img src="https://images.unsplash.com/photo-1531901599143-df5010ab9438?w=900&amp;h=1100&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg" alt="David, on camera" onerror="this.remove()"><span class="lbl">Camera 2. David</span></div>
+        <div class="cam you"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=900&amp;h=1100&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg" alt="Tolu, on camera" onerror="this.remove()"><span class="lbl">Camera 1. Tolu</span></div>
+        <div class="cam"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=900&amp;h=1100&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg" alt="David, on camera" onerror="this.remove()"><span class="lbl">Camera 2. David</span></div>
         <div class="crt" aria-hidden="true"></div>
         <div class="tc" id="tc" aria-hidden="true">00:00:00:00</div>
         <div class="bug" aria-hidden="true"><i></i>Live</div>
-        <h2 class="onair-q announce" id="h-onair">This game ends in a date.</h2>
+        <h2 class="onair-q announce" id="h-onair">2 different people. 1 date possibility.</h2>
         <div class="lower" aria-hidden="true"><b>The Show</b><span>Tolu and David, round one</span></div>
       </div>
       <div class="phone" id="phone" aria-hidden="true"></div>
@@ -638,7 +652,7 @@
       </div>
       <div class="layer" id="L4">
         <div class="rays" aria-hidden="true"></div>
-        <div class="pair"><span class="frame" style="background-image:url('https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=220&amp;h=220&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="Tolu"></span><span class="amp" aria-hidden="true">♥</span><span class="frame" style="background-image:url('https://images.unsplash.com/photo-1531901599143-df5010ab9438?w=220&amp;h=220&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="David"></span></div>
+        <div class="pair"><span class="frame" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=220&amp;h=220&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="Tolu"></span><span class="amp" aria-hidden="true">♥</span><span class="frame" style="background-image:url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=220&amp;h=220&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="David"></span></div>
         <div class="big match">It's a match</div>
         <p class="next">You both passed. No chat that fizzles out: a video call next, then a real date somewhere fair to you both.</p>
       </div>
@@ -654,7 +668,7 @@
         <p class="sub">The house lights are up. Every rule here fixes something the apps got wrong.</p>
         <ul class="rules">
           <li><h3>Three matches a day</h3><p>Not a thousand faces. A few people picked for you, so each one gets your full attention.</p></li>
-          <li><h3>Deal-breakers first</h3><p>Genotype, faith and state of origin come up before the first date, not after the third. Built for Nigerians and Africans at home and abroad.</p></li>
+          <li><h3>Deal-breakers first</h3><p>Questions about genotype, faith and state of origin come up before the first date, not after the third.</p></li>
           <li><h3>Nobody gets ghosted</h3><p>Walk away whenever you like. You just tell them why, in your own words.</p></li>
           <li><h3>Manners count</h3><p>Showing up and answering on time raise your standing. Disappearing lowers it. Only you ever see your own penalties.</p></li>
           <li><h3>Real, single and over 18</h3><p>Every contestant verifies a government ID with a live selfie. Married people can't join, and anyone can report someone who slips through.</p></li>
@@ -678,8 +692,8 @@
     <h2 class="sr" id="h-join">Your move</h2>
     <canvas class="led" id="ledEnd" aria-hidden="true" data-lines="YOUR MOVE"></canvas>
     <p class="host">You've given the apps years. Give us ten questions.</p>
-    <a class="cta" href="index.html#S-A2">Find your forever person</a>
-    <p class="note"><b>Free during launch.</b> Ten questions to get in.</p>
+    <a class="cta" href="index.html#S-A2">Meet your match</a>
+    <p class="note">Ten questions to get in.</p>
     <footer class="foot">
       <span>MakeaMove. For singles 18 and over.</span>
       <ul><li><a href="index.html#S-A7">Sign in</a></li><li><a href="#rules">House rules</a></li><li><a href="index.html#S-I1">Report a member</a></li></ul>
