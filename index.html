@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>MakeaMove — stop swiping, start matching</title>
-<meta name="description" content="MakeaMove is an online matchmaking game show that connects compatible partners. 2 people, 20 posers, a 70% pass mark and 1 date possibility.">
+<title>Make A Move — stop swiping, start matching</title>
+<meta name="description" content="Make A Move is an online matchmaking game show that connects compatible partners. 2 people, 20 posers, a 70% pass mark and 1 date possibility.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -41,7 +41,7 @@
 
   /* ============ SLATE (fixed header) ============ */
   .slate{position:fixed; inset:0 0 auto; z-index:60; display:grid; align-items:start;
-    grid-template-columns:1fr 1fr auto 1fr 1fr; gap:16px; padding:18px var(--gutter); color:var(--ink);
+    grid-template-columns:1fr auto 1fr; gap:16px; padding:18px var(--gutter); color:var(--ink);
     font-size:.875rem; font-weight:600; line-height:1.25; transition:color .3s}
   /* a soft scrim keeps the slate legible over whatever scrolls beneath it */
   .slate::before{content:""; position:absolute; inset:0 0 -28px; z-index:-1; pointer-events:none;
@@ -50,12 +50,16 @@
   .slate .brand{text-decoration:none; font-weight:600}
   .slate .brand b{display:block; font-family:var(--display); font-weight:900; font-size:1.25rem; letter-spacing:.04em; text-transform:uppercase; line-height:1}
   .slate .brand b i{font-style:normal; color:var(--move)}
-  .slate .season{justify-self:center}
-  .slate .onair{justify-self:center; display:inline-flex; align-items:center; gap:8px}
-  .slate .onair i{width:8px; height:8px; border-radius:50%; background:var(--move); box-shadow:0 0 10px var(--move); animation:blink 1.6s infinite}
   @keyframes blink{50%{opacity:.3}}
-  .slate .signin{justify-self:end; text-decoration:none}
-  .slate .signin:hover{text-decoration:underline}
+  /* the header CTA: a compact version of the pink .cta pill */
+  .slate .navcta{justify-self:end; align-self:center; display:inline-flex; align-items:center; padding:10px 20px; border-radius:999px;
+    background:var(--move); color:#fff; text-decoration:none; box-shadow:0 0 16px rgba(255,45,111,.45);
+    font-family:var(--display); font-weight:800; font-size:1rem; letter-spacing:.06em; text-transform:uppercase; line-height:1;
+    transition:transform .15s var(--ease-show), filter .15s}
+  @media (hover:hover){ .slate .navcta:hover{transform:translateY(-1px); filter:brightness(1.12)} }
+  .slate .navcta:active{transform:scale(.97)}
+  .slate .navcta:focus-visible{outline:2px solid #fff; outline-offset:3px; border-radius:999px}
+  .slate.paper .navcta{color:#fff}
   /* the pill nav is a ticket stub: dashed perforation */
   .pill{display:flex; gap:2px; padding:4px; border:1px dashed currentColor; border-radius:999px; background:rgba(8,11,22,.35); backdrop-filter:blur(8px)}
   .pill a{font-family:var(--display); font-weight:700; font-size:.9375rem; letter-spacing:.06em; text-transform:uppercase;
@@ -67,16 +71,13 @@
   .slate.paper .pill a.on{background:rgba(22,27,46,.08)}
   @media (max-width:900px){
     .slate{grid-template-columns:1fr auto}
-    .slate .season, .slate .onair, .slate .pill{display:none}
+    .slate .pill{display:none}
   }
   /* phones, and phones on their side: the slate shrinks to the wordmark so it stops sitting on scene captions */
   @media (max-width:600px), (max-height:500px){
     .slate{align-items:center; padding:calc(12px + env(safe-area-inset-top, 0px)) var(--gutter) 12px}
     .slate .brand{font-size:0}
-    .slate .signin{padding:10px 12px; margin:-10px -12px}
-  }
-  @media (hover:none){
-    .slate .signin:hover{text-decoration:none}
+    .slate .navcta{padding:9px 16px; font-size:.9375rem}
   }
 
   /* ============ RUNDOWN: where you are in the show ============ */
@@ -211,14 +212,13 @@
   .tkw.lit.movew::after{background:var(--move)}
   .tkw.lit.stayw{color:#DDE2F2}
   .tkw.lit.stayw::after{background:#39425E}
-  .obj.heart{font-size:.8em; color:var(--move); text-shadow:0 0 .3em rgba(255,45,111,.8)}
+  .obj.heart{width:.7em; height:.7em; color:var(--move); filter:drop-shadow(0 0 .15em rgba(255,45,111,.8))}
   /* the applause sign switches on when the intro lands */
   .applause{position:absolute; right:var(--gutter); bottom:clamp(20px, 6vh, 56px); padding:10px 20px; border-radius:8px;
     font-family:var(--display); font-weight:900; letter-spacing:.2em; font-size:clamp(1.1rem, 1.8vw, 1.5rem); text-transform:uppercase;
     color:rgba(255,122,166,.3); border:2px solid rgba(255,122,166,.3); transition:all .25s}
   .applause.on{color:#fff; background:var(--move); border-color:var(--move-soft); box-shadow:var(--glow-move); animation:flickon .5s steps(1)}
   @keyframes flickon{0%{opacity:.2} 20%{opacity:1} 30%{opacity:.3} 45%{opacity:1} 55%{opacity:.5} 70%{opacity:1}}
-  .wall .tag{position:absolute; left:var(--gutter); bottom:clamp(20px, 6vh, 56px); max-width:30ch; font-size:.9375rem; color:var(--ink-dim)}
   /* phones and tablets: a sliding line would outrun the screen, so lines wrap into a
      still, readable teleprompter that stays inside the side margins */
   @media (max-width:900px){
@@ -232,7 +232,6 @@
     .wline{font-size:clamp(1.75rem, min(9.4vw, 5svh), 3.2rem)}
     .obj.face{width:1.15em}
     .applause{top:auto; bottom:clamp(20px, 5vh, 40px); padding:6px 12px; font-size:1rem}
-    .wall .tag{bottom:clamp(20px, 5vh, 40px); max-width:calc(100% - 2 * var(--gutter) - 130px); font-size:.875rem; line-height:1.4}
   }
 
   /* ============ 3 · THE BOARD: four turns on a rotating box ============ */
@@ -244,10 +243,8 @@
       var(--stage-900)}
   .side{display:flex; flex-direction:column; gap:14px}
   .side.l{align-items:flex-start} .side.r{align-items:flex-end; text-align:right}
-  .who{display:flex; align-items:center; gap:12px}
   .frame{width:64px; height:64px; border-radius:26%; background:linear-gradient(150deg,#3A6CFF,#7A3AFF) center/cover;
     box-shadow:0 0 0 2px var(--spotlight), 0 0 22px rgba(47,107,255,.45); flex:0 0 auto}
-  .who .nm{font-weight:700} .who .meta{font-size:.8125rem; color:var(--ink-dim)}
   .turnlbl{font-family:var(--display); font-weight:800; letter-spacing:.1em; text-transform:uppercase; font-size:1rem; color:var(--ink-dim)}
   .turnlbl b{color:var(--ink)}
   .pct{font-family:var(--display); font-weight:900; font-size:clamp(3.5rem, 7vw, 6rem); line-height:.85; color:var(--bulb);
@@ -260,7 +257,6 @@
   .passed{font-family:var(--display); font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:var(--pass);
     opacity:0; transform:translateY(8px); transition:.5s var(--ease-show)}
   .passed.on{opacity:1; transform:none}
-  .cap{grid-column:1 / -1; justify-self:center; text-align:center; min-height:3.2em; max-width:46ch; color:var(--ink-dim); font-size:1.0625rem}
 
   .box3d{--cw:min(600px, 46vw); --ch:380px; width:var(--cw); height:var(--ch); perspective:1800px}
   .box{position:relative; width:100%; height:100%; transform-style:preserve-3d;
@@ -349,19 +345,17 @@
   .tvcap.l{left:var(--gutter)} .tvcap.r{right:var(--gutter); text-align:right}
   .tvcap .announce{font-size:clamp(1.8rem, 3.2vw, 3rem)}
   .tvcap p{margin-top:12px; color:var(--ink-dim)}
+  .tvcap p.lead{margin:0; color:var(--ink); font-size:clamp(1.0625rem, 1.7vw, 1.5rem); line-height:1.4; font-weight:500}
   @media (max-width:900px){
     .tvcap{top:auto; bottom:6%; transform:none; max-width:none; left:var(--gutter); right:var(--gutter); text-align:center}
     .tvcap.l{top:88px; bottom:auto}
     .tvcap .announce{font-size:1.75rem}
-    .tvcap.l p{display:none}
     .tvcap.r{text-align:center}
-    .tvcap.r p{margin-top:6px; font-size:.9375rem}
     .lower{bottom:14%} .lower b{font-size:.9375rem} .lower span{font-size:.875rem}
   }
   @media (max-width:600px){
     .bug, .tc{top:clamp(64px, 9vh, 84px)} .bug{right:var(--gutter)} .tc{left:var(--gutter)}
     .tvcap.l{top:calc(62px + env(safe-area-inset-top, 0px))}
-    .tvcap.l p{display:block; margin-top:4px; font-size:.875rem; line-height:1.4}
     .tvcap.r{bottom:4%}
     .tvcap .announce{font-size:clamp(1.4rem, 7vw, 1.75rem)}
     .lower{bottom:12%} .lower b, .lower span{padding:8px 12px}
@@ -403,53 +397,83 @@
   .match{font-size:clamp(4rem, 12vw, 11rem); color:var(--bulb); text-shadow:0 0 30px rgba(255,182,39,.5), 0 0 90px rgba(255,182,39,.25)}
   .pair{display:flex; align-items:center; gap:18px}
   .pair .frame{width:clamp(72px, 9vw, 110px); height:clamp(72px, 9vw, 110px); box-shadow:0 0 0 3px var(--move), var(--glow-move)}
-  .pair .amp{font-size:2rem; color:var(--move); text-shadow:0 0 16px rgba(255,45,111,.8)}
-  .next{max-width:46ch; color:var(--ink-dim); font-size:1.0625rem}
+  .pair .amp{width:2rem; height:2rem; color:var(--move); filter:drop-shadow(0 0 8px rgba(255,45,111,.8))}
   .fx{position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:5}
   .fx i{position:absolute; font-style:normal}
   .fx .h{left:50%; top:50%; font-size:26px; color:var(--move); text-shadow:0 0 12px rgba(255,45,111,.8); animation:heartfly 1.2s var(--ease-show) both}
-  .fx .h::before{content:"♥"}
+  .fx .h{width:1em; height:1em; background:currentColor; text-shadow:none; filter:drop-shadow(0 0 6px rgba(255,45,111,.8));
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z'/%3E%3C/svg%3E") center/contain no-repeat;
+    mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z'/%3E%3C/svg%3E") center/contain no-repeat}
   @keyframes heartfly{0%{transform:translate(-50%,-50%) scale(.3); opacity:1} 100%{transform:translate(calc(-50% + var(--fx)), calc(-50% + var(--fy))) scale(1.4) rotate(18deg); opacity:0}}
   .fx .c{top:-4%; width:9px; height:14px; animation:confall linear both}
   @keyframes confall{to{transform:translate(var(--dx), 110vh) rotate(var(--rr))}}
 
+  /* ============ 2 · THE PROBLEM: the swipe apps, in rhyme ============ */
+  .rant{position:relative; padding:clamp(110px, 14vw, 170px) var(--gutter) clamp(90px, 11vw, 140px); text-align:center;
+    background:radial-gradient(60% 50% at 50% 30%, rgba(47,107,255,.12), transparent 70%), var(--stage-900)}
+  .rant h2{max-width:1180px; margin-inline:auto; display:flex; flex-direction:column; gap:.35em; font-size:clamp(1.9rem, 5vw, 4.4rem); line-height:.95}
+  .rant .ln{display:block; color:var(--ink)}
+  .rant .ln.hot{color:var(--move); text-shadow:0 0 34px rgba(255,45,111,.45)}
+  .rant .pitch{max-width:62ch; margin:clamp(40px, 6vw, 72px) auto 0; font-size:clamp(1.0625rem, 1.5vw, 1.25rem); line-height:1.6; color:var(--ink-dim)}
+  .rant .ast{font-family:var(--display); font-weight:900; color:var(--bulb); font-size:1.5em; line-height:0; vertical-align:-.12em; margin-right:.08em}
+
+  /* ============ 4 + 7 · card decks: the game rules, game over ============ */
+  .deck{padding:clamp(90px, 11vw, 140px) var(--gutter); background:
+      radial-gradient(circle at 1.5px 1.5px, rgba(110,155,255,.07) 1.2px, transparent 1.9px) 0 0/16px 16px, var(--stage-900)}
+  .deck h2{max-width:1180px; margin-inline:auto; font-size:clamp(2.8rem, 7vw, 6rem)}
+  .deck h2 span{color:var(--move)}
+  .cards{list-style:none; max-width:1180px; margin:clamp(32px, 5vw, 56px) auto 0; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:clamp(16px, 2vw, 28px)}
+  .cards li{position:relative; padding:34px 30px 32px; border-radius:22px;
+    background:radial-gradient(80% 60% at 50% 0%, rgba(47,107,255,.22), transparent 70%), linear-gradient(180deg,var(--stage-800),var(--stage-850));
+    box-shadow:inset 0 0 0 2px rgba(255,45,111,.5), 0 0 40px rgba(255,45,111,.12)}
+  .cards li::before{content:""; position:absolute; inset:9px; border:3px dotted rgba(255,182,39,.55); border-radius:15px; pointer-events:none}
+  .cards .no{display:block; font-family:var(--display); font-weight:900; font-size:2.75rem; line-height:1; color:var(--bulb); text-shadow:0 0 22px rgba(255,182,39,.4)}
+  .cards h3{margin-top:14px; font-family:var(--display); font-weight:800; text-transform:uppercase; font-size:1.625rem; letter-spacing:.02em; line-height:1.05}
+  .cards p{margin-top:10px; color:var(--ink-dim)}
+  @media (max-width:900px){ .cards{grid-template-columns:1fr} }
+
+  /* the journey's title sits where the contestant card used to */
+  .board .jt{font-size:clamp(1.6rem, 2.8vw, 2.6rem); max-width:9ch}
+  @media (max-width:600px){ .board .jt{font-size:1.4rem} }
+
   /* ============ 6 · BACKSTAGE: house lights up (paper, §2.8: no neon) ============ */
   .back{background:var(--paper); color:var(--t); padding:clamp(110px, 14vw, 170px) var(--gutter) clamp(80px, 10vw, 130px)}
   .back .in{max-width:1240px; margin-inline:auto; display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); gap:clamp(40px, 7vw, 110px); align-items:start}
-  .back h2{font-size:clamp(3.5rem, 9vw, 8.5rem); line-height:.85}
+  .back h2{font-size:clamp(3rem, 6.4vw, 6rem); line-height:.88}
   .back .sub{margin-top:18px; color:var(--t-dim); font-size:1.125rem; max-width:44ch}
   .rules{list-style:none; margin-top:44px}
   .rules li{display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:24px; padding-block:20px; border-top:1px solid #CDD5EA}
   .rules li:last-child{border-bottom:1px solid #CDD5EA}
   .rules h3{font-family:var(--display); font-weight:800; text-transform:uppercase; font-size:1.375rem; letter-spacing:.02em; line-height:1.05}
   .rules p{color:var(--t-dim)}
-  /* admission ticket: gold because it's money; perforated stub; barcode */
-  .adm{position:sticky; top:110px; display:grid; grid-template-columns:1fr auto; filter:drop-shadow(0 24px 40px rgba(22,27,46,.18)); transform:rotate(-2deg)}
-  .adm .main, .adm .stub{background:linear-gradient(180deg,var(--bulb-soft),var(--bulb)); color:#2A1A05}
-  .adm .main{padding:34px 34px 30px; border-radius:18px 0 0 18px;
-    -webkit-mask:radial-gradient(circle at 100% 0, transparent 14px, #000 14.5px) top/100% 51% no-repeat, radial-gradient(circle at 100% 100%, transparent 14px, #000 14.5px) bottom/100% 51% no-repeat;
-    mask:radial-gradient(circle at 100% 0, transparent 14px, #000 14.5px) top/100% 51% no-repeat, radial-gradient(circle at 100% 100%, transparent 14px, #000 14.5px) bottom/100% 51% no-repeat}
-  .adm .stub{width:92px; border-left:2px dashed rgba(42,26,5,.45); border-radius:0 18px 18px 0; display:flex; align-items:center; justify-content:center;
-    -webkit-mask:radial-gradient(circle at 0 0, transparent 14px, #000 14.5px) top/100% 51% no-repeat, radial-gradient(circle at 0 100%, transparent 14px, #000 14.5px) bottom/100% 51% no-repeat;
-    mask:radial-gradient(circle at 0 0, transparent 14px, #000 14.5px) top/100% 51% no-repeat, radial-gradient(circle at 0 100%, transparent 14px, #000 14.5px) bottom/100% 51% no-repeat}
-  .adm .stub span{writing-mode:vertical-rl; transform:rotate(180deg); font-family:var(--display); font-weight:900; letter-spacing:.2em; text-transform:uppercase; font-size:1.125rem}
-  .adm .admit{font-family:var(--display); font-weight:900; text-transform:uppercase; font-size:clamp(3rem, 6vw, 4.75rem); line-height:.85}
-  .adm .free{margin-top:14px; font-weight:700; font-size:1.125rem}
-  .adm .then{margin-top:6px; font-size:.9375rem; opacity:.8; max-width:30ch}
-  .adm .bars{margin-top:24px; height:44px; width:78%;
-    background:repeating-linear-gradient(90deg, #2A1A05 0 2px, transparent 2px 4px, #2A1A05 4px 5px, transparent 5px 9px, #2A1A05 9px 12px, transparent 12px 14px)}
   @media (max-width:900px){
     .back .in{grid-template-columns:1fr}
     .rules li{grid-template-columns:1fr; gap:6px}
-    .adm{position:relative; top:0}
   }
+
+  /* the old way vs ours: gray for the apps, pink for the show (§4) */
+  .back .vs h2{font-size:clamp(2.2rem, 4.2vw, 3.75rem)}
+  .way{margin-top:22px; padding:26px 28px; border-radius:18px}
+  .way h3{font-family:var(--display); font-weight:800; text-transform:uppercase; font-size:1.5rem; letter-spacing:.02em; line-height:1.05}
+  .way p{margin-top:8px}
+  /* Lucide icons, inlined as SVG (stroke = currentColor) */
+  .ico{width:1em; height:1em; flex:none; vertical-align:-.14em}
+  .way.old h3 .ico{color:var(--stay-soft)}
+  .way.old{background:var(--paper-2); color:var(--t-dim); box-shadow:inset 0 0 0 1px #CDD5EA}
+  .way.old h3{color:var(--stay)}
+  .way.new{background:var(--move); color:#fff; box-shadow:0 18px 40px rgba(255,45,111,.28)}
 
   /* ============ 7 · FINALE ============ */
   .finale{position:relative; overflow:hidden; min-height:100svh; display:flex; flex-direction:column; align-items:center; justify-content:center;
     text-align:center; padding:110px var(--gutter) 120px; isolation:isolate;
     background:radial-gradient(60% 50% at 50% 42%, rgba(255,45,111,.16), transparent 70%), var(--stage-900)}
-  .finale .host{margin-top:14px; font-size:1.25rem; max-width:40ch}
   .finale .led{width:min(1100px, 100%)}
+  .steps{list-style:none; width:min(1100px, 100%); margin-top:clamp(28px, 4vw, 48px); display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:clamp(16px, 2vw, 28px)}
+  .steps li{padding:22px 18px; border-radius:18px; background:rgba(255,255,255,.04); box-shadow:inset 0 0 0 1px rgba(245,247,255,.12)}
+  .steps .em{display:block; margin-inline:auto; width:2.25rem; height:2.25rem; color:var(--bulb); filter:drop-shadow(0 0 10px rgba(255,182,39,.45))}
+  .steps h3{margin-top:10px; font-family:var(--display); font-weight:800; text-transform:uppercase; font-size:1.375rem; letter-spacing:.03em; line-height:1.05}
+  .steps p{margin-top:6px; color:var(--ink-dim)}
+  @media (max-width:700px){ .steps{grid-template-columns:1fr} .steps li{padding:16px} }
   .foot{position:absolute; left:var(--gutter); right:var(--gutter); bottom:26px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px 28px;
     font-size:.875rem; color:var(--ink-faint)}
   .foot ul{list-style:none; display:flex; flex-wrap:wrap; gap:8px 22px}
@@ -466,39 +490,34 @@
   @media (max-width:600px) and (max-height:600px){
     .wall .stick{padding-block:60px 120px}
     .wline{font-size:clamp(1.5rem, min(10vw, 4.8svh), 3.2rem)}
-    .wall .tag{font-size:.8125rem; line-height:1.35}
     .applause{font-size:.875rem; letter-spacing:.14em}
     .board .stick{gap:10px 12px; padding-top:56px; padding-bottom:12px}
     .board .side{gap:6px}
-    .frame{width:40px; height:40px} .who{gap:8px} .who .meta{font-size:.75rem; line-height:1.35}
+    .frame{width:40px; height:40px}
     .pct{font-size:2.5rem} .pctof{font-size:.75rem; line-height:1.35}
     .box3d{--ch:48svh}
     .fc{padding:18px 14px; gap:8px}
     .qt{padding:10px 24px} .qt .q{font-size:.9375rem}
     .fc .a{font-size:1.35rem}
-    .cap{font-size:.875rem; min-height:2.8em; line-height:1.4}
   }
   /* phones on their side: the board goes back to three columns, captions flank the phone */
   @media (max-height:500px) and (orientation:landscape){
     .wall .stick{padding-block:56px 64px}
     .wline{font-size:calc(min(7.4vw, 9svh) * var(--wfit, 1))}
-    .wall .tag{max-width:60%}
     .applause{padding:6px 14px; font-size:1rem}
     .board .stick{grid-template-columns:1fr auto 1fr; grid-template-rows:auto auto; gap:6px 20px; padding:52px var(--gutter) 8px}
     .board .side.l{grid-row:1; grid-column:1} .board .side.r{grid-row:1; grid-column:3}
     .box3d{grid-row:1; grid-column:2; --cw:min(460px, 46vw); --ch:calc(100svh - 110px)}
-    .board .who{flex-direction:column; align-items:flex-start; gap:8px}
     .frame{width:44px; height:44px} .pct{font-size:2.75rem}
     .climb{width:min(160px, 18vw)}
     .fc{padding:14px 18px; gap:8px; border-radius:16px} .fc::before{inset:6px; border-radius:11px}
     .qt{padding:8px 26px} .qt .q{font-size:.9375rem} .qt .dim{font-size:.75rem}
     .fc .a{font-size:1.3rem} .ans{padding:8px 12px}
     .stamp{font-size:1rem; right:10px; top:8px; padding:4px 10px}
-    .cap{grid-row:2; min-height:0; font-size:.875rem; line-height:1.35}
     .tvcap, .tvcap.l, .tvcap.r{top:50%; bottom:auto; transform:translateY(-50%); max-width:min(26ch, 32vw)}
     .tvcap.l{left:var(--gutter); right:auto; text-align:left} .tvcap.r{right:var(--gutter); left:auto; text-align:right}
     .tvcap .announce{font-size:1.5rem}
-    .tvcap p, .tvcap.l p{display:block; margin-top:6px; font-size:.875rem; line-height:1.4}
+    .tvcap p.lead{font-size:1rem}
     .bug, .tc{top:56px}
     .onair-q{font-size:min(7vw, 13svh)}
     .lower{bottom:8%}
@@ -524,21 +543,22 @@
 <body>
 <header class="slate" id="slate">
   <a class="brand" href="#top"><b>Make<i>a</i>Move</b>The online matchmaking<br>game show</a>
-  <span class="season">Season one</span>
   <nav class="pill" aria-label="Page">
-    <a href="#top" class="on" data-sec="top">Show</a><a href="#board" data-sec="board">Play</a><a href="#rules" data-sec="rules">House rules</a>
+    <a href="#top" class="on" data-sec="top">Show</a><a href="#board" data-sec="board">Play</a><a href="#rules" data-sec="rules">Safety</a>
   </nav>
-  <span class="onair"><i></i>On air</span>
-  <a class="signin" href="index.html#S-A7">Sign in</a>
+  <a class="navcta" href="index.html#S-A2">Find your match</a>
 </header>
 
 <nav class="rundown" id="rundown" aria-label="Show rundown">
   <a href="#top" data-sec="top"><i><b></b></i><span>Stop swiping</span></a>
+  <a href="#swipe" data-sec="swipe"><i><b></b></i><span>Why swiping fails</span></a>
   <a href="#walkon" data-sec="walkon"><i><b></b></i><span>The show</span></a>
-  <a href="#board" data-sec="board"><i><b></b></i><span>How it works</span></a>
-  <a href="#onair" data-sec="onair"><i><b></b></i><span>On air</span></a>
+  <a href="#gamerules" data-sec="gamerules"><i><b></b></i><span>Game rules</span></a>
+  <a href="#board" data-sec="board"><i><b></b></i><span>The journey</span></a>
   <a href="#verdict" data-sec="verdict"><i><b></b></i><span>The verdict</span></a>
-  <a href="#rules" data-sec="rules"><i><b></b></i><span>House rules</span></a>
+  <a href="#gameover" data-sec="gameover"><i><b></b></i><span>Date starter</span></a>
+  <a href="#rules" data-sec="rules"><i><b></b></i><span>Safety</span></a>
+  <a href="#onair" data-sec="onair"><i><b></b></i><span>Play your way</span></a>
   <a href="#join" data-sec="join"><i><b></b></i><span>Your move</span></a>
 </nav>
 
@@ -550,88 +570,86 @@
     <div class="cone b" aria-hidden="true"></div>
     <div class="floor" aria-hidden="true"></div>
     <div class="inner">
-      <div class="marquee"><span class="mark" role="img" aria-label="MakeaMove">Make<i>a</i>Move</span></div>
-      <h1 class="tagline" id="h-top">Stop swiping. <span>Start matching.</span></h1>
-      <p class="host">An online matchmaking game show that connects compatible partners.</p>
-      <a class="cta" href="index.html#S-A2">Meet your match</a>
-      <p class="note">Ten questions to get in.</p>
+      <div class="marquee"><span class="mark" role="img" aria-label="Make A Move">Make<i>a</i>Move</span></div>
+      <h1 class="tagline" id="h-top">Stop Swiping, <span>Start Matching!</span></h1>
+      <p class="host">An Online Matchmaking game show that connects compatible partners.</p>
+      <a class="cta" href="index.html#S-A2">Find Your Match</a>
     </div>
-    <div class="cue" aria-hidden="true"><span>Scroll to make a move</span><span class="chev"><i></i><i></i><i></i><i></i><i></i></span></div>
+    <div class="cue" aria-hidden="true"><span>Scroll to Make A Move</span><span class="chev"><i></i><i></i><i></i><i></i><i></i></span></div>
   </section>
 
-  <!-- 2 · WALK-ON -->
+  <!-- 2 · THE PROBLEM: the swipe apps, in rhyme -->
+  <section class="rant" id="swipe" aria-labelledby="h-swipe">
+    <h2 class="announce" id="h-swipe">
+      <span class="ln">Dating apps are profiting as you keep swiping.</span>
+      <span class="ln">You swipe right all night, match with one who replies in a fortnight.</span>
+      <span class="ln hot">Fall in love, find out he's married and start to fight!</span>
+    </h2>
+    <p class="pitch"><span class="ast" aria-hidden="true">*</span>Make A Move reimagines online dating as a fun, game show where you answer vital, rapid-fire questions to reveal true personalities, shared values, compatibility scores, and unlocking real dates with real people who really align with who you are. Our advanced algorithm analyzes your values, hobbies, preferences, and relationship goals to find your ideal match scrutinized with secure identity checks.</p>
+  </section>
+
+  <!-- 3 · WALK-ON -->
   <section class="pin wall" id="walkon" aria-label="How the show works">
     <div class="stick">
-      <div class="wline" data-dir="1">2 people <span class="obj face g2" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=240&amp;h=180&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="Tolu"></span><span class="obj face" style="background-image:url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=240&amp;h=180&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="David"></span></div>
-      <div class="wline" data-dir="-1">20 posers</div>
-      <div class="wline" data-dir="1"><em>70%</em> pass</div>
-      <div class="wline" data-dir="-1"><em>1 date possibility!</em> <span class="obj heart" aria-hidden="true">♥</span></div>
-      <p class="tag">10 questions each. Move or Stay reactions.</p>
+      <div class="wline" data-dir="1">2 people... <span class="obj face g2" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=240&amp;h=180&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="Tolu"></span><span class="obj face" style="background-image:url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=240&amp;h=180&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="David"></span></div>
+      <div class="wline" data-dir="-1">20 Posers...</div>
+      <div class="wline" data-dir="1"><em>70%</em> Pass mark...</div>
+      <div class="wline" data-dir="-1"><em>1 Date Possibility!</em> <svg class="obj heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></div>
       <div class="applause" id="applause" aria-hidden="true">Applause</div>
     </div>
   </section>
 
-  <!-- 3 · THE BOARD -->
+  <!-- 4 · THE GAME RULES -->
+  <section class="deck" id="gamerules" aria-labelledby="h-gamerules">
+    <h2 class="announce" id="h-gamerules">The Game Rules</h2>
+    <ol class="cards">
+      <li><span class="no">01</span><h3>20 Rapid-Fire Questions</h3><p>Reveal your true personality under pressure —no time to fake it.</p></li>
+      <li><span class="no">02</span><h3>Gamified Compatibility</h3><p>Move beyond generic bios. Every answer maps to what actually matters.</p></li>
+      <li><span class="no">03</span><h3>The 70% Threshold</h3><p>Hit the match score to unlock your date. Quality over quantity, always.</p></li>
+    </ol>
+  </section>
+
+  <!-- 5 · THE BOARD: the game show journey, one phase per turn -->
   <section class="pin board" id="board" aria-labelledby="h-board">
     <div class="stick">
-      <h2 class="sr" id="h-board">What MakeaMove is, how it works, and why it’s different</h2>
       <div class="side l">
-        <div class="who"><span class="frame" style="background-image:url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=140&amp;h=140&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')"></span><div><div class="nm">David, 41</div><div class="meta">Your match tonight. Two kids. London.</div></div></div>
-        <div class="turnlbl" id="turnlbl">Turn <b>1</b> of 4</div>
+        <h2 class="announce jt" id="h-board">The Game Show Journey</h2>
+        <div class="turnlbl" id="turnlbl">Phase <b>1</b> of 4</div>
       </div>
       <div class="box3d">
         <div class="box" id="box">
           <article class="fc m" style="--i:0">
             <span class="stamp move">Move</span>
-            <div class="qt"><span class="dim">What is it?</span><span class="q">“I want to meet someone serious, not scroll past strangers all night.”</span></div>
-            <div class="ans"><div class="by">MakeaMove is</div><div class="a">An online dating game show</div></div>
+            <div class="ans"><div class="by">Phase 1</div><div class="a">Pre-match Phase</div></div>
+            <div class="qt"><span class="q">10 light questions to pre-match you with suitable partners.</span></div>
           </article>
           <article class="fc m" style="--i:1">
             <span class="stamp move">Move</span>
-            <div class="qt"><span class="dim">How does it work?</span><span class="q">“I want to know how they think before I give up my Saturday.”</span></div>
-            <div class="ans"><div class="by">One of you answers. The other reacts:</div><div class="a">Move if it fits. Stay if not</div></div>
+            <div class="ans"><div class="by">Phase 2</div><div class="a">Preferences Phase</div></div>
+            <div class="qt"><span class="q">Deeper posers that match your values, preferences, lifestyle, and relationship goals.</span></div>
           </article>
           <article class="fc m" style="--i:2">
             <span class="stamp move">Move</span>
-            <div class="qt"><span class="dim">Why is it different?</span><span class="q">“I want the deal-breakers out early: children, faith, genotype.”</span></div>
-            <div class="ans"><div class="by">They come up in the game, so you know by</div><div class="a">Turn three, not date three</div></div>
+            <div class="ans"><div class="by">Phase 3</div><div class="a">Priorities Phase</div></div>
+            <div class="qt"><span class="q">Unscripted, dealbreaker questions that you can ask.</span></div>
           </article>
           <article class="fc m" style="--i:3">
             <span class="stamp move">Move</span>
-            <div class="qt"><span class="dim">Then what?</span><span class="q">“I want to actually meet someone, not text for weeks and fizzle out.”</span></div>
-            <div class="ans"><div class="by">You both score 70% or more?</div><div class="a">You meet for real</div></div>
+            <div class="ans"><div class="by">Phase 4</div><div class="a">Performance Phase</div></div>
+            <div class="qt"><span class="q">Real-time scoring and live feedback that shows how you're tracking against your potential match.</span></div>
           </article>
         </div>
       </div>
       <div class="side r">
         <div class="pct" id="pct">0%</div>
-        <div class="pctof">David's score from your Moves</div>
+        <div class="pctof">Your match score</div>
         <div class="climb" aria-hidden="true"><i id="fill"></i><span class="gate"></span></div>
-        <div class="passed" id="passed">Through. Time to meet</div>
+        <div class="passed" id="passed">70% cleared</div>
       </div>
-      <p class="cap" id="cap" aria-live="polite"></p>
     </div>
   </section>
 
-  <!-- 4 · ON AIR -->
-  <section class="pin tv" id="onair" aria-labelledby="h-onair">
-    <div class="stick">
-      <div class="feed" id="feed">
-        <div class="cam you"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=900&amp;h=1100&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg" alt="Tolu, on camera" onerror="this.remove()"><span class="lbl">Camera 1. Tolu</span></div>
-        <div class="cam"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=900&amp;h=1100&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg" alt="David, on camera" onerror="this.remove()"><span class="lbl">Camera 2. David</span></div>
-        <div class="crt" aria-hidden="true"></div>
-        <div class="tc" id="tc" aria-hidden="true">00:00:00:00</div>
-        <div class="bug" aria-hidden="true"><i></i>Live</div>
-        <h2 class="onair-q announce" id="h-onair">2 different people. 1 date possibility.</h2>
-        <div class="lower" aria-hidden="true"><b>The Show</b><span>Tolu and David, round one</span></div>
-      </div>
-      <div class="phone" id="phone" aria-hidden="true"></div>
-      <div class="tvcap l" id="capL"><div class="announce">Book it like a date</div><p>You both pick a time. The show starts when you're both in the lobby.</p></div>
-      <div class="tvcap r" id="capR"><div class="announce">Play it from your phone</div><p>Busy week? Play the board over 72 hours instead.</p></div>
-    </div>
-  </section>
-
-  <!-- 5 · THE VERDICT -->
+  <!-- 6 · THE VERDICT -->
   <section class="pin vd" id="verdict" aria-labelledby="h-vd">
     <div class="stick" id="vdStick">
       <h2 class="sr" id="h-vd">The verdict</h2>
@@ -652,51 +670,73 @@
       </div>
       <div class="layer" id="L4">
         <div class="rays" aria-hidden="true"></div>
-        <div class="pair"><span class="frame" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=220&amp;h=220&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="Tolu"></span><span class="amp" aria-hidden="true">♥</span><span class="frame" style="background-image:url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=220&amp;h=220&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="David"></span></div>
+        <div class="pair"><span class="frame" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=220&amp;h=220&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="Tolu"></span><svg class="amp" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg><span class="frame" style="background-image:url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=220&amp;h=220&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="David"></span></div>
         <div class="big match">It's a match</div>
-        <p class="next">You both passed. No chat that fizzles out: a video call next, then a real date somewhere fair to you both.</p>
       </div>
       <div class="fx" id="fx" aria-hidden="true"></div>
     </div>
   </section>
 
-  <!-- 6 · BACKSTAGE -->
+  <!-- 7 · GAME OVER, DATE STARTER -->
+  <section class="deck" id="gameover" aria-labelledby="h-gameover">
+    <h2 class="announce" id="h-gameover">Game Over, <span>Date Starter</span></h2>
+    <ol class="cards">
+      <li><span class="no">01</span><h3>Exclusive Date Invite</h3><p>Hit the 70%+ mark and receive a private, secure invitation to connect and video chat with your match.</p></li>
+      <li><span class="no">02</span><h3>Private Planning Channels</h3><p>Plan your first date safely within the app — no personal info shared until you're ready. Venues proposed but both of you decide where and when.</p></li>
+      <li><span class="no">03</span><h3>Game Show Contest, Real-Life Chemistry</h3><p>The excitement you felt during the game becomes the spark that ignites your first conversation.</p></li>
+    </ol>
+  </section>
+
+  <!-- 8 · BACKSTAGE: safety, and the old way vs ours (house lights up) -->
   <section class="back" id="rules" aria-labelledby="h-rules">
     <div class="in">
       <div>
-        <h2 class="announce" id="h-rules">House rules</h2>
-        <p class="sub">The house lights are up. Every rule here fixes something the apps got wrong.</p>
+        <h2 class="announce" id="h-rules">Safety in the Spotlight</h2>
+        <p class="sub">Make A Move is built with safety at its core.</p>
         <ul class="rules">
-          <li><h3>Three matches a day</h3><p>Not a thousand faces. A few people picked for you, so each one gets your full attention.</p></li>
-          <li><h3>Deal-breakers first</h3><p>Questions about genotype, faith and state of origin come up before the first date, not after the third.</p></li>
-          <li><h3>Nobody gets ghosted</h3><p>Walk away whenever you like. You just tell them why, in your own words.</p></li>
-          <li><h3>Manners count</h3><p>Showing up and answering on time raise your standing. Disappearing lowers it. Only you ever see your own penalties.</p></li>
-          <li><h3>Real, single and over 18</h3><p>Every contestant verifies a government ID with a live selfie. Married people can't join, and anyone can report someone who slips through.</p></li>
-          <li><h3>An alarm on every date</h3><p>One button shares your exact location if a meeting ever feels wrong.</p></li>
+          <li><h3>Built-In Moderation</h3><p>Every phase is monitored to ensure a respectful, harassment-free environment.</p></li>
+          <li><h3>Photo &amp; Profile Verification</h3><p>You always know who you're meeting. Verified profiles mean real people &amp; real intentions.</p></li>
         </ul>
       </div>
-      <div class="adm" aria-label="Admission: your first show is free">
-        <div class="main">
-          <div class="admit">Admit one</div>
-          <p class="free">Your first show is free.</p>
-          <p class="then">Nobody pays during launch. After that, you pay per show: £19, or less in a bundle, in pounds, dollars or naira. We get paid for shows, not for keeping you scrolling.</p>
-          <div class="bars" aria-hidden="true"></div>
-        </div>
-        <div class="stub" aria-hidden="true"><span>Season one</span></div>
+      <div class="vs" aria-labelledby="h-vs">
+        <h2 class="announce" id="h-vs">A New Kind of Matchmaking</h2>
+        <div class="way old"><h3><svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg> The Old Way</h3><p>Swipe on looks. Hope for the best. Endless small talk with zero compatibility signals. Ghosting is the norm.</p></div>
+        <div class="way new"><h3><svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="circle-check"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg> The Make A Move Way</h3><p>Gamified questions reveal intent, values, and energy. You know who you're meeting before you ever say hello.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 7 · FINALE -->
+  <!-- 9 · ON AIR: designed for the modern dater -->
+  <section class="pin tv" id="onair" aria-labelledby="h-onair">
+    <div class="stick">
+      <div class="feed" id="feed">
+        <div class="cam you"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=900&amp;h=1100&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg" alt="Tolu, on camera" onerror="this.remove()"><span class="lbl">Camera 1. Tolu</span></div>
+        <div class="cam"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=900&amp;h=1100&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg" alt="David, on camera" onerror="this.remove()"><span class="lbl">Camera 2. David</span></div>
+        <div class="crt" aria-hidden="true"></div>
+        <div class="tc" id="tc" aria-hidden="true">00:00:00:00</div>
+        <div class="bug" aria-hidden="true"><i></i>Live</div>
+        <h2 class="onair-q announce" id="h-onair">Designed for the Modern Dater</h2>
+        <div class="lower" aria-hidden="true"><b>The Show</b><span>Tolu and David, round one</span></div>
+      </div>
+      <div class="phone" id="phone" aria-hidden="true"></div>
+      <div class="tvcap l" id="capL"><p class="lead">Whether you're joining a live session or answering questions during your lunch break,</p></div>
+      <div class="tvcap r" id="capR"><p class="lead">Make A Move fits your lifestyle and you can play at your own pace and convenient time.</p></div>
+    </div>
+  </section>
+
+  <!-- 10 · FINALE -->
   <section class="finale" id="join" aria-labelledby="h-join">
-    <h2 class="sr" id="h-join">Your move</h2>
-    <canvas class="led" id="ledEnd" aria-hidden="true" data-lines="YOUR MOVE"></canvas>
-    <p class="host">You've given the apps years. Give us ten questions.</p>
-    <a class="cta" href="index.html#S-A2">Meet your match</a>
-    <p class="note">Ten questions to get in.</p>
+    <h2 class="sr" id="h-join">Ready to Make A Move?</h2>
+    <canvas class="led" id="ledEnd" aria-hidden="true" data-lines="READY TO|MAKE A MOVE?" data-lines-sm="READY TO|MAKE A|MOVE?"></canvas>
+    <ol class="steps">
+      <li><svg class="ico em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="target"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg><h3>Answer 20 Questions</h3><p>Be honest. Be quick. Be yourself.</p></li>
+      <li><svg class="ico em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="trophy"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg><h3>Clear the Threshold</h3><p>Score 70% or higher to unlock your date.</p></li>
+      <li><svg class="ico em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg><h3>Find Your Match</h3><p>Your perfect match starts with one move.</p></li>
+    </ol>
+    <a class="cta" href="index.html#S-A2">Find Your Match</a>
     <footer class="foot">
-      <span>MakeaMove. For singles 18 and over.</span>
-      <ul><li><a href="index.html#S-A7">Sign in</a></li><li><a href="#rules">House rules</a></li><li><a href="index.html#S-I1">Report a member</a></li></ul>
+      <span>Make A Move. For singles 18 and over.</span>
+      <ul><li><a href="index.html#S-A7">Sign in</a></li><li><a href="#rules">Safety</a></li><li><a href="index.html#S-I1">Report a member</a></li></ul>
     </footer>
   </section>
 </main>
@@ -820,12 +860,6 @@
 
   /* ---------- 3 · the board: each turn holds, stamps, then the box turns ---------- */
   const faces = [...document.querySelectorAll('#box .fc')], N = faces.length;
-  const CAPS = [
-    'You and one match play live from your phones, taking turns on what matters.',
-    'Every Move lifts David’s score. You judge what he says, not his photo.',
-    'Not a fit? Tap Stay instead. It costs nothing and shames no one.',
-    'Seventy percent both ways and it’s a match: a video call, then a real date.'
-  ];
   let shown = 0, target = 0, tickRaf = 0;
   function tick(to){
     if (to === target) return; target = to;
@@ -861,8 +895,7 @@
     $('passed').classList.toggle('on', done);
     if (turn !== lastTurn){
       lastTurn = turn;
-      $('turnlbl').innerHTML = 'Turn <b>' + (turn + 1) + '</b> of ' + N;
-      $('cap').textContent = CAPS[turn];
+      $('turnlbl').innerHTML = 'Phase <b>' + (turn + 1) + '</b> of ' + N;
     }
   }
 
