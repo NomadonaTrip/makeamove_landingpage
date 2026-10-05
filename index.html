@@ -542,26 +542,41 @@
   .bubble{position:absolute; right:-14%; bottom:22%; z-index:4; padding:12px 18px 10px; border-radius:18px 18px 4px 18px; background:#fff; color:var(--t);
     font-size:1.125rem; font-weight:600; line-height:1.2; box-shadow:0 18px 40px rgba(0,0,0,.45); opacity:0}
   .bubble small{display:block; margin-top:4px; font-size:.75rem; font-weight:500; color:var(--t-dim)}
-  /* the answer to the rhyme: what Make A Move is, then how a round plays */
-  .pitchsec{padding:clamp(90px, 11vw, 140px) var(--gutter); text-align:center;
-    background:radial-gradient(50% 40% at 50% 0%, rgba(47,107,255,.14), transparent 70%), var(--stage-900)}
-  .pitchsec h2{max-width:16ch; margin-inline:auto; font-size:clamp(2.6rem, 6.4vw, 5.6rem)}
+  /* ============ 2b · THE PITCH: the value proposition as a type wall (same kinetic type as the walk-on) ============
+     value-prop lines at full wall size; the setup line and the topic examples stay quieter */
+  .hardq{height:300vh}
+  .hardq .stick{padding-block:84px 48px}
+  .wline.lead{font-size:calc(clamp(1.25rem, min(3.2vw, 4.4svh), 2.75rem) * var(--wfit, 1)); margin-bottom:.35em; letter-spacing:.02em}
+  .wline.lead .w.lit{color:var(--ink-dim)}
+  .wnote{align-self:center; max-width:46ch; margin:clamp(18px, 3svh, 32px) auto 0; padding-inline:var(--gutter); text-align:center;
+    font-size:clamp(1rem, 1.25vw, 1.125rem); line-height:1.5; color:var(--ink-dim); opacity:.3; transition:opacity .4s}
+  .wnote.lit{opacity:1}
+  .hardq .cta{align-self:center; margin-top:clamp(16px, 2.6svh, 28px)}
+  /* narrow: the wall's lines wrap flush-left inside the gutters, so the note and CTA share that edge */
+  @media (max-width:900px){
+    .wnote{align-self:stretch; margin-inline:0; padding-inline:calc(var(--gutter) + 8px); text-align:left; max-width:none}
+    .hardq .cta{align-self:flex-start; margin-left:calc(var(--gutter) + 8px)}
+  }
+  .hardq h2 span{color:var(--move); text-shadow:0 0 34px rgba(255,45,111,.4)}
   /* when the studio scene plays, the headline has already aired on the big screen */
   @media (prefers-reduced-motion:no-preference){
-    .pitchsec{padding-top:clamp(40px, 6vw, 72px)}
-    .pitchsec h2{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
-    .pitchsec .pitch{margin-top:0}
+    .hardq h2{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
   }
-  .pitchsec h2 span{color:var(--move); text-shadow:0 0 34px rgba(255,45,111,.4)}
-  .pitchsec .pitch{max-width:46ch; margin:clamp(20px, 3vw, 32px) auto 0; font-size:clamp(1.125rem, 1.7vw, 1.375rem); line-height:1.5; color:var(--ink-dim)}
-  .pitchsec .pitch b, .panel b{color:var(--ink); font-weight:700}
-  .pitchsec .pitch b{display:block}
-  .panel{max-width:760px; margin:clamp(48px, 7vw, 80px) auto 0; font-size:clamp(1.0625rem, 1.5vw, 1.25rem); color:var(--ink-dim)}
-  .topics{list-style:none; display:flex; flex-wrap:wrap; justify-content:center; gap:12px; margin:22px 0}
-  .topics li{padding:12px 22px 10px; border-radius:999px; font-family:var(--display); font-weight:800; font-size:clamp(1.375rem, 2.4vw, 1.875rem);
-    letter-spacing:.04em; text-transform:uppercase; line-height:1; color:var(--bulb); background:rgba(255,182,39,.08);
-    box-shadow:inset 0 0 0 2px rgba(255,182,39,.55), 0 0 24px rgba(255,182,39,.14)}
-  .outcomes{max-width:1000px; margin:clamp(48px, 7vw, 80px) auto 0; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:clamp(16px, 2vw, 28px); text-align:left}
+  @media (prefers-reduced-motion:reduce){
+    .hardq h2{max-width:16ch; margin:0 auto .5em; text-align:center; font-size:clamp(2.2rem, 5.4vw, 4.6rem)}
+  }
+  /* reduced motion: lines don't slide to centre, so centre them in CSS on wide screens (one axis with the
+     headline, note and CTA); on narrow screens the headline joins the flush-left column instead */
+  @media (prefers-reduced-motion:reduce) and (min-width:901px){
+    .hardq .wline{justify-content:center; text-align:center; margin-inline:auto}
+  }
+  @media (prefers-reduced-motion:reduce) and (max-width:900px){
+    .hardq h2{margin-left:calc(var(--gutter) + 8px); text-align:left}
+  }
+  /* ============ 2c · THE OUTCOMES: wrong match / right match, then the safety note ============ */
+  .outsec{padding:clamp(72px, 9vw, 120px) var(--gutter); text-align:center;
+    background:radial-gradient(50% 40% at 50% 0%, rgba(47,107,255,.14), transparent 70%), var(--stage-900)}
+  .outcomes{max-width:1000px; margin:0 auto; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:clamp(16px, 2vw, 28px); text-align:left}
   .oc{padding:30px 30px 28px; border-radius:22px; background:linear-gradient(180deg,var(--stage-800),var(--stage-850))}
   .oc h3{font-family:var(--display); font-weight:900; text-transform:uppercase; font-size:clamp(1.75rem, 3vw, 2.5rem); letter-spacing:.02em; line-height:1}
   .oc p{margin-top:10px; color:var(--ink-dim); font-size:1.0625rem}
@@ -737,7 +752,7 @@
   <nav class="pill" aria-label="Page">
     <a href="#top" class="on" data-sec="top">Show</a><a href="#board" data-sec="board">Play</a><a href="#rules" data-sec="rules">Safety</a>
   </nav>
-  <a class="navcta" href="index.html#S-A2">Find your match</a>
+  <a class="navcta" href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-A2">Find your match</a>
 </header>
 
 <nav class="rundown" id="rundown" aria-label="Show rundown">
@@ -764,7 +779,7 @@
       <div class="marquee"><span class="mark" role="img" aria-label="Make A Move">Make<i>a</i>Move</span></div>
       <h1 class="tagline" id="h-top">Stop Swiping, <span>Start Matching!</span></h1>
       <p class="host">An Online Matchmaking game show that connects compatible partners.</p>
-      <a class="cta" href="index.html#S-A2">Find Your Match</a>
+      <a class="cta" href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-A2">Find Your Match</a>
     </div>
     <div class="cue" aria-hidden="true"><span>Scroll to Make A Move</span><span class="chev"><i></i><i></i><i></i><i></i><i></i></span></div>
   </section>
@@ -818,14 +833,22 @@
       <div class="blk" id="rBlk" aria-hidden="true"></div>
     </div>
   </section>
-  <section class="pitchsec" aria-labelledby="h-pitch">
-    <h2 class="announce" id="h-pitch">The matchmaking app that plays <span>like a game show.</span></h2>
-    <p class="pitch">Other apps let you skip the hard questions. <b>On Make A Move, they're the game.</b></p>
-    <div class="panel">
-      <p>Each round, you and your match face the same questions.<br>You learn more about them, and about yourself.</p>
-      <ul class="topics" aria-label="The questions on the table"><li>Kids.</li><li>Money.</li><li>Faith.</li><li>Where you'll live.</li></ul>
-      <p class="noskip">You both answer. <b>Neither of you can skip.</b></p>
+  <section class="pin wall hardq" id="hardq" aria-labelledby="h-pitch">
+    <div class="stick">
+      <h2 class="announce" id="h-pitch">The matchmaking app that plays <span>like a game show.</span></h2>
+      <div class="wline lead" data-dir="1">Other apps let you skip the hard questions.</div>
+      <div class="wline" data-dir="-1">On Make A Move,</div>
+      <div class="wline" data-dir="1"><em>they're the game.</em></div>
+      <div class="wline" data-dir="-1">You learn more about them,</div>
+      <div class="wline" data-dir="1"><em>and about yourself.</em></div>
+      <p class="wnote">Each round, you and your match face the same questions: kids, money, faith, where you'll live. You both answer. Neither of you can skip.</p>
+      <a class="cta" href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-A2">Find Your Match</a>
     </div>
+  </section>
+
+  <!-- 2c · THE OUTCOMES: what one game tells you -->
+  <section class="outsec" id="outcomes" aria-labelledby="h-out">
+    <h2 class="sr" id="h-out">What one game tells you</h2>
     <div class="outcomes">
       <div class="oc wrong"><h3>Wrong match?</h3><p>You'll know after one game, not eight months.</p></div>
       <div class="oc right"><h3>Right match?</h3><p>You both choose each other, and your first date starts with the big questions already answered.</p></div>
@@ -978,10 +1001,10 @@
       <li><svg class="ico em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="trophy"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg><h3>Clear the Threshold</h3><p>Score 70% or higher to unlock your date.</p></li>
       <li><svg class="ico em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg><h3>Find Your Match</h3><p>Your perfect match starts with one move.</p></li>
     </ol>
-    <a class="cta" href="index.html#S-A2">Find Your Match</a>
+    <a class="cta" href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-A2">Find Your Match</a>
     <footer class="foot">
       <span>Make A Move. For singles 18 and over.</span>
-      <ul><li><a href="index.html#S-A7">Sign in</a></li><li><a href="#rules">Safety</a></li><li><a href="index.html#S-I1">Report a member</a></li></ul>
+      <ul><li><a href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-A7">Sign in</a></li><li><a href="#rules">Safety</a></li><li><a href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-I1">Report a member</a></li></ul>
     </footer>
   </section>
 </main>
@@ -1057,51 +1080,57 @@
   }
   const leds = [...document.querySelectorAll('canvas.led')].map(LED);
 
-  /* ---------- 2 · the type wall: words light up like a teleprompter ---------- */
-  const lines = [...document.querySelectorAll('.wline')];
-  lines.forEach(line => {
-    [...line.childNodes].forEach(n => {
-      const hot = n.nodeName === 'EM';
-      if (n.nodeType !== 3 && !hot) return;
-      const frag = document.createDocumentFragment();
-      n.textContent.split(/\s+/).filter(Boolean).forEach(tok => {
-        const s = document.createElement('span');
-        s.className = hot ? 'w hot' : 'w'; s.textContent = tok; frag.append(s);
-      });
-      line.replaceChild(frag, n);
-    });
-  });
-  const wallItems = [...document.querySelectorAll('#walkon .w, #walkon .obj')];
-  let lineW = [];
+  /* ---------- 2 · the type walls (walk-on, pitch): words light up like a teleprompter ----------
+     each .wall section runs its own copy: its own fit, its own reveal, its own applause sign if it has one */
   const narrow = matchMedia('(max-width:900px)');
-  const wallStick = document.querySelector('#walkon .stick');
   const gutter = vw => Math.min(40, Math.max(16, vw * .04));
-  /* desktop: shrink the wall's type until the longest line fits inside the gutters, with a
-     little slack left over so even that line can drift */
-  function measure(){
-    wallStick.style.setProperty('--wfit', 1);
-    lineW = lines.map(l => l.scrollWidth);
-    if (narrow.matches || reduce) return;
-    const vw = document.documentElement.clientWidth, room = (vw - 2 * gutter(vw)) * .94, widest = Math.max(...lineW);
-    const fit = widest > room ? room / widest : 1;
-    wallStick.style.setProperty('--wfit', fit.toFixed(4));
-    lineW = lineW.map(w => w * fit);
-  }
-  function wall(p){
-    const n = reduce ? wallItems.length : Math.round(seg(p, .04, .78) * wallItems.length);
-    wallItems.forEach((el, i) => el.classList.toggle('lit', i < n));
-    $('applause').classList.toggle('on', p > .8);
-    if (reduce || narrow.matches) return;
-    /* lines slide in from alternate sides (never past the gutters), come to rest centred
-       by 40% of the scene, and hold still there so the rest can be read */
-    const cw = document.documentElement.clientWidth, g = gutter(cw), settle = ease(seg(p, 0, .4));
-    lines.forEach((l, i) => {
-      const w = lineW[i], dir = +l.dataset.dir, c = (cw - w) / 2;
-      const m = Math.min(Math.max(0, cw - 2 * g - w) / 2, cw * .07);
-      const x = c + dir * m * (1 - settle);
-      l.style.transform = 'translate3d(' + x.toFixed(1) + 'px,0,0)';
+  function TypeWall(sec){
+    const lines = [...sec.querySelectorAll('.wline')];
+    lines.forEach(line => {
+      [...line.childNodes].forEach(n => {
+        const hot = n.nodeName === 'EM';
+        if (n.nodeType !== 3 && !hot) return;
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/\s+/).filter(Boolean).forEach(tok => {
+          const s = document.createElement('span');
+          s.className = hot ? 'w hot' : 'w'; s.textContent = tok; frag.append(s);
+        });
+        line.replaceChild(frag, n);
+      });
     });
+    const items = [...sec.querySelectorAll('.w, .obj, .wnote')];
+    const stick = sec.querySelector('.stick'), sign = sec.querySelector('.applause');
+    let lineW = [];
+    /* desktop: shrink the wall's type until the longest line fits inside the gutters, with a
+       little slack left over so even that line can drift */
+    function measure(){
+      stick.style.setProperty('--wfit', 1);
+      lineW = lines.map(l => l.scrollWidth);
+      if (narrow.matches || reduce) return;
+      const vw = document.documentElement.clientWidth, room = (vw - 2 * gutter(vw)) * .94, widest = Math.max(...lineW);
+      const fit = widest > room ? room / widest : 1;
+      stick.style.setProperty('--wfit', fit.toFixed(4));
+      lineW = lineW.map(w => w * fit);
+    }
+    function update(p){
+      const n = reduce ? items.length : Math.round(seg(p, .04, .78) * items.length);
+      items.forEach((el, i) => el.classList.toggle('lit', i < n));
+      if (sign) sign.classList.toggle('on', p > .8);
+      if (reduce || narrow.matches) return;
+      /* lines slide in from alternate sides (never past the gutters), come to rest centred
+         by 40% of the scene, and hold still there so the rest can be read */
+      const cw = document.documentElement.clientWidth, g = gutter(cw), settle = ease(seg(p, 0, .4));
+      lines.forEach((l, i) => {
+        const w = lineW[i], dir = +l.dataset.dir, c = (cw - w) / 2;
+        const m = Math.min(Math.max(0, cw - 2 * g - w) / 2, cw * .07);
+        const x = c + dir * m * (1 - settle);
+        l.style.transform = 'translate3d(' + x.toFixed(1) + 'px,0,0)';
+      });
+    }
+    return { sec, measure, update };
   }
+  const walls = [...document.querySelectorAll('.wall')].map(TypeWall);
+  function measure(){ walls.forEach(w => w.measure()); }
 
   /* ---------- 2 · the swipe machine, then the pull-back ----------
      0–.60 the stack swipes, the match pings, the reply takes a fortnight · .60–.68 the last card moves to centre stage
@@ -1340,7 +1369,7 @@
     const hero = $('top'), hr = hero.getBoundingClientRect();
     hero.style.setProperty('--hp', reduce ? 0 : clamp(-hr.top / hr.height).toFixed(3));
     rant(prog($('swipe')));
-    wall(prog($('walkon')));
+    walls.forEach(w => w.update(prog(w.sec)));
     board(prog($('board')));
     tv(prog($('onair')));
     verdict(prog($('verdict')));
