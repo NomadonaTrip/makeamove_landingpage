@@ -186,6 +186,9 @@
   /* --gy: the dotted stage floor keeps drifting while a scene is pinned, so scroll never feels dead */
   .wall .stick{display:flex; flex-direction:column; justify-content:center; gap:.06em; padding-block:84px 120px;
     background:radial-gradient(circle at 1.5px 1.5px, rgba(110,155,255,.08) 1.2px, transparent 1.9px) 0 var(--gy, 0px)/16px 16px, radial-gradient(70% 60% at 50% 50%, rgba(18,27,56,.9), var(--stage-900))}
+  /* each wall rises out of the dark above it; the fade belongs to the section's top, so it scrolls away once the wall is pinned */
+  .wall::before{content:""; position:absolute; top:0; left:0; right:0; height:45vh; z-index:1; pointer-events:none;
+    background:linear-gradient(180deg, var(--stage-900), transparent)}
   .wline{display:flex; align-items:center; gap:.26em; width:max-content; white-space:nowrap; will-change:transform;
     font-family:var(--display); font-weight:900; text-transform:uppercase; letter-spacing:.01em; line-height:.95;
     font-size:calc(clamp(3.4rem, min(7.4vw, 10.5svh), 8rem) * var(--wfit, 1))}
@@ -575,7 +578,7 @@
   }
   /* ============ 2c · THE OUTCOMES: wrong match / right match, then the safety note ============ */
   .outsec{padding:clamp(72px, 9vw, 120px) var(--gutter); text-align:center;
-    background:radial-gradient(50% 40% at 50% 0%, rgba(47,107,255,.14), transparent 70%), var(--stage-900)}
+    background:radial-gradient(55% 45% at 50% 40%, rgba(47,107,255,.12), transparent 70%), var(--stage-900)}
   .outcomes{max-width:1000px; margin:0 auto; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:clamp(16px, 2vw, 28px); text-align:left}
   .oc{padding:30px 30px 28px; border-radius:22px; background:linear-gradient(180deg,var(--stage-800),var(--stage-850))}
   .oc h3{font-family:var(--display); font-weight:900; text-transform:uppercase; font-size:clamp(1.75rem, 3vw, 2.5rem); letter-spacing:.02em; line-height:1}
@@ -738,6 +741,7 @@
     *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important}
     .cone, .rays, .crt::after{animation:none !important}
     .wall{height:auto} .wall .stick{position:relative; height:auto; padding:120px var(--gutter)}
+    .wall::before{height:100px}   /* unpinned: keep the fade inside the top padding, off the headline */
     .wline{width:auto; white-space:normal; flex-wrap:wrap; font-size:clamp(2.6rem, 6vw, 5rem); transform:none !important}
     .w, .obj{color:var(--ink); opacity:1}
     .rant{height:auto} .rant .stick{position:relative; height:auto; min-height:100svh}
@@ -758,6 +762,7 @@
 <nav class="rundown" id="rundown" aria-label="Show rundown">
   <a href="#top" data-sec="top"><i><b></b></i><span>Stop swiping</span></a>
   <a href="#swipe" data-sec="swipe"><i><b></b></i><span>Why swiping fails</span></a>
+  <a href="#hardq" data-sec="hardq"><i><b></b></i><span>The hard questions</span></a>
   <a href="#walkon" data-sec="walkon"><i><b></b></i><span>The show</span></a>
   <a href="#gamerules" data-sec="gamerules"><i><b></b></i><span>Game rules</span></a>
   <a href="#board" data-sec="board"><i><b></b></i><span>The journey</span></a>
