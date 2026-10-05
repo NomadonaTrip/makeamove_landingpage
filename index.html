@@ -554,6 +554,7 @@
   .wnote{align-self:center; max-width:46ch; margin:clamp(18px, 3svh, 32px) auto 0; padding-inline:var(--gutter); text-align:center;
     font-size:clamp(1rem, 1.25vw, 1.125rem); line-height:1.5; color:var(--ink-dim); opacity:.3; transition:opacity .4s}
   .wnote.lit{opacity:1}
+  .wnote.mid{max-width:60ch; margin-block:clamp(10px, 1.8svh, 20px)}
   .hardq .cta{align-self:center; margin-top:clamp(16px, 2.6svh, 28px)}
   /* narrow: the wall's lines wrap flush-left inside the gutters, so the note and CTA share that edge */
   @media (max-width:900px){
@@ -875,9 +876,10 @@
       <div class="wline lead" data-dir="1">Other apps let you skip the hard questions.</div>
       <div class="wline" data-dir="-1">On Make A Move,</div>
       <div class="wline" data-dir="1"><em>they're the game.</em></div>
+      <p class="wnote mid">Each round, you and your match face the same questions.</p>
       <div class="wline" data-dir="-1">You learn more about them,</div>
       <div class="wline" data-dir="1"><em>and about yourself.</em></div>
-      <p class="wnote">Each round, you and your match face the same questions: kids, money, faith, where you'll live. You both answer. Neither of you can skip.</p>
+      <p class="wnote">Kids. Money. Faith. Where you'll live.<br>You both answer. Neither of you can skip.</p>
       <a class="cta" href="#waitlist">Get Early Access</a>
     </div>
   </section>
