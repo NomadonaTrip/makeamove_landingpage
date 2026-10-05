@@ -680,6 +680,37 @@
   .steps h3{margin-top:10px; font-family:var(--display); font-weight:800; text-transform:uppercase; font-size:1.375rem; letter-spacing:.03em; line-height:1.05}
   .steps p{margin-top:6px; color:var(--ink-dim)}
   @media (max-width:700px){ .steps{grid-template-columns:1fr} .steps li{padding:16px} }
+  /* the waitlist: a card like the Right match card, on the finale's stage */
+  .wl{width:min(640px, 100%); margin-top:clamp(28px, 4vw, 48px); scroll-margin-top:96px; padding:clamp(22px, 3vw, 34px); border-radius:22px; text-align:left;
+    background:linear-gradient(180deg, var(--stage-800), var(--stage-850)); box-shadow:inset 0 0 0 2px rgba(255,45,111,.55), 0 0 40px rgba(255,45,111,.14)}
+  .wl h3{font-size:clamp(2rem, 3.6vw, 2.75rem); text-align:center}
+  .wl-sub{margin-top:8px; text-align:center; color:var(--ink-dim); overflow-wrap:anywhere}   /* long emails wrap instead of spilling */
+  .wl-grid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:4px 18px; margin-top:24px}
+  .fld{min-width:0; border:0; padding:0; margin:0}
+  .fld.wide{grid-column:1 / -1}
+  .fld label, .fld legend{display:block; padding:0; font-weight:600; font-size:.9375rem; color:var(--ink)}
+  .fld input:not([type=radio]), .fld select{display:block; width:100%; min-height:48px; margin-top:6px; padding:12px 14px; border-radius:12px;
+    font:inherit; font-size:1rem; color:var(--ink); background:var(--stage-900); border:1px solid var(--stay-soft); color-scheme:dark}
+  .fld select{appearance:none; padding-right:40px; cursor:pointer;
+    background:var(--stage-900) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23AEB6D6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center}
+  .fld input:focus-visible, .fld select:focus-visible{outline:2px solid var(--spotlight-soft); outline-offset:2px; border-color:var(--spotlight-soft)}
+  .fld [aria-invalid=true]{border-color:var(--move-soft)}
+  .err{min-height:1.5em; margin-top:4px; font-size:.875rem; color:var(--move-soft)}
+  /* I'm a: two pill radios; the real inputs stay in the accessibility tree */
+  .pills{display:flex; flex-wrap:wrap; gap:10px; margin-top:8px}
+  .pills label{position:relative; display:block}
+  .pills input{position:absolute; inset:0; opacity:0; margin:0; cursor:pointer}
+  .pills span{display:flex; align-items:center; min-height:48px; padding:0 26px; border-radius:999px; border:1px solid var(--stay-soft); color:var(--ink); font-weight:600}
+  .pills input:checked + span{background:var(--move); border-color:var(--move); color:#fff; box-shadow:var(--glow-move)}
+  .pills input:focus-visible + span{outline:2px solid var(--spotlight-soft); outline-offset:3px}
+  .fld[aria-invalid=true] .pills span{border-color:var(--move-soft)}
+  .wl .cta{width:100%; margin-top:14px; border:0; cursor:pointer}
+  .wl .cta[aria-disabled=true]{cursor:progress; filter:saturate(.7)}
+  .wl-fine{margin-top:12px; text-align:center; font-size:.875rem; color:var(--ink-dim)}
+  .wl-done{text-align:center} .wl-done:focus{outline:none}
+  .wl-edit{margin-top:18px; min-height:44px; padding:0 18px; border-radius:999px; border:1px solid var(--stay-soft); background:none; color:var(--ink); font:inherit; font-weight:600; cursor:pointer}
+  .wl-edit:focus-visible{outline:2px solid var(--spotlight-soft); outline-offset:3px}
+  @media (max-width:600px){ .wl-grid{grid-template-columns:1fr} }
   .foot{position:absolute; left:var(--gutter); right:var(--gutter); bottom:26px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px 28px;
     font-size:.875rem; color:var(--ink-faint)}
   .foot ul{list-style:none; display:flex; flex-wrap:wrap; gap:8px 22px}
@@ -756,7 +787,7 @@
   <nav class="pill" aria-label="Page">
     <a href="#top" class="on" data-sec="top">Show</a><a href="#board" data-sec="board">Play</a><a href="#rules" data-sec="rules">Safety</a>
   </nav>
-  <a class="navcta" href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-A2">Find your match</a>
+  <a class="navcta" href="#waitlist">Get early access</a>
 </header>
 
 <nav class="rundown" id="rundown" aria-label="Show rundown">
@@ -784,7 +815,7 @@
       <div class="marquee"><span class="mark" role="img" aria-label="Make A Move">Make<i>a</i>Move</span></div>
       <h1 class="tagline" id="h-top">Stop Swiping, <span>Start Matching!</span></h1>
       <p class="host">An Online Matchmaking game show that connects compatible partners.</p>
-      <a class="cta" href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-A2">Find Your Match</a>
+      <a class="cta" href="#waitlist">Get Early Access</a>
     </div>
     <div class="cue" aria-hidden="true"><span>Scroll to Make A Move</span><span class="chev"><i></i><i></i><i></i><i></i><i></i></span></div>
   </section>
@@ -847,7 +878,7 @@
       <div class="wline" data-dir="-1">You learn more about them,</div>
       <div class="wline" data-dir="1"><em>and about yourself.</em></div>
       <p class="wnote">Each round, you and your match face the same questions: kids, money, faith, where you'll live. You both answer. Neither of you can skip.</p>
-      <a class="cta" href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-A2">Find Your Match</a>
+      <a class="cta" href="#waitlist">Get Early Access</a>
     </div>
   </section>
 
@@ -1006,7 +1037,36 @@
       <li><svg class="ico em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="trophy"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg><h3>Clear the Threshold</h3><p>Score 70% or higher to unlock your date.</p></li>
       <li><svg class="ico em" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="sparkles"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg><h3>Find Your Match</h3><p>Your perfect match starts with one move.</p></li>
     </ol>
-    <a class="cta" href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-A2">Find Your Match</a>
+    <form class="wl" id="waitlist" novalidate aria-labelledby="h-wl">
+      <h3 class="announce" id="h-wl">Get early access</h3>
+      <p class="wl-sub">Be first in when the show opens near you.</p>
+      <div class="wl-grid">
+        <div class="fld"><label for="wlName">First name</label>
+          <input id="wlName" name="name" autocomplete="given-name" required aria-describedby="wlNameErr"><p class="err" id="wlNameErr"></p></div>
+        <div class="fld"><label for="wlEmail">Email</label>
+          <input id="wlEmail" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required aria-describedby="wlEmailErr"><p class="err" id="wlEmailErr"></p></div>
+        <fieldset class="fld wide" aria-describedby="wlGenderErr"><legend>I'm a</legend>
+          <div class="pills">
+            <label><input type="radio" name="gender" value="woman" required><span>Woman</span></label>
+            <label><input type="radio" name="gender" value="man"><span>Man</span></label>
+          </div><p class="err" id="wlGenderErr"></p></fieldset>
+        <div class="fld"><label for="wlCountry">Country</label>
+          <select id="wlCountry" name="country" autocomplete="country-name" required aria-describedby="wlCountryErr">
+            <option value="">Choose your country</option>
+            <option>Nigeria</option><option>Ghana</option><option>Kenya</option><option>South Africa</option>
+            <option>United Kingdom</option><option>United States</option><option>Canada</option><option>Somewhere else</option>
+          </select><p class="err" id="wlCountryErr"></p></div>
+        <div class="fld"><label for="wlCity">City</label>
+          <input id="wlCity" name="city" autocomplete="address-level2" required aria-describedby="wlCityErr"><p class="err" id="wlCityErr"></p></div>
+      </div>
+      <button class="cta" type="submit" id="wlGo">Join the waitlist</button>
+      <p class="wl-fine">For singles 18 and over. We'll only email you about launch.</p>
+    </form>
+    <div class="wl wl-done" id="wlDone" tabindex="-1" hidden>
+      <h3 class="announce" id="wlDoneH">You're on the list.</h3>
+      <p class="wl-sub" id="wlDoneP"></p>
+      <button type="button" class="wl-edit" id="wlEdit">Change my details</button>
+    </div>
     <footer class="foot">
       <span>Make A Move. For singles 18 and over.</span>
       <ul><li><a href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-A7">Sign in</a></li><li><a href="#rules">Safety</a></li><li><a href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-I1">Report a member</a></li></ul>
@@ -1370,6 +1430,77 @@
       railOn = now;
     }
   }
+  /* ---------- the waitlist ---------- */
+  const wl = $('waitlist'), wlDone = $('wlDone'), wlGo = $('wlGo');
+  const wlRules = {
+    name:    v => v.trim() ? '' : 'Enter your first name.',
+    email:   v => !v.trim() ? 'Enter your email address.' : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Enter an email like name@example.com.',
+    gender:  v => v ? '' : 'Choose Woman or Man.',
+    country: v => v ? '' : 'Choose your country.',
+    city:    v => v.trim() ? '' : 'Enter your city.'
+  };
+  const wlErrId = { name:'wlNameErr', email:'wlEmailErr', gender:'wlGenderErr', country:'wlCountryErr', city:'wlCityErr' };
+  const wlField = k => k === 'gender' ? wl.querySelector('fieldset') : wl.elements[k];
+  function wlCheck(k){
+    const msg = wlRules[k](k === 'gender' ? (wl.elements.gender.value || '') : wl.elements[k].value);
+    $(wlErrId[k]).textContent = msg;
+    wlField(k).setAttribute('aria-invalid', msg ? 'true' : 'false');
+    return !msg;
+  }
+  /* check a field when you leave it, but only once you've typed in it (or tried to submit): landing on the form
+     puts the cursor in First name, and clicking away from an untouched field shouldn't scold anyone.
+     Once a field shows an error, it re-checks as you type, so the message clears the moment it's fixed */
+  const wlTouched = new Set();
+  let wlTried = false;
+  Object.keys(wlRules).forEach(k => {
+    const el = k === 'gender' ? wl.querySelector('fieldset') : wl.elements[k];
+    el.addEventListener('focusout', e => { if ((wlTried || wlTouched.has(k)) && (k !== 'gender' || !el.contains(e.relatedTarget))) wlCheck(k); });
+    el.addEventListener(k === 'gender' || k === 'country' ? 'change' : 'input', () => {
+      wlTouched.add(k);
+      if (wlField(k).getAttribute('aria-invalid') === 'true' || k === 'gender' || k === 'country') wlCheck(k);
+    });
+  });
+  /* backend not built yet: replace this with the real request; it must resolve on success and reject on failure */
+  const submitWaitlist = data => new Promise(res => setTimeout(() => res({ ok:true, data }), 700));
+  let wlBusy = false;
+  wl.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (wlBusy) return;
+    wlTried = true;
+    const bad = Object.keys(wlRules).filter(k => !wlCheck(k));
+    if (bad.length){ const f = bad[0] === 'gender' ? wl.elements.gender[0] : wl.elements[bad[0]]; f.focus(); return; }
+    wlFail(false);
+    wlBusy = true; wlGo.setAttribute('aria-disabled', 'true'); wlGo.textContent = 'Joining…';
+    const data = Object.fromEntries(new FormData(wl));
+    try {
+      await submitWaitlist(data);
+      $('wlDoneH').textContent = 'You\'re on the list, ' + data.name.trim() + '.';
+      $('wlDoneP').textContent = 'We\'ll email ' + data.email.trim() + ' when the show opens in ' + data.city.trim() + '.';
+      wl.hidden = true; wlDone.hidden = false; wlDone.focus();
+    } catch (err) {
+      wlFail(true);
+    } finally {
+      wlBusy = false; wlGo.removeAttribute('aria-disabled'); wlGo.textContent = 'Join the waitlist';
+    }
+  });
+  /* the small print doubles as the failure line, so a failed send is said where the eye already is */
+  const wlFine = wl.querySelector('.wl-fine'), wlFineText = wlFine.textContent;
+  function wlFail(on){
+    wlFine.textContent = on ? 'That didn\'t go through. Check your connection and try again.' : wlFineText;
+    wlFine.style.color = on ? 'var(--move-soft)' : '';
+    if (on) wlFine.setAttribute('role', 'alert'); else wlFine.removeAttribute('role');
+  }
+  $('wlEdit').addEventListener('click', () => { wlDone.hidden = true; wl.hidden = false; wl.elements.name.focus(); });
+  /* every "Get early access" lands on the form with the first field ready */
+  document.querySelectorAll('a[href="#waitlist"]').forEach(a => a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = wl.hidden ? wlDone : wl;
+    /* centred when it fits; when it's taller than the screen (phones), its heading lines up just under the top bar */
+    target.scrollIntoView({ block: target.offsetHeight > innerHeight - 120 ? 'start' : 'center' });
+    (wl.hidden ? wlDone : wl.elements.name).focus({ preventScroll:true });
+    history.replaceState(null, '', '#waitlist');
+  }));
+
   function update(){
     const hero = $('top'), hr = hero.getBoundingClientRect();
     hero.style.setProperty('--hp', reduce ? 0 : clamp(-hr.top / hr.height).toFixed(3));
