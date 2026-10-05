@@ -676,11 +676,9 @@
   .fld{min-width:0; border:0; padding:0; margin:0}
   .fld.wide{grid-column:1 / -1}
   .fld label, .fld legend{display:block; padding:0; font-weight:600; font-size:.9375rem; color:var(--ink)}
-  .fld input:not([type=radio]), .fld select{display:block; width:100%; min-height:48px; margin-top:6px; padding:12px 14px; border-radius:12px;
+  .fld input:not([type=radio]){display:block; width:100%; min-height:48px; margin-top:6px; padding:12px 14px; border-radius:12px;
     font:inherit; font-size:1rem; color:var(--ink); background:var(--stage-900); border:1px solid var(--stay-soft); color-scheme:dark}
-  .fld select{appearance:none; padding-right:40px; cursor:pointer;
-    background:var(--stage-900) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23AEB6D6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center}
-  .fld input:focus-visible, .fld select:focus-visible{outline:2px solid var(--spotlight-soft); outline-offset:2px; border-color:var(--spotlight-soft)}
+  .fld input:focus-visible{outline:2px solid var(--spotlight-soft); outline-offset:2px; border-color:var(--spotlight-soft)}
   .fld [aria-invalid=true]{border-color:var(--move-soft)}
   .err{min-height:1.5em; margin-top:4px; font-size:.875rem; color:var(--move-soft)}
   /* I'm a: two pill radios; the real inputs stay in the accessibility tree */
@@ -1015,7 +1013,7 @@
     </ol>
     <form class="wl" id="waitlist" novalidate aria-labelledby="h-wl">
       <h3 class="announce" id="h-wl">Get early access</h3>
-      <p class="wl-sub">Be first in when the show opens near you.</p>
+      <p class="wl-sub">Be first in when the show opens.</p>
       <div class="wl-grid">
         <div class="fld"><label for="wlName">First name</label>
           <input id="wlName" name="name" autocomplete="given-name" required aria-describedby="wlNameErr"><p class="err" id="wlNameErr"></p></div>
@@ -1026,14 +1024,6 @@
             <label><input type="radio" name="gender" value="woman" required><span>Woman</span></label>
             <label><input type="radio" name="gender" value="man"><span>Man</span></label>
           </div><p class="err" id="wlGenderErr"></p></fieldset>
-        <div class="fld"><label for="wlCountry">Country</label>
-          <select id="wlCountry" name="country" autocomplete="country-name" required aria-describedby="wlCountryErr">
-            <option value="">Choose your country</option>
-            <option>Nigeria</option><option>Ghana</option><option>Kenya</option><option>South Africa</option>
-            <option>United Kingdom</option><option>United States</option><option>Canada</option><option>Somewhere else</option>
-          </select><p class="err" id="wlCountryErr"></p></div>
-        <div class="fld"><label for="wlCity">City</label>
-          <input id="wlCity" name="city" autocomplete="address-level2" required aria-describedby="wlCityErr"><p class="err" id="wlCityErr"></p></div>
       </div>
       <button class="cta" type="submit" id="wlGo">Join the waitlist</button>
       <p class="wl-fine">For singles 18 and over. We'll only email you about launch.</p>
@@ -1405,11 +1395,9 @@
   const wlRules = {
     name:    v => v.trim() ? '' : 'Enter your first name.',
     email:   v => !v.trim() ? 'Enter your email address.' : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Enter an email like name@example.com.',
-    gender:  v => v ? '' : 'Choose Woman or Man.',
-    country: v => v ? '' : 'Choose your country.',
-    city:    v => v.trim() ? '' : 'Enter your city.'
+    gender:  v => v ? '' : 'Choose Woman or Man.'
   };
-  const wlErrId = { name:'wlNameErr', email:'wlEmailErr', gender:'wlGenderErr', country:'wlCountryErr', city:'wlCityErr' };
+  const wlErrId = { name:'wlNameErr', email:'wlEmailErr', gender:'wlGenderErr' };
   const wlField = k => k === 'gender' ? wl.querySelector('fieldset') : wl.elements[k];
   function wlCheck(k){
     const msg = wlRules[k](k === 'gender' ? (wl.elements.gender.value || '') : wl.elements[k].value);
@@ -1425,9 +1413,9 @@
   Object.keys(wlRules).forEach(k => {
     const el = k === 'gender' ? wl.querySelector('fieldset') : wl.elements[k];
     el.addEventListener('focusout', e => { if ((wlTried || wlTouched.has(k)) && (k !== 'gender' || !el.contains(e.relatedTarget))) wlCheck(k); });
-    el.addEventListener(k === 'gender' || k === 'country' ? 'change' : 'input', () => {
+    el.addEventListener(k === 'gender' ? 'change' : 'input', () => {
       wlTouched.add(k);
-      if (wlField(k).getAttribute('aria-invalid') === 'true' || k === 'gender' || k === 'country') wlCheck(k);
+      if (wlField(k).getAttribute('aria-invalid') === 'true' || k === 'gender') wlCheck(k);
     });
   });
   /* backend not built yet: replace this with the real request; it must resolve on success and reject on failure */
@@ -1445,7 +1433,7 @@
     try {
       await submitWaitlist(data);
       $('wlDoneH').textContent = 'You\'re on the list, ' + data.name.trim() + '.';
-      $('wlDoneP').textContent = 'We\'ll email ' + data.email.trim() + ' when the show opens in ' + data.city.trim() + '.';
+      $('wlDoneP').textContent = 'We\'ll email ' + data.email.trim() + ' when the show opens.';
       wl.hidden = true; wlDone.hidden = false; wlDone.focus();
     } catch (err) {
       wlFail(true);
