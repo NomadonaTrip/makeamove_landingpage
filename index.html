@@ -560,21 +560,8 @@
     .wnote{align-self:stretch; margin-inline:0; padding-inline:calc(var(--gutter) + 8px); text-align:left; max-width:none}
   }
   .hardq h2 span{color:var(--move); text-shadow:0 0 34px rgba(255,45,111,.4)}
-  /* when the studio scene plays, the headline has already aired on the big screen */
-  @media (prefers-reduced-motion:no-preference){
-    .hardq h2{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
-  }
-  @media (prefers-reduced-motion:reduce){
-    .hardq h2{max-width:16ch; margin:0 auto .5em; text-align:center; font-size:clamp(2.2rem, 5.4vw, 4.6rem)}
-  }
-  /* reduced motion: lines don't slide to centre, so centre them in CSS on wide screens (one axis with the
-     headline, note and CTA); on narrow screens the headline joins the flush-left column instead */
-  @media (prefers-reduced-motion:reduce) and (min-width:901px){
-    .hardq .wline{justify-content:center; text-align:center; margin-inline:auto}
-  }
-  @media (prefers-reduced-motion:reduce) and (max-width:900px){
-    .hardq h2{margin-left:calc(var(--gutter) + 8px); text-align:left}
-  }
+  /* the headline has already aired on the studio's big screen, so here it's for screen readers only */
+  .hardq h2{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
   /* ============ 2c · THE OUTCOMES: wrong match / right match, then the safety note ============ */
   .outsec{padding:clamp(24px, 3vw, 40px) var(--gutter) clamp(72px, 9vw, 120px); text-align:center;
     background:radial-gradient(55% 45% at 50% 40%, rgba(47,107,255,.12), transparent 70%), var(--stage-900)}
@@ -767,18 +754,6 @@
   }
   .feed.stacked .cam .lbl{white-space:nowrap}
 
-  /* reduced motion: scenes stop scrubbing space; they fade between states, and ambient light holds still */
-  @media (prefers-reduced-motion:reduce){
-    *,*::before,*::after{animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important}
-    .cone, .rays, .crt::after{animation:none !important}
-    .wall{height:auto} .wall .stick{position:relative; height:auto; padding:120px var(--gutter)}
-    .wall::before{height:100px}   /* unpinned: keep the fade inside the top padding, off the headline */
-    .wline{width:auto; white-space:normal; flex-wrap:wrap; font-size:clamp(2.6rem, 6vw, 5rem); transform:none !important}
-    .w, .obj{color:var(--ink); opacity:1}
-    .rant{height:auto} .rant .stick{position:relative; height:auto; min-height:100svh}
-    .rant .cam{position:relative; min-height:100svh}
-    .rant .ln, .rant .ln.was{color:var(--ink); opacity:1}
-  }
 </style>
 </head>
 <body>
@@ -1076,7 +1051,6 @@
 </main>
 <script>
 (function(){
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $ = id => document.getElementById(id);
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const seg = (p, a, b) => clamp((p - a) / (b - a));
@@ -1121,13 +1095,13 @@
     }
     function draw(t){
       ctx.clearRect(0, 0, W, H);
-      const on = reduce || !t0 ? (reduce ? 1 : 0) : clamp((t - t0) / 1100);
+      const on = !t0 ? 0 : clamp((t - t0) / 1100);
       const sweep = (((t - t0) * .00032) % 1.7 - .35) * W;
       const b = [[], [], [], []];
       for (const d of dots){
         if (d[2] > on) continue;
         let k = 1;
-        if (!reduce) k = .62 + .16 * Math.sin(t * .004 + d[2] * 40) + Math.max(0, 1 - Math.abs(d[0] - sweep) / (W * .07)) * .7;
+        k = .62 + .16 * Math.sin(t * .004 + d[2] * 40) + Math.max(0, 1 - Math.abs(d[0] - sweep) / (W * .07)) * .7;
         if (on < 1 && d[2] > on - .08) k = 1.3;          // the power-on flash
         b[k > 1.12 ? 3 : k > .86 ? 2 : k > .5 ? 1 : 0].push(d);
       }
@@ -1137,10 +1111,10 @@
         ctx.fill();
       });
     }
-    function loop(t){ draw(t); if (visible && !reduce) raf = requestAnimationFrame(loop); }
+    function loop(t){ draw(t); if (visible) raf = requestAnimationFrame(loop); }
     new IntersectionObserver(es => {
       visible = es[0].isIntersecting;
-      if (visible){ if (!t0) t0 = performance.now(); cancelAnimationFrame(raf); if (reduce) draw(0); else raf = requestAnimationFrame(loop); }
+      if (visible){ if (!t0) t0 = performance.now(); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop); }
     }).observe(canvas);
     return { build };
   }
@@ -1172,17 +1146,17 @@
     function measure(){
       stick.style.setProperty('--wfit', 1);
       lineW = lines.map(l => l.scrollWidth);
-      if (narrow.matches || reduce) return;
+      if (narrow.matches) return;
       const vw = document.documentElement.clientWidth, room = (vw - 2 * gutter(vw)) * .94, widest = Math.max(...lineW);
       const fit = widest > room ? room / widest : 1;
       stick.style.setProperty('--wfit', fit.toFixed(4));
       lineW = lineW.map(w => w * fit);
     }
     function update(p){
-      const n = reduce ? items.length : Math.round(seg(p, .04, .78) * items.length);
+      const n = Math.round(seg(p, .04, .78) * items.length);
       items.forEach((el, i) => el.classList.toggle('lit', i < n));
       if (sign) sign.classList.toggle('on', p > .8);
-      if (reduce || narrow.matches) return;
+      if (narrow.matches) return;
       /* lines slide in from alternate sides (never past the gutters), come to rest centred
          by 40% of the scene, and hold still there so the rest can be read */
       const cw = document.documentElement.clientWidth, g = gutter(cw), settle = ease(seg(p, 0, .4));
@@ -1218,12 +1192,11 @@
   const rDir = rcards.map((c, i) => i < 3 ? (i % 2 ? 1 : -1) : 1);
   let lastR = 0;
   function rant(p){
-    if (reduce) p = .74;   // reduced motion: hold on the twist, both lines read, no camera move
     const beat = p < .6 ? 0 : 1;   // the swiping and the fortnight reply, then the married twist
     rlines.forEach((l, i) => { l.classList.toggle('now', i === beat); l.classList.toggle('was', i < beat); });
     let gone = 0;
     rcards.forEach((c, i) => {
-      const k = reduce ? 1 : ease(seg(p, rT[i], rT[i] + .06));
+      const k = ease(seg(p, rT[i], rT[i] + .06));
       const d = Math.max(0, i - gone);          // depth in what's left of the stack
       gone += k;
       const x = rDir[i] * k * 135, r = rDir[i] * k * 24;
@@ -1232,20 +1205,20 @@
       c.style.zIndex = RL + 1 - i;
     });
     const md = Math.max(0, RL - gone), m = $('mCard');
-    const split = reduce ? 0 : ease(seg(p, .70, .76)), spread = innerWidth < 600 ? 9 : 18;
+    const split = ease(seg(p, .70, .76)), spread = innerWidth < 600 ? 9 : 18;
     m.style.transform = 'translateY(' + (-Math.min(md, 3) * 26).toFixed(1) + 'px) scale(' + (1 - Math.min(md, 4) * .045).toFixed(3) + ')';
     m.style.opacity = md > 3.5 ? 0 : 1;
     m.querySelector('.l').style.transform = 'translate(' + (-split * spread).toFixed(1) + '%,' + (split * 6).toFixed(1) + '%) rotate(' + (-split * 9).toFixed(1) + 'deg)';
     m.querySelector('.r').style.transform = 'translate(' + (split * spread).toFixed(1) + '%,' + (split * 10).toFixed(1) + '%) rotate(' + (split * 11).toFixed(1) + 'deg)';
     m.querySelector('.nm').style.opacity = 1 - split;
     m.querySelector('.mstamp').classList.toggle('on', p >= .69);
-    const toast = reduce ? 0 : seg(p, .48, .51) * (1 - seg(p, .58, .61));
+    const toast = seg(p, .48, .51) * (1 - seg(p, .58, .61));
     $('mToast').style.opacity = toast.toFixed(3);
     $('mToast').style.transform = 'translate(-50%,-50%) scale(' + (.8 + .2 * ease(seg(p, .48, .52))).toFixed(3) + ')';
-    $('mBubble').style.opacity = (reduce ? 0 : seg(p, .52, .55) * (1 - seg(p, .58, .61))).toFixed(3);
+    $('mBubble').style.opacity = (seg(p, .52, .55) * (1 - seg(p, .58, .61))).toFixed(3);
 
     /* centre stage (desktop): the rhyme steps aside, the card walks to the middle, the twist line drops in beneath it */
-    const cen = !reduce && centreMQ.matches ? ease(seg(p, .6, .68)) : 0;
+    const cen = centreMQ.matches ? ease(seg(p, .6, .68)) : 0;
     const dx = (rCam.clientWidth / 2 - (rStack.offsetLeft + rStack.offsetWidth / 2)) * cen;
     const dy = (rCam.clientHeight * .44 - (rStack.offsetTop + rStack.offsetHeight / 2)) * cen;
     rStack.style.transform = cen ? 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px) scale(' + (1 + .06 * cen).toFixed(3) + ')' : '';
@@ -1253,11 +1226,11 @@
     rText.style.opacity = (1 - cen).toFixed(3);
     $('rCap').style.opacity = cen ? seg(p, .64, .68).toFixed(3) : 0;
     /* rejected: a red loss light floods the shot, then drains */
-    $('rWash').style.opacity = (reduce ? 0 : seg(p, .69, .71) * (1 - seg(p, .74, .80)) * .9).toFixed(3);
-    if (!reduce && lastR < .69 && p >= .69){ rStick.classList.remove('shake'); void rStick.offsetWidth; rStick.classList.add('shake'); }
+    $('rWash').style.opacity = (seg(p, .69, .71) * (1 - seg(p, .74, .80)) * .9).toFixed(3);
+    if (lastR < .69 && p >= .69){ rStick.classList.remove('shake'); void rStick.offsetWidth; rStick.classList.add('shake'); }
 
     /* the pull-back: the camera shrinks onto the big screen's slot; the studio settles in behind at a slower rate (parallax) */
-    const pull = reduce ? 0 : easeIO(seg(p, .755, .92));
+    const pull = easeIO(seg(p, .755, .92));
     const S = rSlot.offsetWidth / rStick.clientWidth, sc = 1 + (S - 1) * pull;
     rCam.style.transform = pull ? 'translate(' + (rSlot.offsetLeft * pull).toFixed(1) + 'px,' + (rSlot.offsetTop * pull).toFixed(1) + 'px) scale(' + sc.toFixed(4) + ')' : '';
     rCam.style.borderRadius = pull ? (6 * pull / sc).toFixed(1) + 'px' : '';
@@ -1265,16 +1238,16 @@
     const fr = $('stFrame'), fx = rSlot.offsetLeft * pull, fy = rSlot.offsetTop * pull;
     fr.style.left = (fx - 12) + 'px'; fr.style.top = (fy - 12) + 'px';
     fr.style.width = (rStick.clientWidth * sc + 24) + 'px'; fr.style.height = (rStick.clientHeight * sc + 24) + 'px';
-    fr.style.opacity = (reduce ? 0 : seg(p, .77, .82)).toFixed(3);
-    rLayers.forEach(([els, a, b]) => { const o = reduce ? 0 : seg(p, a, b); els.forEach(e => e.style.opacity = o.toFixed(3)); });
+    fr.style.opacity = seg(p, .77, .82).toFixed(3);
+    rLayers.forEach(([els, a, b]) => { const o = seg(p, a, b); els.forEach(e => e.style.opacity = o.toFixed(3)); });
 
     /* off air, blackout, lights up */
     const tv = $('tvOff');
-    tv.style.setProperty('--off', reduce ? 0 : seg(p, .915, .935).toFixed(3));
-    tv.style.setProperty('--ln', reduce ? 0 : (p >= .932 ? 1 - seg(p, .935, .945) : 0).toFixed(3));
-    $('rBlk').style.opacity = (reduce ? 0 : seg(p, .935, .95) * .9 * (1 - seg(p, .962, .99))).toFixed(3);
-    $('onTv').style.opacity = (reduce ? 0 : seg(p, .955, .965)).toFixed(3);
-    rStick.classList.toggle('lit', !reduce && p >= .955);
+    tv.style.setProperty('--off', seg(p, .915, .935).toFixed(3));
+    tv.style.setProperty('--ln', (p >= .932 ? 1 - seg(p, .935, .945) : 0).toFixed(3));
+    $('rBlk').style.opacity = (seg(p, .935, .95) * .9 * (1 - seg(p, .962, .99))).toFixed(3);
+    $('onTv').style.opacity = seg(p, .955, .965).toFixed(3);
+    rStick.classList.toggle('lit', p >= .955);
     lastR = p;
   }
 
@@ -1283,7 +1256,6 @@
   let shown = 0, target = 0, tickRaf = 0;
   function tick(to){
     if (to === target) return; target = to;
-    if (reduce){ shown = to; paintPct(to); return; }
     const from = shown, t0 = performance.now();
     cancelAnimationFrame(tickRaf);
     (function step(t){
@@ -1304,12 +1276,9 @@
       const st = x >= i + .2;
       el.classList.toggle('stamped', st);
       if (st && el.classList.contains('m')) moves++;
-      if (reduce){ el.style.opacity = i === turn ? 1 : 0; el.style.transform = 'none'; }
     });
-    if (!reduce){
-      $('box').style.setProperty('--ry', (-90 * f).toFixed(2) + 'deg');
-      $('box').style.setProperty('--rx', (4 * Math.sin(frac * 6.2832)).toFixed(2) + 'deg');   // the board rocks while a turn holds
-    }
+    $('box').style.setProperty('--ry', (-90 * f).toFixed(2) + 'deg');
+    $('box').style.setProperty('--rx', (4 * Math.sin(frac * 6.2832)).toFixed(2) + 'deg');   // the board rocks while a turn holds
     tick(Math.round(moves / N * 100));
     const done = x >= N - 1 + .2;
     $('passed').classList.toggle('on', done);
@@ -1324,7 +1293,7 @@
   function tv(p){
     const vw = innerWidth, vh = innerHeight;
     const ph = Math.min(600, vh * (vh < 500 && vw > vh ? .72 : vw < 900 ? .5 : .6)), pw = Math.min(300, ph * .52, vw * .62);
-    const k = reduce ? (p > .5 ? 1 : 0) : ease(seg(p, .15, .6));
+    const k = ease(seg(p, .15, .6));
     const ix = (vw - pw) / 2 * k, iy = (vh - ph) / 2 * k;
     feed.style.inset = iy.toFixed(1) + 'px ' + ix.toFixed(1) + 'px';
     feed.style.borderRadius = (k * 44).toFixed(1) + 'px';
@@ -1337,7 +1306,6 @@
     feed.style.setProperty('--lblop', seg(p, .3, .4).toFixed(3));
     $('tc').style.opacity = document.querySelector('.bug').style.opacity = out;
     $('capL').style.opacity = $('capR').style.opacity = seg(p, .6, .72);
-    if (reduce) return;
     /* the cameras push in the whole way through; the captions part once they're up */
     const zoom = (1 + p * .14).toFixed(3);
     camImgs.forEach(im => im.style.scale = zoom);
@@ -1366,9 +1334,10 @@
       const op = (i === 0 ? 1 : seg(p, a - f, a + f)) * (1 - seg(p, b - f, b + f));
       el.style.opacity = op.toFixed(3);
       el.classList.toggle('on', op > .5);
-      if (!reduce) el.style.scale = lerp(.97, 1.04, seg(p, a, Math.min(1, b))).toFixed(4);   // each beat dollies in while it holds
+      el.style.scale = lerp(.97, 1.04, seg(p, a, Math.min(1, b))).toFixed(4);   // each beat dollies in while it holds
     });
-    if (!reduce){
+    /* the slams, rings and rays move with the scroll, so they play for everyone */
+    {
       const slam = (el, a) => { const s = 1 - ease(seg(p, a, a + .06)); el.style.transform = 'scale(' + (1 + 1.6 * s).toFixed(3) + ')'; el.style.filter = 'blur(' + (8 * s).toFixed(1) + 'px) brightness(' + (1 + 1.4 * s).toFixed(2) + ')'; };
       slam(document.querySelector('.locked'), .26);
       slam(document.querySelector('.moveword'), .5);
@@ -1504,7 +1473,7 @@
 
   function update(){
     const hero = $('top'), hr = hero.getBoundingClientRect();
-    hero.style.setProperty('--hp', reduce ? 0 : clamp(-hr.top / hr.height).toFixed(3));
+    hero.style.setProperty('--hp', clamp(-hr.top / hr.height).toFixed(3));
     rant(prog($('swipe')));
     walls.forEach(w => w.update(prog(w.sec)));
     board(prog($('board')));
@@ -1512,7 +1481,7 @@
     verdict(prog($('verdict')));
     pins.forEach(sec => {
       const r = sec.getBoundingClientRect(), run = clamp(-r.top, 0, Math.max(0, r.height - innerHeight));
-      sec.firstElementChild.style.setProperty('--gy', reduce ? '0px' : (-(run * .2) % 16).toFixed(1) + 'px');
+      sec.firstElementChild.style.setProperty('--gy', (-(run * .2) % 16).toFixed(1) + 'px');
     });
     const rr = rules.getBoundingClientRect();
     slate.classList.toggle('paper', rr.top < 60 && rr.bottom > 60);

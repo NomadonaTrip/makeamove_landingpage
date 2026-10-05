@@ -50,8 +50,8 @@ Scroll-driven scenes. A `.pin` section is tall and its `.stick` child is `positi
 - **The swipe scene and studio pull-back** (`#swipe`, `rant()`):
   - The swipe content lives in a "camera" layer (`.cam`). As you scroll, the last card is rejected at centre stage, then the camera scales down onto the studio's big screen (`.st-slot`), revealing a CSS-drawn studio: two podiums facing each other, since the show is one-on-one.
   - The beat timings are listed in the comment above `rant()`. `--S` and `--slot-top` on `.rant .stick` set the screen's size and position for each breakpoint.
-  - The pitch headline airs on the big screen, so `#hardq` hides its own `h2` visually unless reduced motion is on.
-- **Reduced motion:** scenes stop moving and show their final state. Check every new scene with `prefers-reduced-motion: reduce` and at ≤900px; type walls switch to wrapped, flush-left lines there.
+  - The pitch headline airs on the big screen, so `#hardq` keeps its own `h2` for screen readers only.
+- **Reduced motion is deliberately ignored** (the user's decision, because the page was much less readable with it on). Every visitor gets the full show, whatever their device setting. Don't add `prefers-reduced-motion` handling back without asking. Still check every new scene at ≤900px, where type walls switch to wrapped, flush-left lines.
 - **Tokens:** use the `:root` tokens (`--move` pink, `--stay`, `--ink*`, `--stage-*`, `--display`/`--body`) and existing components (`.cta`, `.announce`, `.oc`) rather than inventing new ones.
 
 ## Working conventions
