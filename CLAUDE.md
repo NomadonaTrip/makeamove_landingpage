@@ -43,7 +43,7 @@ After editing, load with a cache-busting query (`?v=2`), or the browser may show
 
 Scroll-driven scenes. A `.pin` section is tall and its `.stick` child is `position: sticky`; one scroll engine (`update()`) feeds each scene a 0–1 progress value.
 
-- **Type walls** (`.pin.wall`, e.g. `#hardq` and `#walkon`):
+- **Type walls** (`.pin.wall`; currently only `#hardq`):
   - Each wall runs its own `TypeWall(sec)`: words light up as you scroll, lines slide in from alternating sides (`data-dir="±1"`), and `<em>` words glow pink.
   - A new wall needs only markup: `.pin.wall > .stick > .wline`.
   - `.wline.lead` is the smaller setup line, and `.wnote` is quiet supporting text.

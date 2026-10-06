@@ -197,11 +197,6 @@
   .w.lit.hot{color:var(--move); text-shadow:0 0 34px rgba(255,45,111,.55)}
   .obj{flex:0 0 auto; display:inline-block; opacity:.25; transition:opacity .4s, box-shadow .4s, filter .4s}
   .obj.lit{opacity:1}
-  /* framed faces set into the line, the way bpco sets images into type */
-  .obj.face{width:1.05em; height:.78em; border-radius:.2em; background:linear-gradient(150deg,#3A6CFF,#7A3AFF) center/cover;
-    box-shadow:0 0 0 .05em rgba(255,255,255,.2)}
-  .obj.face.lit{box-shadow:0 0 0 .05em var(--spotlight), 0 0 .4em rgba(47,107,255,.5)}
-  .obj.face.g2{background-color:#FF2D6F}
   /* ticket-shaped words: MOVE glows pink, STAY stays gray (§4) */
   .tkw{position:relative; display:inline-block; padding:.08em .62em; --rim:var(--move)}
   .tkw::before,.tkw::after{content:""; position:absolute; inset:0; z-index:-1;
@@ -215,13 +210,6 @@
   .tkw.lit.movew::after{background:var(--move)}
   .tkw.lit.stayw{color:#DDE2F2}
   .tkw.lit.stayw::after{background:#39425E}
-  .obj.heart{width:.7em; height:.7em; color:var(--move); filter:drop-shadow(0 0 .15em rgba(255,45,111,.8))}
-  /* the applause sign switches on when the intro lands */
-  .applause{position:absolute; right:var(--gutter); bottom:clamp(20px, 6vh, 56px); padding:10px 20px; border-radius:8px;
-    font-family:var(--display); font-weight:900; letter-spacing:.2em; font-size:clamp(1.1rem, 1.8vw, 1.5rem); text-transform:uppercase;
-    color:rgba(255,122,166,.3); border:2px solid rgba(255,122,166,.3); transition:all .25s}
-  .applause.on{color:#fff; background:var(--move); border-color:var(--move-soft); box-shadow:var(--glow-move); animation:flickon .5s steps(1)}
-  @keyframes flickon{0%{opacity:.2} 20%{opacity:1} 30%{opacity:.3} 45%{opacity:1} 55%{opacity:.5} 70%{opacity:1}}
   /* phones and tablets: a sliding line would outrun the screen, so lines wrap into a
      still, readable teleprompter that stays inside the side margins */
   @media (max-width:900px){
@@ -233,8 +221,6 @@
     .wall{height:300vh}
     .wall .stick{padding-block:72px 96px}
     .wline{font-size:clamp(1.75rem, min(9.4vw, 5svh), 3.2rem)}
-    .obj.face{width:1.15em}
-    .applause{top:auto; bottom:clamp(20px, 5vh, 40px); padding:6px 12px; font-size:1rem}
   }
 
   /* ============ 3 · THE BOARD: four turns on a rotating box ============ */
@@ -573,6 +559,13 @@
   .oc.wrong h3{color:var(--stay-soft)}
   .oc.right{box-shadow:inset 0 0 0 2px rgba(255,45,111,.55), 0 0 40px rgba(255,45,111,.14)}
   .oc.right h3{color:var(--move)}
+  /* the right match, pictured: Tolu and David together */
+  .oc-pair{display:flex; align-items:center; gap:10px; margin-bottom:16px}
+  .oc-pair .face{width:56px; height:56px; border-radius:14px; background:linear-gradient(150deg,#3A6CFF,#7A3AFF) center/cover;
+    box-shadow:0 0 0 2px var(--move), 0 0 18px rgba(255,45,111,.35)}
+  .oc-pair svg{width:22px; height:22px; color:var(--move); filter:drop-shadow(0 0 8px rgba(255,45,111,.8))}
+  /* side by side, the wrong match's heading lines up with the right match's (it skips the photo row's height) */
+  @media (min-width:701px){ .oc.wrong{padding-top:calc(30px + 56px + 16px)} }
   .verified{display:inline-flex; align-items:center; gap:10px; margin-top:clamp(40px, 6vw, 64px); padding:10px 20px; border-radius:999px;
     font-weight:600; color:var(--pass); background:rgba(43,209,139,.08); box-shadow:inset 0 0 0 1px rgba(43,209,139,.4)}
   .verified .ico{width:20px; height:20px; flex:none}
@@ -716,7 +709,6 @@
   @media (max-width:600px) and (max-height:600px){
     .wall .stick{padding-block:60px 120px}
     .wline{font-size:clamp(1.5rem, min(10vw, 4.8svh), 3.2rem)}
-    .applause{font-size:.875rem; letter-spacing:.14em}
     .board .stick{gap:10px 12px; padding-top:56px; padding-bottom:12px}
     .board .side{gap:6px}
     .frame{width:40px; height:40px}
@@ -730,7 +722,6 @@
   @media (max-height:500px) and (orientation:landscape){
     .wall .stick{padding-block:56px 64px}
     .wline{font-size:calc(min(7.4vw, 9svh) * var(--wfit, 1))}
-    .applause{padding:6px 14px; font-size:1rem}
     .board .stick{grid-template-columns:1fr auto 1fr; grid-template-rows:auto auto; gap:6px 20px; padding:52px var(--gutter) 8px}
     .board .side.l{grid-row:1; grid-column:1} .board .side.r{grid-row:1; grid-column:3}
     .box3d{grid-row:1; grid-column:2; --cw:min(460px, 46vw); --ch:calc(100svh - 110px)}
@@ -771,7 +762,6 @@
   <a href="#top" data-sec="top"><i><b></b></i><span>Stop swiping</span></a>
   <a href="#swipe" data-sec="swipe"><i><b></b></i><span>Why swiping fails</span></a>
   <a href="#hardq" data-sec="hardq"><i><b></b></i><span>The hard questions</span></a>
-  <a href="#walkon" data-sec="walkon"><i><b></b></i><span>The show</span></a>
   <a href="#gamerules" data-sec="gamerules"><i><b></b></i><span>Game rules</span></a>
   <a href="#board" data-sec="board"><i><b></b></i><span>The journey</span></a>
   <a href="#verdict" data-sec="verdict"><i><b></b></i><span>The verdict</span></a>
@@ -864,21 +854,16 @@
     <h2 class="sr" id="h-out">What one game tells you</h2>
     <div class="outcomes">
       <div class="oc wrong"><h3>Wrong match?</h3><p>You'll know after one game, not eight months.</p></div>
-      <div class="oc right"><h3>Right match?</h3><p>You both choose each other, and your first date starts with the big questions already answered.</p></div>
+      <div class="oc right">
+        <div class="oc-pair" role="img" aria-label="Tolu and David, matched">
+          <span class="face" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')"></span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          <span class="face" style="background-image:url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=160&amp;h=160&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')"></span>
+        </div>
+        <h3>Right match?</h3><p>You both choose each other, and your first date starts with the big questions already answered.</p></div>
     </div>
     <p class="verified"><svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="shield-check"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>Every player is ID-verified.</p>
     <a class="cta" href="#waitlist">Find Your Match</a>
-  </section>
-
-  <!-- 3 · WALK-ON -->
-  <section class="pin wall" id="walkon" aria-label="How the show works">
-    <div class="stick">
-      <div class="wline" data-dir="1">2 people... <span class="obj face g2" style="background-image:url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=240&amp;h=180&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="Tolu"></span><span class="obj face" style="background-image:url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=240&amp;h=180&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg')" role="img" aria-label="David"></span></div>
-      <div class="wline" data-dir="-1">20 Posers...</div>
-      <div class="wline" data-dir="1"><em>70%</em> Pass mark...</div>
-      <div class="wline" data-dir="-1"><em>1 Date Possibility!</em> <svg class="obj heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></div>
-      <div class="applause" id="applause" aria-hidden="true">Applause</div>
-    </div>
   </section>
 
   <!-- 4 · THE GAME RULES -->
@@ -1114,7 +1099,7 @@
   }
   const leds = [...document.querySelectorAll('canvas.led')].map(LED);
 
-  /* ---------- 2 · the type walls (walk-on, pitch): words light up like a teleprompter ----------
+  /* ---------- 2 · the type walls (the pitch): words light up like a teleprompter ----------
      each .wall section runs its own copy: its own fit, its own reveal, its own applause sign if it has one */
   const narrow = matchMedia('(max-width:900px)');
   const gutter = vw => Math.min(40, Math.max(16, vw * .04));
