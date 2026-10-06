@@ -27,7 +27,7 @@ The app is a separate site (the parent repo's `main`): https://nomadonatrip.gith
 
 Relative `index.html#…` resolves to this page itself, and `../index.html#…` breaks on Pages.
 
-The page's sign-up buttons ("Get early access") don't go to the app. They jump to the **waitlist form** (`#waitlist`) in the finale. The form has no backend yet: `submitWaitlist(data)` in the script is a placeholder that pretends to succeed, and the real request replaces it. It must resolve on success and reject on failure, because the failure message is already wired up.
+The page's sign-up buttons ("Find your match", the label used for every CTA) don't go to the app. They jump to the **waitlist form** (`#waitlist`) in the finale. The form has no backend yet: `submitWaitlist(data)` in the script is a placeholder that pretends to succeed, and the real request replaces it. It must resolve on success and reject on failure, because the failure message is already wired up.
 
 ## Previewing
 

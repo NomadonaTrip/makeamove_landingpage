@@ -760,7 +760,7 @@
   <nav class="pill" aria-label="Page">
     <a href="#top" class="on" data-sec="top">Show</a><a href="#board" data-sec="board">Play</a><a href="#rules" data-sec="rules">Safety</a>
   </nav>
-  <a class="navcta" href="#waitlist">Get early access</a>
+  <a class="navcta" href="#waitlist">Find your match</a>
 </header>
 
 <nav class="rundown" id="rundown" aria-label="Show rundown">
@@ -788,7 +788,7 @@
       <div class="marquee"><span class="mark" role="img" aria-label="Make A Move">Make<i>a</i>Move</span></div>
       <h1 class="tagline" id="h-top">Stop Swiping, <span>Start Matching!</span></h1>
       <p class="host">An Online Matchmaking game show that connects compatible partners.</p>
-      <a class="cta" href="#waitlist">Get Early Access</a>
+      <a class="cta" href="#waitlist">Find Your Match</a>
     </div>
     <div class="cue" aria-hidden="true"><span>Scroll to Make A Move</span><span class="chev"><i></i><i></i><i></i><i></i><i></i></span></div>
   </section>
@@ -863,7 +863,7 @@
       <div class="oc right"><h3>Right match?</h3><p>You both choose each other, and your first date starts with the big questions already answered.</p></div>
     </div>
     <p class="verified"><svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="shield-check"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>Every player is ID-verified.</p>
-    <a class="cta" href="#waitlist">Get Early Access</a>
+    <a class="cta" href="#waitlist">Find Your Match</a>
   </section>
 
   <!-- 3 · WALK-ON -->
@@ -1449,7 +1449,7 @@
     if (on) wlFine.setAttribute('role', 'alert'); else wlFine.removeAttribute('role');
   }
   $('wlEdit').addEventListener('click', () => { wlDone.hidden = true; wl.hidden = false; wl.elements.name.focus(); });
-  /* every "Get early access" lands on the form with the first field ready */
+  /* every "Find your match" lands on the form with the first field ready */
   document.querySelectorAll('a[href="#waitlist"]').forEach(a => a.addEventListener('click', e => {
     e.preventDefault();
     const target = wl.hidden ? wlDone : wl;
