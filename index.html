@@ -668,34 +668,38 @@
   .steps p{margin-top:6px; color:var(--ink-dim)}
   @media (max-width:700px){ .steps{grid-template-columns:1fr} .steps li{padding:16px} }
   /* the waitlist: a card like the Right match card, on the finale's stage */
-  .wl{width:min(640px, 100%); margin-top:clamp(28px, 4vw, 48px); scroll-margin-top:96px; padding:clamp(22px, 3vw, 34px); border-radius:22px; text-align:left;
+  .wl{width:min(640px, 100%); margin-top:clamp(28px, 4vw, 48px); scroll-margin-top:96px; padding:clamp(20px, 2.4vw, 28px); border-radius:22px; text-align:left;
     background:linear-gradient(180deg, var(--stage-800), var(--stage-850)); box-shadow:inset 0 0 0 2px rgba(255,45,111,.55), 0 0 40px rgba(255,45,111,.14)}
   .wl h3{font-size:clamp(2rem, 3.6vw, 2.75rem); text-align:center}
-  .wl-sub{margin-top:8px; text-align:center; color:var(--ink-dim); overflow-wrap:anywhere}   /* long emails wrap instead of spilling */
-  .wl-grid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:4px 18px; margin-top:24px}
+  .wl-sub{margin-top:6px; text-align:center; color:var(--ink-dim); overflow-wrap:anywhere}   /* long emails wrap instead of spilling */
+  /* two rows on wide screens: name | email, then I'm a | the button, so no row is left half empty */
+  .wl-grid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px 16px; margin-top:18px; align-items:start}
+  /* the button lines up with the pills (it skips the height of the "I'm a" label), so an error under the pills doesn't move it */
+  .wl .wl-grid > .cta{margin-top:calc(.9375rem * 1.55 + 6px)}
   .fld{min-width:0; border:0; padding:0; margin:0}
-  .fld.wide{grid-column:1 / -1}
   .fld label, .fld legend{display:block; padding:0; font-weight:600; font-size:.9375rem; color:var(--ink)}
   .fld input:not([type=radio]){display:block; width:100%; min-height:48px; margin-top:6px; padding:12px 14px; border-radius:12px;
     font:inherit; font-size:1rem; color:var(--ink); background:var(--stage-900); border:1px solid var(--stay-soft); color-scheme:dark}
   .fld input:focus-visible{outline:2px solid var(--spotlight-soft); outline-offset:2px; border-color:var(--spotlight-soft)}
   .fld [aria-invalid=true]{border-color:var(--move-soft)}
-  .err{min-height:1.5em; margin-top:4px; font-size:.875rem; color:var(--move-soft)}
+  /* an error takes room only when there is one */
+  .err{margin-top:4px; font-size:.875rem; color:var(--move-soft)}
+  .err:empty{display:none}
   /* I'm a: two pill radios; the real inputs stay in the accessibility tree */
-  .pills{display:flex; flex-wrap:wrap; gap:10px; margin-top:8px}
-  .pills label{position:relative; display:block}
+  .pills{display:flex; gap:10px; margin-top:6px}
+  .pills label{position:relative; display:block; flex:1 1 0}
   .pills input{position:absolute; inset:0; opacity:0; margin:0; cursor:pointer}
-  .pills span{display:flex; align-items:center; min-height:48px; padding:0 26px; border-radius:999px; border:1px solid var(--stay-soft); color:var(--ink); font-weight:600}
+  .pills span{display:flex; align-items:center; justify-content:center; min-height:48px; padding:0 18px; border-radius:999px; border:1px solid var(--stay-soft); color:var(--ink); font-weight:600}
   .pills input:checked + span{background:var(--move); border-color:var(--move); color:#fff; box-shadow:var(--glow-move)}
   .pills input:focus-visible + span{outline:2px solid var(--spotlight-soft); outline-offset:3px}
   .fld[aria-invalid=true] .pills span{border-color:var(--move-soft)}
-  .wl .cta{width:100%; margin-top:14px; border:0; cursor:pointer}
+  .wl .cta{width:100%; min-height:48px; margin-top:0; padding:14px 24px; border:0; cursor:pointer}
   .wl .cta[aria-disabled=true]{cursor:progress; filter:saturate(.7)}
-  .wl-fine{margin-top:12px; text-align:center; font-size:.875rem; color:var(--ink-dim)}
+  .wl-fine{margin-top:10px; text-align:center; font-size:.875rem; color:var(--ink-dim)}
   .wl-done{text-align:center} .wl-done:focus{outline:none}
   .wl-edit{margin-top:18px; min-height:44px; padding:0 18px; border-radius:999px; border:1px solid var(--stay-soft); background:none; color:var(--ink); font:inherit; font-weight:600; cursor:pointer}
   .wl-edit:focus-visible{outline:2px solid var(--spotlight-soft); outline-offset:3px}
-  @media (max-width:600px){ .wl-grid{grid-template-columns:1fr} }
+  @media (max-width:600px){ .wl-grid{grid-template-columns:1fr; gap:12px} .wl .wl-grid > .cta{margin-top:4px} }
   .foot{position:absolute; left:var(--gutter); right:var(--gutter); bottom:26px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px 28px;
     font-size:.875rem; color:var(--ink-faint)}
   .foot ul{list-style:none; display:flex; flex-wrap:wrap; gap:8px 22px}
@@ -1019,13 +1023,13 @@
           <input id="wlName" name="name" autocomplete="given-name" required aria-describedby="wlNameErr"><p class="err" id="wlNameErr"></p></div>
         <div class="fld"><label for="wlEmail">Email</label>
           <input id="wlEmail" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required aria-describedby="wlEmailErr"><p class="err" id="wlEmailErr"></p></div>
-        <fieldset class="fld wide" aria-describedby="wlGenderErr"><legend>I'm a</legend>
+        <fieldset class="fld" aria-describedby="wlGenderErr"><legend>I'm a</legend>
           <div class="pills">
             <label><input type="radio" name="gender" value="woman" required><span>Woman</span></label>
             <label><input type="radio" name="gender" value="man"><span>Man</span></label>
           </div><p class="err" id="wlGenderErr"></p></fieldset>
+        <button class="cta" type="submit" id="wlGo">Join the waitlist</button>
       </div>
-      <button class="cta" type="submit" id="wlGo">Join the waitlist</button>
       <p class="wl-fine">For singles 18 and over. We'll only email you about launch.</p>
     </form>
     <div class="wl wl-done" id="wlDone" tabindex="-1" hidden>
