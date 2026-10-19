@@ -50,9 +50,10 @@ Scroll-driven scenes. A `.pin` section is tall and its `.stick` child is `positi
 - **The swipe scene and studio pull-back** (`#swipe`, `rant()`):
   - The swipe content lives in a "camera" layer (`.cam`). As you scroll, the last card is rejected at centre stage, then the camera scales down onto the studio's big screen (`.st-slot`), revealing a CSS-drawn studio: two podiums facing each other, since the show is one-on-one.
   - The beat timings are listed in the comment above `rant()`. `--S` and `--slot-top` on `.rant .stick` set the screen's size and position for each breakpoint.
-  - The pitch headline airs on the big screen, so `#hardq` keeps its own `h2` for screen readers only.
+  - The big screen airs the logo and the promise ("The matchmaking app that gets you a compatible partner."), so `#hardq` keeps its own `h2` for screen readers only.
+  - The rhyme's words light up with the scroll (`light()`), and the three swipes finish before line one is fully lit, so the copy always shows progress. The twist line ("…they're married.") never shows in the rhyme: it stays screen-reader-only in the `h2` and airs only as `#rCap` under the card, lighting up as the card is stamped and torn.
 - **Reduced motion is deliberately ignored** (the user's decision, because the page was much less readable with it on). Every visitor gets the full show, whatever their device setting. Don't add `prefers-reduced-motion` handling back without asking. Still check every new scene at ≤900px, where type walls switch to wrapped, flush-left lines.
-- **Tokens:** use the `:root` tokens (`--move` pink, `--stay`, `--ink*`, `--stage-*`, `--display`/`--body`) and existing components (`.cta`, `.announce`, `.oc`) rather than inventing new ones.
+- **Tokens:** use the `:root` tokens (`--move` pink, `--stay`, `--ink*`, `--stage-*`, `--display`/`--body`) and existing components (`.cta`, `.announce`, `.marquee`, `.cards`) rather than inventing new ones.
 
 ## Working conventions
 
