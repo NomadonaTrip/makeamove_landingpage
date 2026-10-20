@@ -46,21 +46,13 @@ This is the "before" picture, and the future-state lines that follow need it as 
 
 ---
 
-## 3 · The after, up close (the type wall)
+## 3 · The life you want (replaces the type wall)
 
-> *(lead)* Imagine a first date with no guessing.
->
-> You already know they want children,
-> *and so do you.*
->
-> *(note)* Faith, money, where you'll live: you already agree on what matters.
->
-> You learn more about them,
-> *and about yourself.*
->
-> *(note)* No second-guessing on the drive home. No wondering what they really want. Just the next date.
+A photograph of the future does this section's work: a smiling couple with their daughter and son (`family.jpg`). The words stay short:
 
-"You learn more about them," stays as agreed.
+> The family.
+> The faith.
+> **The home you'll build.**
 
 ---
 
