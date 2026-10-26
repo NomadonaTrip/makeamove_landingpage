@@ -49,7 +49,7 @@ Scroll-driven scenes. A `.pin` section is tall and its `.stick` child is `positi
 
 - **The life you want** (`#hardq`, `.future`): one photograph of the future (`family.jpg`, the user's own photo) beside the Page 3 copy ("Life can be tough, *but meeting your soulmate shouldn't be.*", the "Make a move" line and the byline). It replaced the type wall. On phones the photo stacks above the copy.
 - **How it works** (`#pitch`, `.pitch`): the Page 4 copy from `prompts.md`: the marquee logo as its `h2`, then a centred lead paragraph and a supporting line. It sits where the old "Other apps let you skip the hard questions" wall was.
-- **How we find your match** (`#gamerules`, `.deck` + `.cards`): three numbered cards (20 rapid-fire questions, gamified compatibility, the 70% threshold) and the "Every player is ID-verified." badge, restored from before commit `3b383b2`. It follows `#pitch`.
+- **How we find your match** (`#gamerules`, `.deck` + `.cards`): two numbered cards (revealing questions, gamified compatibility; the 70% threshold card was dropped) and the "Every player is ID-verified." badge, restored from before commit `3b383b2`. It follows `#pitch`.
 - **Type walls** (`.pin.wall`; none on the page right now, but the engine stays for reuse):
   - Each wall runs its own `TypeWall(sec)`: words light up as you scroll, lines slide in from alternating sides (`data-dir="±1"`), and `<em>` words glow pink.
   - A new wall needs only markup: `.pin.wall > .stick > .wline`.
