@@ -173,7 +173,9 @@
   .marquee .mark i{font-style:normal; color:var(--move)}
   .hero .marquee{animation:marqdrop .9s var(--ease-show) both}
   @keyframes marqdrop{0%{transform:scale(.55) translateY(-46px); opacity:0; filter:brightness(3.2)} 55%{filter:brightness(1.9)} 100%{transform:none; opacity:1; filter:none}}
-  .tagline{margin-top:clamp(22px, 3.2vw, 38px); font-family:var(--display); font-weight:900; text-transform:uppercase; letter-spacing:.01em;
+  .hero .marquee{margin-top:clamp(26px, 3.6svh, 40px)}
+  .hero .marquee .mark{font-size:clamp(2rem, 4.6vw, 3.75rem)}
+  .tagline{font-family:var(--display); font-weight:900; text-transform:uppercase; letter-spacing:.01em;
     line-height:.92; font-size:clamp(2.2rem, 10.5vw, 6.25rem)}
   @media (max-height:700px){ .hero .inner{padding-top:70px} }
   .tagline span{display:block; color:var(--move); text-shadow:0 0 34px rgba(255,45,111,.45)}
@@ -415,9 +417,20 @@
   .future{position:relative; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.9fr); align-items:center; gap:clamp(32px, 6vw, 96px);
     min-height:100svh; padding:clamp(96px, 12svh, 140px) max(var(--gutter), calc((100% - 1180px) / 2)) clamp(64px, 9svh, 110px);
     background:radial-gradient(45% 55% at 72% 50%, rgba(255,45,111,.14), transparent 70%), var(--stage-900)}
-  .future h2{font-size:clamp(2.8rem, 6vw, 5.75rem); line-height:.9}
+  .future h2{font-size:clamp(2.6rem, 5vw, 4.75rem); line-height:.92}
   .future h2 i{display:block; font-style:normal}
   .future h2 span{display:block; color:var(--move); text-shadow:0 0 34px rgba(255,45,111,.4)}
+  .future .host{margin-top:22px; max-width:46ch}
+  .punch{margin-top:18px; font-size:clamp(1.125rem, 1.6vw, 1.375rem); font-weight:700; color:var(--ink)}
+  .future .marquee{width:fit-content; margin-top:clamp(28px, 4svh, 40px)}
+  .future .marquee .mark{font-size:clamp(1.9rem, 3.4vw, 3rem)}
+  .byline{margin-top:14px; max-width:40ch; font-size:.9375rem; font-weight:600; letter-spacing:.02em; color:var(--ink-dim)}
+  .hero .byline{margin-top:18px}
+  /* ============ 3 · HOW IT WORKS: the pitch, in plain words ============ */
+  .pitch{max-width:calc(980px + 2 * var(--gutter)); margin-inline:auto; padding:clamp(80px, 12svh, 140px) var(--gutter); text-align:center}
+  .pitch .lead{font-size:clamp(1.375rem, 2.6vw, 2.125rem); line-height:1.35; font-weight:600; color:var(--ink)}
+  .pitch .lead em{font-style:normal; color:var(--move-soft)}
+  .pitch .host{max-width:60ch; margin:clamp(20px, 3svh, 32px) auto 0}
   .future .pic{justify-self:center; width:min(100%, 460px); aspect-ratio:842 / 1264; max-height:76svh; border-radius:22px; overflow:hidden;
     background:var(--stage-800); box-shadow:0 0 0 2px rgba(255,45,111,.55), 0 0 60px rgba(255,45,111,.22), 0 30px 80px rgba(0,0,0,.5)}
   /* framed close on the family (scaled from just above them); --fz eases the zoom out a little as the photo comes into view */
@@ -427,10 +440,6 @@
     .future .pic{order:-1; max-height:62svh}
     .future h2{font-size:clamp(2.2rem, 10vw, 3.4rem)}
   }
-  .verified{display:inline-flex; align-items:center; gap:10px; margin-top:clamp(40px, 6vw, 64px); padding:10px 20px; border-radius:999px;
-    font-weight:600; color:var(--pass); background:rgba(43,209,139,.08); box-shadow:inset 0 0 0 1px rgba(43,209,139,.4)}
-  .verified .ico{width:20px; height:20px; flex:none}
-  .deck .verified{display:flex; width:fit-content; margin:clamp(28px, 4vw, 44px) 0 0 max(0px, calc((100% - 1180px) / 2))}
   /* phones and tablets: the line on air sits above the stack */
   @media (max-width:900px){
     .rant{height:400vh}
@@ -461,20 +470,7 @@
     .sstack{max-height:72svh}
   }
 
-  /* ============ card decks: how we find your match, game ends ============ */
-  .deck{padding:clamp(90px, 11vw, 140px) var(--gutter); background:
-      radial-gradient(circle at 1.5px 1.5px, rgba(110,155,255,.07) 1.2px, transparent 1.9px) 0 0/16px 16px, var(--stage-900)}
-  .deck h2{max-width:1180px; margin-inline:auto; font-size:clamp(2.8rem, 7vw, 6rem)}
-  .deck h2 span{color:var(--move)}
-  .cards{list-style:none; max-width:1180px; margin:clamp(32px, 5vw, 56px) auto 0; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:clamp(16px, 2vw, 28px)}
-  .cards li{position:relative; padding:34px 30px 32px; border-radius:22px;
-    background:radial-gradient(80% 60% at 50% 0%, rgba(47,107,255,.22), transparent 70%), linear-gradient(180deg,var(--stage-800),var(--stage-850));
-    box-shadow:inset 0 0 0 2px rgba(255,45,111,.5), 0 0 40px rgba(255,45,111,.12)}
-  .cards li::before{content:""; position:absolute; inset:9px; border:3px dotted rgba(255,182,39,.55); border-radius:15px; pointer-events:none}
-  .cards .no{display:block; font-family:var(--display); font-weight:900; font-size:2.75rem; line-height:1; color:var(--bulb); text-shadow:0 0 22px rgba(255,182,39,.4)}
-  .cards h3{margin-top:14px; font-family:var(--display); font-weight:800; text-transform:uppercase; font-size:1.625rem; letter-spacing:.02em; line-height:1.05}
-  .cards p{margin-top:10px; color:var(--ink-dim)}
-  @media (max-width:900px){ .cards{grid-template-columns:1fr} }
+
 
   /* ============ 6 · BACKSTAGE: house lights up (paper, §2.8: no neon) ============ */
   .back{background:var(--paper); color:var(--t); padding:clamp(110px, 14vw, 170px) var(--gutter) clamp(80px, 10vw, 130px)}
@@ -574,7 +570,7 @@
 <header class="slate" id="slate">
   <a class="brand" href="#top"><b>Make<i>a</i>Move</b>The online matchmaking<br>game show</a>
   <nav class="pill" aria-label="Page">
-    <a href="#top" class="on" data-sec="top">Show</a><a href="#gamerules" data-sec="gamerules">Your life</a><a href="#rules" data-sec="rules">Safety</a>
+    <a href="#top" class="on" data-sec="top">Show</a><a href="#pitch" data-sec="pitch">How it works</a><a href="#rules" data-sec="rules">Safety</a>
   </nav>
   <a class="navcta" href="#waitlist">Find your match</a>
 </header>
@@ -582,9 +578,8 @@
 <nav class="rundown" id="rundown" aria-label="Show rundown">
   <a href="#top" data-sec="top"><i><b></b></i><span>Meet the one</span></a>
   <a href="#swipe" data-sec="swipe"><i><b></b></i><span>Before</span></a>
-  <a href="#hardq" data-sec="hardq"><i><b></b></i><span>The life you want</span></a>
-  <a href="#gamerules" data-sec="gamerules"><i><b></b></i><span>Your life, after</span></a>
-  <a href="#gameover" data-sec="gameover"><i><b></b></i><span>Your story begins</span></a>
+  <a href="#hardq" data-sec="hardq"><i><b></b></i><span>The one for you</span></a>
+  <a href="#pitch" data-sec="pitch"><i><b></b></i><span>How it works</span></a>
   <a href="#rules" data-sec="rules"><i><b></b></i><span>Feel safe</span></a>
   <a href="#verdict" data-sec="verdict"><i><b></b></i><span>It's a match</span></a>
   <a href="#join" data-sec="join"><i><b></b></i><span>Your move</span></a>
@@ -598,12 +593,13 @@
     <div class="cone b" aria-hidden="true"></div>
     <div class="floor" aria-hidden="true"></div>
     <div class="inner">
+      <h1 class="tagline" id="h-top">Stop swiping, <span>start matching!</span></h1>
+      <p class="host">Meet the one meant for you through our secure and safety-screened matchmaking game show.</p>
       <div class="marquee"><span class="mark" role="img" aria-label="Make A Move">Make<i>a</i>Move</span></div>
-      <h1 class="tagline" id="h-top">Meet the one <span>who wants you.</span></h1>
-      <p class="host">And wants the life you want. Picture a first date where the big things are already settled: the family, the faith, the home you'll build. All that's left is to enjoy each other.</p>
+      <p class="byline">An online matchmaking game show that connects compatible companions.</p>
       <a class="cta" href="#waitlist">Find Your Match</a>
     </div>
-    <div class="cue" aria-hidden="true"><span>Scroll to Make A Move</span><span class="chev"><i></i><i></i><i></i><i></i><i></i></span></div>
+    <div class="cue" aria-hidden="true"><span>Scroll down to Make A Move</span><span class="chev"><i></i><i></i><i></i><i></i><i></i></span></div>
   </section>
 
   <!-- 2 · THE PROBLEM: the swipe machine. Scroll swipes the stack; one line of the rhyme per beat.
@@ -625,7 +621,7 @@
       <div class="rtext">
         <h2 class="announce" id="h-swipe">
           <span class="ln">You swipe right all night, match with one who replies in a fortnight.</span>
-          <span class="ln hot">Fall in love, then find out they're married.</span>
+          <span class="ln hot">Fall in love, then find out they're married!</span>
         </h2>
       </div>
       <div class="sstack" aria-hidden="true">
@@ -640,7 +636,7 @@
           </div>
           <div class="bubble" id="mBubble">hey<small>Sent 14 days later</small></div>
       </div>
-      <p class="rcap announce hot" id="rCap" aria-hidden="true">Fall in love, then find out they're married.</p>
+      <p class="rcap announce hot" id="rCap" aria-hidden="true">Fall in love, then find out they're married!</p>
       <div class="rwash" id="rWash" aria-hidden="true"></div>
       <div class="tvoff" id="tvOff" aria-hidden="true"></div>
       <div class="ontv" id="onTv" aria-hidden="true"><div class="marquee"><span class="mark">Make<i>a</i>Move</span></div><p class="announce">Meet someone who wants <span>what you want.</span></p></div>
@@ -652,29 +648,21 @@
   </section>
   <!-- 2b · THE LIFE YOU WANT: the future, in one photograph -->
   <section class="future" id="hardq" aria-labelledby="h-pitch">
-    <h2 class="announce" id="h-pitch"><i>The family.</i> <i>The faith.</i> <span>The home you'll build.</span></h2>
+    <div class="ftxt">
+      <h2 class="announce" id="h-pitch"><i>Life can be tough,</i> <span>but meeting your soulmate shouldn't be.</span></h2>
+      <p class="host">Avoid heartbreaks by dumping the dating dilemma and trying our fresh, fun and fact-based matchmaking method.</p>
+      <p class="punch">Make a move and meet the one meant for you.</p>
+      <div class="marquee"><span class="mark" role="img" aria-label="Make A Move">Make<i>a</i>Move</span></div>
+      <p class="byline">An online matchmaking game show that connects compatible partners.</p>
+    </div>
     <figure class="pic"><img id="futurePic" src="family.jpg" width="842" height="1264" alt="A smiling couple sitting on a fallen tree in a park, with their little girl beside them and their son standing behind." loading="lazy" decoding="async"></figure>
   </section>
 
-  <!-- 4 · YOUR LIFE, AFTER -->
-  <section class="deck" id="gamerules" aria-labelledby="h-gamerules">
-    <h2 class="announce" id="h-gamerules">Your life, after</h2>
-    <ol class="cards">
-      <li><h3>Your evenings are yours again</h3><p>No more scrolling at midnight. No more waiting two weeks for a reply. When your phone lights up, it's them, and they mean it.</p></li>
-      <li><h3>You stop interviewing and start enjoying them</h3><p>The person across the table wants the same future you do: the family, the faith, the city you'll call home. The first date feels like the fifth.</p></li>
-      <li><h3>You say "I've met someone", and you mean it</h3><p>You tell your friends, and this time you're not hedging. You already know it's going somewhere.</p></li>
-    </ol>
-    <p class="verified"><svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="shield-check"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>And they're exactly who they said they'd be.</p>
-  </section>
-
-  <!-- 7 · THE GUESSING ENDS, YOUR STORY BEGINS -->
-  <section class="deck" id="gameover" aria-labelledby="h-gameover">
-    <h2 class="announce" id="h-gameover">The guessing ends. <span>Your story begins.</span></h2>
-    <ol class="cards">
-      <li><span class="no">01</span><h3>The first date feels like a reunion</h3><p>You talk like people who already know each other, because in the ways that count, you do.</p></li>
-      <li><span class="no">02</span><h3>Bringing them home feels easy</h3><p>When your family asks what they want from life, you already know the answer, and you like it.</p></li>
-      <li><span class="no">03</span><h3>You plan a future, not just the next date</h3><p>The conversations that used to take a year come naturally, because you've wanted the same things from the start.</p></li>
-    </ol>
+  <!-- 3 · HOW IT WORKS: the game show, in plain words -->
+  <section class="pitch" id="pitch" aria-labelledby="h-how">
+    <h2 class="sr" id="h-how">How Make A Move works</h2>
+    <p class="lead">Make A Move reimagines online dating as <em>a game show</em> where you answer vital questions to reveal true personalities, shared values, compatibility rates, and unlock real dates with verified people who really align with you.</p>
+    <p class="host">Our advanced algorithm analyzes your interests, values, preferences, and relationship goals to find your ideal match, scrutinized with secure identity checks.</p>
   </section>
 
   <!-- 8 · BACKSTAGE: feeling safe, and before vs after (house lights up) -->
@@ -1114,7 +1102,7 @@
     rundown(rr);
     /* past Safety, no tab is lit: the verdict and the sign-up belong to no tab */
     const mid = innerHeight / 2;
-    const at = rr.bottom < mid ? '' : rr.top < mid ? 'rules' : $('gamerules').getBoundingClientRect().top < mid ? 'gamerules' : 'top';
+    const at = rr.bottom < mid ? '' : rr.top < mid ? 'rules' : $('pitch').getBoundingClientRect().top < mid ? 'pitch' : 'top';
     navs.forEach(a => a.classList.toggle('on', a.dataset.sec === at));
   }
   let queued = false;
