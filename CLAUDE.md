@@ -47,8 +47,9 @@ After editing, load with a cache-busting query (`?v=2`), or the browser may show
 
 Scroll-driven scenes. A `.pin` section is tall and its `.stick` child is `position: sticky`; one scroll engine (`update()`) feeds each scene a 0–1 progress value.
 
-- **The life you want** (`#hardq`, `.future`): one photograph of the future (`family.jpg`, the user's own photo) beside the Page 3 copy ("Life can be tough, *but meeting your soulmate shouldn't be.*", the "Make a move" line, a small marquee logo and byline). It replaced the type wall. On phones the photo stacks above the copy.
-- **How it works** (`#pitch`, `.pitch`): the Page 4 copy from `prompts.md`, a centred lead paragraph and a supporting line. It sits where the old "Other apps let you skip the hard questions" wall was.
+- **The life you want** (`#hardq`, `.future`): one photograph of the future (`family.jpg`, the user's own photo) beside the Page 3 copy ("Life can be tough, *but meeting your soulmate shouldn't be.*", the "Make a move" line and the byline). It replaced the type wall. On phones the photo stacks above the copy.
+- **How it works** (`#pitch`, `.pitch`): the Page 4 copy from `prompts.md`: the marquee logo as its `h2`, then a centred lead paragraph and a supporting line. It sits where the old "Other apps let you skip the hard questions" wall was.
+- **How we find your match** (`#gamerules`, `.deck` + `.cards`): three numbered cards (20 rapid-fire questions, gamified compatibility, the 70% threshold) and the "Every player is ID-verified." badge, restored from before commit `3b383b2`. It follows `#pitch`.
 - **Type walls** (`.pin.wall`; none on the page right now, but the engine stays for reuse):
   - Each wall runs its own `TypeWall(sec)`: words light up as you scroll, lines slide in from alternating sides (`data-dir="±1"`), and `<em>` words glow pink.
   - A new wall needs only markup: `.pin.wall > .stick > .wline`.
@@ -57,9 +58,10 @@ Scroll-driven scenes. A `.pin` section is tall and its `.stick` child is `positi
   - The swipe content lives in a "camera" layer (`.cam`). As you scroll, the last card is rejected at centre stage, then the camera scales down onto the studio's big screen (`.st-slot`), revealing a CSS-drawn studio: two podiums facing each other, since the show is one-on-one.
   - The beat timings are listed in the comment above `rant()`. `--S` and `--slot-top` on `.rant .stick` set the screen's size and position for each breakpoint.
   - The big screen airs the logo and the promise ("Meet someone who wants what you want."), and `#hardq` follows it with the family photo.
-  - The rhyme's words light up with the scroll (`light()`), and the three swipes finish before line one is fully lit, so the copy always shows progress. The twist line ("…they're married!") never shows in the rhyme: it stays screen-reader-only in the `h2` and airs only as `#rCap` under the card, lighting up as the card is stamped and torn.
+  - The rhyme's words fade in from fully invisible as you scroll (`light()`), so nothing is readable before it arrives, and the three swipes finish before line one is fully lit, so the copy always shows progress. The twist line ("…they're married!") never shows in the rhyme: it stays screen-reader-only in the `h2` and airs only as `#rCap` under the card, lighting up as the card is stamped and torn.
+- **It's a match** (`#verdict`, `verdict()`): LOCKED → MOVE → the match. At ≤900px the section is 200vh (260vh on desktop) and its clock starts while its top is still 0.35 of a screen below the fold (`prog(el, lead)`), so LOCKED arrives with the stage instead of after a screen of empty dark.
 - **Reduced motion is deliberately ignored** (the user's decision, because the page was much less readable with it on). Every visitor gets the full show, whatever their device setting. Don't add `prefers-reduced-motion` handling back without asking. Still check every new scene at ≤900px, where type walls switch to wrapped, flush-left lines.
-- **Tokens:** use the `:root` tokens (`--move` pink, `--stay`, `--ink*`, `--stage-*`, `--display`/`--body`) and existing components (`.cta`, `.announce`, `.marquee`) rather than inventing new ones.
+- **Tokens:** use the `:root` tokens (`--move` pink, `--stay`, `--ink*`, `--stage-*`, `--display`/`--body`) and existing components (`.cta`, `.announce`, `.marquee`, `.cards`) rather than inventing new ones.
 
 ## Working conventions
 
