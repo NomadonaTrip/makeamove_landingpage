@@ -267,7 +267,7 @@
   @keyframes confall{to{transform:translate(var(--dx), 110vh) rotate(var(--rr))}}
 
   /* ============ 2 · THE PROBLEM: the swipe apps, in rhyme ============ */
-  .rant{height:440vh}
+  .rant{height:560vh}   /* 440vh of the original scene + the 120vh question-mark beat (BEAT in rant's script) */
   /* --S is how big the big screen sits in the studio, as a share of the viewport; the camera scales down onto it */
   .rant .stick{--S:.44; --slot-top:12svh; background:var(--stage-900)}
   .rant .stick.shake{animation:roomshake .55s}
@@ -282,6 +282,8 @@
   /* the twist: the rhyme's last line lights up under the card as it tears */
   .rcap{position:absolute; left:50%; bottom:6svh; width:min(92%, 22ch); transform:translateX(-50%); text-align:center; opacity:0;
     font-size:clamp(2rem, 3.4vw, 3.4rem); line-height:.95}
+  /* the answer takes the twist's place under the card: longer, so wider and a step smaller */
+  .rcap.rnext{width:min(92%, 34ch); font-size:clamp(1.8rem, 2.7vw, 2.7rem); line-height:1}
   .rwash{position:absolute; inset:0; z-index:5; pointer-events:none; opacity:0;
     background:radial-gradient(60% 60% at 50% 45%, rgba(255,45,111,.05), rgba(200,20,60,.55) 100%)}
   /* the screen switching off: black closes in from top and bottom to one bright line */
@@ -395,10 +397,15 @@
   .half::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg, transparent 55%, rgba(8,11,22,.85))}
   .half.l{clip-path:polygon(0 0, 55.5% 0, 47.5% 22%, 56.5% 41%, 45.5% 63%, 54.5% 82%, 48.5% 100%, 0 100%)}  /* overlaps the right half so no seam shows before the tear */
   .half.r{clip-path:polygon(54% 0, 100% 0, 100% 100%, 47% 100%, 53% 82%, 44% 63%, 55% 41%, 46% 22%)}
-  .mstamp{position:absolute; left:50%; top:38%; z-index:3; padding:8px 20px; border-radius:10px; transform:translate(-50%,-50%) rotate(-10deg) scale(2.6); opacity:0;
-    font-family:var(--display); font-weight:900; font-size:clamp(2rem, 3vw, 2.6rem); letter-spacing:.12em; text-transform:uppercase; color:#fff;
-    background:var(--move); box-shadow:var(--glow-move); transition:transform .45s var(--ease-show), opacity .3s}
-  .mstamp.on{opacity:1; transform:translate(-50%,-50%) rotate(-10deg) scale(1)}
+  /* after the twist: a big question mark slams in above his head */
+  .sstack{container-type:inline-size}
+  .qmark{position:absolute; left:50%; top:12%; z-index:4; opacity:0; pointer-events:none; transform:translate(-50%,-50%);
+    font-family:var(--display); font-weight:900; font-size:52cqw; line-height:1; color:#fff;
+    text-shadow:0 0 30px var(--move), 0 0 90px rgba(255,45,111,.65), 0 10px 40px rgba(0,0,0,.6)}
+  /* ...then the card becomes the woman from the family photo, alone and in tears (heartbreak.jpg), and her photo tears in two */
+  .scard.lady{opacity:0; background:none; box-shadow:none; overflow:visible}
+  .scard.lady::after{display:none}
+  .rant .cam .lady img{object-position:50% 22%; filter:contrast(1.05) brightness(.92)}   /* already moody; keep the red dress red */
   /* the match beat: a toast, then the reply that took a fortnight */
   .bubble{position:absolute; right:-14%; bottom:22%; z-index:4; padding:12px 18px 10px; border-radius:18px 18px 4px 18px; background:#fff; color:var(--t);
     font-size:1.125rem; font-weight:600; line-height:1.2; box-shadow:0 18px 40px rgba(0,0,0,.45); opacity:0}
@@ -415,13 +422,6 @@
     .wnote{align-self:stretch; margin-inline:0; padding-inline:calc(var(--gutter) + 8px); text-align:left; max-width:none}
   }
   /* ============ 2b · THE LIFE YOU WANT: after the swipe scene's past, one photograph of the future ============ */
-  .future{position:relative; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.9fr); align-items:center; gap:clamp(32px, 6vw, 96px);
-    min-height:100svh; padding:clamp(96px, 12svh, 140px) max(var(--gutter), calc((100% - 1180px) / 2)) clamp(64px, 9svh, 110px);
-    background:radial-gradient(45% 55% at 72% 50%, rgba(255,45,111,.14), transparent 70%), var(--stage-900)}
-  .future h2{font-size:clamp(2.6rem, 5vw, 4.75rem); line-height:.92}
-  .future h2 i{display:block; font-style:normal}
-  .future h2 span{display:block; color:var(--move); text-shadow:0 0 34px rgba(255,45,111,.4)}
-  .future .host{margin-top:22px; max-width:46ch}
   .punch{margin-top:18px; font-size:clamp(1.125rem, 1.6vw, 1.375rem); font-weight:700; color:var(--ink)}
   .byline{margin-top:14px; max-width:40ch; font-size:.9375rem; font-weight:600; letter-spacing:.02em; color:var(--ink-dim)}
   .hero .byline{margin-top:18px}
@@ -430,7 +430,7 @@
   .pitch .marquee{width:fit-content; margin:0 auto clamp(32px, 5svh, 56px)}
   .pitch .lead{font-size:clamp(1.375rem, 2.6vw, 2.125rem); line-height:1.35; font-weight:600; color:var(--ink)}
   .pitch .lead em{font-style:normal; color:var(--move-soft)}
-  .pitch .host{max-width:60ch; margin:clamp(20px, 3svh, 32px) auto 0}
+  .pitch .host{max-width:none; margin:clamp(20px, 3svh, 32px) auto 0; font-size:clamp(1.375rem, 2.6vw, 2.125rem); line-height:1.35}
   .verified{display:inline-flex; align-items:center; gap:10px; margin-top:clamp(40px, 6vw, 64px); padding:10px 20px; border-radius:999px;
     font-weight:600; color:var(--pass); background:rgba(43,209,139,.08); box-shadow:inset 0 0 0 1px rgba(43,209,139,.4)}
   .verified .ico{width:20px; height:20px; flex:none}
@@ -440,7 +440,7 @@
       radial-gradient(circle at 1.5px 1.5px, rgba(110,155,255,.07) 1.2px, transparent 1.9px) 0 0/16px 16px, var(--stage-900)}
   .deck h2{max-width:1180px; margin-inline:auto; font-size:clamp(2.8rem, 7vw, 6rem)}
   .deck h2 span{color:var(--move)}
-  .cards{list-style:none; max-width:1180px; margin:clamp(32px, 5vw, 56px) auto 0; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:clamp(16px, 2vw, 28px)}
+  .cards{list-style:none; max-width:1180px; margin:clamp(32px, 5vw, 56px) auto 0; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:clamp(16px, 2vw, 28px)}
   .cards li{position:relative; padding:34px 30px 32px; border-radius:22px;
     background:radial-gradient(80% 60% at 50% 0%, rgba(47,107,255,.22), transparent 70%), linear-gradient(180deg,var(--stage-800),var(--stage-850));
     box-shadow:inset 0 0 0 2px rgba(255,45,111,.5), 0 0 40px rgba(255,45,111,.12)}
@@ -449,18 +449,11 @@
   .cards h3{margin-top:14px; font-family:var(--display); font-weight:800; text-transform:uppercase; font-size:1.625rem; letter-spacing:.02em; line-height:1.05}
   .cards p{margin-top:10px; color:var(--ink-dim)}
   @media (max-width:900px){ .cards{grid-template-columns:1fr} }
-  .future .pic{justify-self:center; width:min(100%, 460px); aspect-ratio:842 / 1264; max-height:76svh; border-radius:22px; overflow:hidden;
-    background:var(--stage-800); box-shadow:0 0 0 2px rgba(255,45,111,.55), 0 0 60px rgba(255,45,111,.22), 0 30px 80px rgba(0,0,0,.5)}
   /* framed close on the family (scaled from just above them); --fz eases the zoom out a little as the photo comes into view */
-  .future .pic img{display:block; width:100%; height:100%; object-fit:cover; object-position:50% 62%; transform-origin:50% 64%; transform:scale(var(--fz, 1.3))}
-  @media (max-width:900px){
-    .future{grid-template-columns:1fr; align-content:center; gap:28px; padding-top:84px}
-    .future .pic{order:-1; max-height:62svh}
-    .future h2{font-size:clamp(2.2rem, 10vw, 3.4rem)}
-  }
   /* phones and tablets: the line on air sits above the stack */
   @media (max-width:900px){
-    .rant{height:400vh}
+    .rant{height:520vh}
+    .rcap.rnext{width:min(100%, 24ch); font-size:clamp(1.4rem, 5.4vw, 2.2rem)}
     .rant .stick{--S:.5; --slot-top:10svh}
     .cam{grid-template-columns:1fr; grid-template-rows:auto 1fr; align-content:center; justify-items:center; gap:18px; padding:84px var(--gutter) 24px}
     .rcap{width:min(100%, 20ch); font-size:clamp(1.6rem, 6.4vw, 2.6rem)}
@@ -474,7 +467,7 @@
     .sstack{width:min(210px, 46vw); max-height:30svh}
     .bubble{right:-22%; font-size:1rem}
   }
-  @media (max-width:600px) and (max-height:700px){ .sstack{max-height:26svh} .rant h2{font-size:1.5rem} }
+  @media (max-width:600px) and (max-height:700px){ .sstack{max-height:26svh} .rant h2{font-size:1.5rem} .rcap.rnext{font-size:1.3rem} }
   @media (max-height:500px) and (orientation:landscape){
     .rant .stick{--S:.38; --slot-top:17svh}
     .cam{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr); padding:52px var(--gutter) 8px}
@@ -483,6 +476,7 @@
     .pod.l{left:calc(50% - 26vw - clamp(70px, 9vw, 110px) / 2)} .pod.r{left:calc(50% + 26vw - clamp(70px, 9vw, 110px) / 2)}
     .ontv p{font-size:min(7vw, 13svh)} .ontv .marquee .mark{font-size:min(5vw, 10svh)}
     .rant h2{display:flex; font-size:min(4vw, 7svh); text-align:left}
+    .rcap.rnext{width:min(52%, 30ch); font-size:min(3vw, 5.5svh)}
     /* the card sits in the right column here, so the caption lands under the rhyme instead */
     .rcap{left:var(--gutter); bottom:8svh; width:min(52%, 22ch); transform:none; text-align:left; font-size:min(3.6vw, 6.5svh)}
     .sstack{max-height:72svh}
@@ -596,10 +590,10 @@
 <nav class="rundown" id="rundown" aria-label="Show rundown">
   <a href="#top" data-sec="top"><i><b></b></i><span>Meet the one</span></a>
   <a href="#swipe" data-sec="swipe"><i><b></b></i><span>Before</span></a>
-  <a href="#hardq" data-sec="hardq"><i><b></b></i><span>The one for you</span></a>
   <a href="#pitch" data-sec="pitch"><i><b></b></i><span>How it works</span></a>
   <a href="#gamerules" data-sec="gamerules"><i><b></b></i><span>How we find your match</span></a>
-  <a href="#rules" data-sec="rules"><i><b></b></i><span>Feel safe</span></a>
+  <a href="#gameover" data-sec="gameover"><i><b></b></i><span>Date begins</span></a>
+  <a href="#rules" data-sec="rules"><i><b></b></i><span>Safety</span></a>
   <a href="#verdict" data-sec="verdict"><i><b></b></i><span>It's a match</span></a>
   <a href="#join" data-sec="join"><i><b></b></i><span>Your move</span></a>
 </nav>
@@ -641,6 +635,7 @@
         <h2 class="announce" id="h-swipe">
           <span class="ln">You swipe right all night, match with one who replies in a fortnight.</span>
           <span class="ln hot">Fall in love, then find out they're married!</span>
+          <span class="sr">Avoid heartbreaks, dump the dating debacle, and meet the one meant for you.</span>
         </h2>
       </div>
       <div class="sstack" aria-hidden="true">
@@ -651,31 +646,23 @@
             <div class="half l"><img src="https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?w=600&amp;h=900&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg" alt="" loading="lazy" onerror="this.remove()"></div>
             <div class="half r"><img src="https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?w=600&amp;h=900&amp;fit=crop&amp;crop=faces&amp;q=70&amp;fm=jpg" alt="" loading="lazy" onerror="this.remove()"></div>
             <span class="nm">Dayo, 35</span>
-            <span class="mstamp">Married</span>
+            <span class="qmark" id="qMark">?</span>
           </div>
+          <div class="scard lady" id="ladyCard"><div class="half l"><img src="heartbreak.jpg" width="720" height="1056" alt="" loading="lazy" decoding="async"></div><div class="half r"><img src="heartbreak.jpg" width="720" height="1056" alt="" loading="lazy" decoding="async"></div></div>
           <div class="bubble" id="mBubble">hey<small>Sent 14 days later</small></div>
       </div>
       <p class="rcap announce hot" id="rCap" aria-hidden="true">Fall in love, then find out they're married!</p>
+      <!-- the answer: lights up under the card as the heartbroken woman's photo tears in two; the big screen finishes the sentence -->
+      <p class="rcap rnext announce" id="rNext" aria-hidden="true"><span>Avoid heartbreaks,</span> <span class="hot">dump the dating debacle…</span></p>
       <div class="rwash" id="rWash" aria-hidden="true"></div>
       <div class="tvoff" id="tvOff" aria-hidden="true"></div>
-      <div class="ontv" id="onTv" aria-hidden="true"><div class="marquee"><span class="mark">Make<i>a</i>Move</span></div><p class="announce">Meet someone who wants <span>what you want.</span></p></div>
+      <div class="ontv" id="onTv" aria-hidden="true"><div class="marquee"><span class="mark">Make<i>a</i>Move</span></div><p class="announce">…and meet <span>the one meant for you.</span></p></div>
       </div>
       <div class="st-frame" id="stFrame" aria-hidden="true"></div>
       <div class="st-crowd" id="stCrowd" aria-hidden="true"></div>
       <div class="blk" id="rBlk" aria-hidden="true"></div>
     </div>
   </section>
-  <!-- 2b · THE LIFE YOU WANT: the future, in one photograph -->
-  <section class="future" id="hardq" aria-labelledby="h-pitch">
-    <div class="ftxt">
-      <h2 class="announce" id="h-pitch"><i>Life can be tough,</i> <span>but meeting your soulmate shouldn't be.</span></h2>
-      <p class="host">Avoid heartbreaks by dumping the dating dilemma and trying our fresh, fun and fact-based matchmaking method.</p>
-      <p class="punch">Make a move and meet the one meant for you.</p>
-      <p class="byline">An online matchmaking game show that connects compatible partners.</p>
-    </div>
-    <figure class="pic"><img id="futurePic" src="family.jpg" width="842" height="1264" alt="A smiling couple sitting on a fallen tree in a park, with their little girl beside them and their son standing behind." loading="lazy" decoding="async"></figure>
-  </section>
-
   <!-- 3 · HOW IT WORKS: the game show, in plain words -->
   <section class="pitch" id="pitch" aria-labelledby="h-how">
     <h2 class="marquee" id="h-how"><span class="mark" role="img" aria-label="Make A Move">Make<i>a</i>Move</span></h2>
@@ -689,25 +676,36 @@
     <ol class="cards">
       <li><span class="no">01</span><h3>Revealing Questions</h3><p>Reveal your true personality under pressure — no time to fake it.</p></li>
       <li><span class="no">02</span><h3>Gamified Compatibility</h3><p>Move beyond generic bios. Every answer maps to what actually matters.</p></li>
+      <li><span class="no">03</span><h3>The 70% Threshold</h3><p>Hit the match score to unlock your date. Quality over quantity, always.</p></li>
     </ol>
     <p class="verified"><svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="shield-check"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>Every player is ID-verified.</p>
   </section>
 
-  <!-- 8 · BACKSTAGE: feeling safe, and before vs after (house lights up) -->
+  <!-- 7 · GAME ENDS, DATE BEGINS -->
+  <section class="deck" id="gameover" aria-labelledby="h-gameover">
+    <h2 class="announce" id="h-gameover">Game Ends. <span>Date Begins.</span></h2>
+    <ol class="cards">
+      <li><span class="no">01</span><h3>Exclusive Date Invite</h3><p>Hit the 70%+ mark and receive a private, secure invitation to connect and video chat with your match.</p></li>
+      <li><span class="no">02</span><h3>Private Planning Channels</h3><p>Plan your first date safely within the app — no personal info shared until you're ready. Venues proposed but both of you decide where and when.</p></li>
+      <li><span class="no">03</span><h3>Game Show Contest, Real-Life Chemistry</h3><p>The excitement you felt during the game becomes the spark that ignites your first conversation.</p></li>
+    </ol>
+  </section>
+
+  <!-- 8 · BACKSTAGE: safety, and the old way vs ours (house lights up) -->
   <section class="back" id="rules" aria-labelledby="h-rules">
     <div class="in">
       <div>
-        <h2 class="announce" id="h-rules">Feel safe from the first hello</h2>
-        <p class="sub">You share what you want, when you're ready.</p>
+        <h2 class="announce" id="h-rules">Safety in the Spotlight</h2>
+        <p class="sub">Make A Move is built with safety at its core.</p>
         <ul class="rules">
-          <li><h3>They're real</h3><p>The person you meet is real, and they're who they said they were.</p></li>
-          <li><h3>It feels respectful</h3><p>Every conversation feels respectful, from the first hello.</p></li>
+          <li><h3>Built-In Moderation</h3><p>Every phase is monitored to ensure a respectful, harassment-free environment.</p></li>
+          <li><h3>Photo &amp; Profile Verification</h3><p>You always know who you're meeting. Verified profiles mean real people &amp; real intentions.</p></li>
         </ul>
       </div>
       <div class="vs" aria-labelledby="h-vs">
-        <h2 class="announce" id="h-vs">Before, and after</h2>
-        <div class="way old"><h3><svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg> Before</h3><p>You fall for a photo, then find out who they are. Months of small talk to learn the basics. Ghosted, again.</p></div>
-        <div class="way new"><h3><svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="circle-check"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg> After</h3><p>You know who they are before you fall. You skip straight to the good part. Chosen, and choosing back.</p></div>
+        <h2 class="announce" id="h-vs">A New Kind of Matchmaking</h2>
+        <div class="way old"><h3><svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg> The Old Way</h3><p>Swipe on looks. Hope for the best. Endless small talk with zero compatibility signals. Ghosting is the norm.</p></div>
+        <div class="way new"><h3><svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-lucide="circle-check"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg> The Make A Move Way</h3><p>Gamified questions reveal intent, values, and energy. You know who you're meeting before you ever say hello.</p></div>
       </div>
     </div>
   </section>
@@ -739,7 +737,7 @@
     <h2 class="sr" id="h-join">Ready to Make A Move?</h2>
     <canvas class="led" id="ledEnd" aria-hidden="true" data-lines="READY TO|MAKE A MOVE?" data-lines-sm="READY TO|MAKE A|MOVE?"></canvas>
     <form class="wl" id="waitlist" novalidate aria-labelledby="h-wl">
-      <h3 class="announce" id="h-wl">Meet the one who wants you</h3>
+      <h3 class="announce" id="h-wl">Meet the one meant for you</h3>
       <p class="wl-sub">Join the waitlist and be among the first to meet them.</p>
       <div class="wl-grid">
         <div class="fld"><label for="wlName">First name</label>
@@ -892,13 +890,29 @@
   /* ---------- 2 · the swipe machine, then the pull-back ----------
      The rhyme's words light up with the scroll, and the swipes finish well before the first line does.
      .02–.34 line one lights; three swipes .03–.25, the late reply .26–.41 · .40–.48 desktop: the last card moves to centre stage
-     .50 the card is stamped "Married" and tears (.51–.56) while the twist line lights under it (.50–.56); line two never shows before then
+     .50 the card is stamped "Married" while the twist line lights under it (.50–.56); line two never shows before then
      .60–.84 the camera pulls back; the clip was on the studio's big screen
-     .845–.88 the screen switches off, house goes dark · .885+ lights up gold, the screen airs the logo and the promise */
-  const rcards = [...document.querySelectorAll('#swipe .scard:not(.match)')], RL = rcards.length;
+     .845–.88 the screen switches off, house goes dark · .885+ lights up gold, the screen airs the logo and the promise
+     The question-mark beat: at .61 the timeline above holds for BEAT screens of scroll while b runs 0–1
+     (rantProg), so every timing above keeps its scroll position. b .04–.14 a big "?" slams onto Dayo, still whole ·
+     .2–.3 the rhyme and the twist fade · .3–.42 Dayo becomes the woman from the family photo · .46–.54 her photo
+     tears in two (a heartbreak) while .44–.8 the answer lights word by word under the card, where the twist was */
+  const rcards = [...document.querySelectorAll('#swipe .scard:not(.match, .lady)')], RL = rcards.length;
   const rlines = [...document.querySelectorAll('#swipe .ln')];
   const words = el => { const ws = el.textContent.trim().split(/\s+/); el.textContent = ''; return ws.map(w => { const sp = document.createElement('span'); sp.className = 'rw'; sp.textContent = w; el.append(sp, ' '); return sp; }); };
-  const rW = [words(rlines[0]), words($('rCap'))];
+  const rW = [words(rlines[0]), words($('rCap')), [...$('rNext').children].flatMap(words)];
+  const rH2 = $('h-swipe'), qMark = $('qMark'), lady = $('ladyCard'), rNext = $('rNext');
+  /* tears a card's two halves apart, k 0–1 */
+  const tear = (card, k) => { const spread = innerWidth < 600 ? 9 : 18;
+    card.querySelector('.l').style.transform = 'translate(' + (-k * spread).toFixed(1) + '%,' + (k * 6).toFixed(1) + '%) rotate(' + (-k * 9).toFixed(1) + 'deg)';
+    card.querySelector('.r').style.transform = 'translate(' + (k * spread).toFixed(1) + '%,' + (k * 10).toFixed(1) + '%) rotate(' + (k * 11).toFixed(1) + 'deg)'; };
+  const FZ = .61, BEAT = 1.2;
+  function rantProg(){
+    const r = $('swipe').getBoundingClientRect(), span = r.height - innerHeight, bp = BEAT * innerHeight, rest = span - bp;
+    if (rest <= 0) return [0, 0];
+    const px = clamp(-r.top, 0, span), pre = FZ * rest;
+    return px < pre ? [px / rest, 0] : px < pre + bp ? [FZ, (px - pre) / bp] : [(px - bp) / rest, 1];
+  }
   const light = (ws, f) => { const n = Math.round(f * ws.length); ws.forEach((w, i) => w.classList.toggle('lit', i < n)); };
   const rStick = $('rantStick'), rCam = $('rantCam'), rSlot = $('rantSlot'), rStack = document.querySelector('#swipe .sstack'), rText = document.querySelector('#swipe .rtext');
   const st = cls => document.querySelectorAll('#studio ' + cls);
@@ -911,10 +925,24 @@
   const easeIO = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   const rT = rcards.map((c, i) => .03 + i * .08);
   const rDir = rcards.map((c, i) => i % 2 ? 1 : -1);
-  let lastR = 0;
-  function rant(p){
+  let lastR = 0, lastB = 0;
+  function rant(p, b){
     light(rW[0], seg(p, .02, .34));
-    light(rW[1], seg(p, .5, .56));      // the twist lights word by word as the card tears
+    light(rW[1], seg(p, .5, .56));      // the twist lights word by word as the card is stamped
+    light(rW[2], seg(b, .44, .68));     // the answer, under the card as she tears
+    rNext.style.opacity = seg(b, .42, .44).toFixed(3);
+    const away = seg(b, .2, .3);        // the rhyme and the twist step aside for it
+    rH2.style.opacity = (1 - away).toFixed(3);
+    const qk = ease(seg(b, .04, .14));
+    qMark.style.opacity = (seg(b, .04, .08) * (1 - seg(b, .3, .4))).toFixed(3);
+    qMark.style.transform = 'translate(-50%,-50%) rotate(' + (-6 * qk).toFixed(1) + 'deg) scale(' + (1 + 1.6 * (1 - qk)).toFixed(3) + ')';
+    qMark.style.filter = 'blur(' + (8 * (1 - qk)).toFixed(1) + 'px)';
+    const lk = ease(seg(b, .3, .6));
+    lady.style.opacity = seg(b, .3, .42).toFixed(3);
+    lady.style.transform = 'scale(' + lerp(1.1, 1, lk).toFixed(4) + ')';
+    tear(lady, ease(seg(b, .46, .54)));
+    if (lastB < .46 && b >= .46){ rStick.classList.remove('shake'); void rStick.offsetWidth; rStick.classList.add('shake'); }
+    lastB = b;
     let gone = 0;
     rcards.forEach((c, i) => {
       const k = ease(seg(p, rT[i], rT[i] + .06));
@@ -926,13 +954,8 @@
       c.style.zIndex = RL + 1 - i;
     });
     const md = Math.max(0, RL - gone), m = $('mCard');
-    const split = ease(seg(p, .51, .56)), spread = innerWidth < 600 ? 9 : 18;
     m.style.transform = 'translateY(' + (-Math.min(md, 3) * 26).toFixed(1) + 'px) scale(' + (1 - Math.min(md, 4) * .045).toFixed(3) + ')';
-    m.style.opacity = md > 3.5 ? 0 : 1;
-    m.querySelector('.l').style.transform = 'translate(' + (-split * spread).toFixed(1) + '%,' + (split * 6).toFixed(1) + '%) rotate(' + (-split * 9).toFixed(1) + 'deg)';
-    m.querySelector('.r').style.transform = 'translate(' + (split * spread).toFixed(1) + '%,' + (split * 10).toFixed(1) + '%) rotate(' + (split * 11).toFixed(1) + 'deg)';
-    m.querySelector('.nm').style.opacity = 1 - split;
-    m.querySelector('.mstamp').classList.toggle('on', p >= .5);
+    m.style.opacity = md > 3.5 ? 0 : (1 - seg(b, .3, .42)).toFixed(3);
     $('mBubble').style.opacity = (seg(p, .26, .29) * (1 - seg(p, .38, .41))).toFixed(3);
 
     /* centre stage (desktop): the rhyme steps aside and the card walks to the middle */
@@ -942,7 +965,7 @@
     rStack.style.transform = cen ? 'translate(' + dx.toFixed(1) + 'px,' + dy.toFixed(1) + 'px) scale(' + (1 + .06 * cen).toFixed(3) + ')' : '';
     rText.style.transform = cen ? 'translateX(' + (-8 * cen).toFixed(2) + 'vw)' : '';
     rText.style.opacity = (1 - cen).toFixed(3);
-    $('rCap').style.opacity = seg(p, .49, .51).toFixed(3);
+    $('rCap').style.opacity = (seg(p, .49, .51) * (1 - away)).toFixed(3);
     /* rejected: a red loss light floods the shot, then drains */
     $('rWash').style.opacity = (seg(p, .5, .52) * (1 - seg(p, .56, .61)) * .9).toFixed(3);
     if (lastR < .5 && p >= .5){ rStick.classList.remove('shake'); void rStick.offsetWidth; rStick.classList.add('shake'); }
@@ -1118,10 +1141,8 @@
   function update(){
     const hero = $('top'), hr = hero.getBoundingClientRect();
     hero.style.setProperty('--hp', clamp(-hr.top / hr.height).toFixed(3));
-    rant(prog($('swipe')));
+    rant(...rantProg());
     walls.forEach(w => w.update(prog(w.sec)));
-    const fu = $('hardq').getBoundingClientRect();
-    $('futurePic').style.setProperty('--fz', (1.3 - .1 * clamp(1 - fu.top / innerHeight)).toFixed(4));
     verdict(prog($('verdict'), vdEarly.matches ? .35 : 0));   // phones: LOCKED arrives with the stage, not a screen later
     pins.forEach(sec => {
       const r = sec.getBoundingClientRect(), run = clamp(-r.top, 0, Math.max(0, r.height - innerHeight));
