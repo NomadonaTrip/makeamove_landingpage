@@ -267,7 +267,7 @@
   @keyframes confall{to{transform:translate(var(--dx), 110vh) rotate(var(--rr))}}
 
   /* ============ 2 · THE PROBLEM: the swipe apps, in rhyme ============ */
-  .rant{height:560vh}   /* 440vh of the original scene + the 120vh question-mark beat (BEAT in rant's script) */
+  .rant{height:550vh}   /* 440vh of the original scene + the 110vh question-mark beat (BEAT in rant's script) */
   /* --S is how big the big screen sits in the studio, as a share of the viewport; the camera scales down onto it */
   .rant .stick{--S:.44; --slot-top:12svh; background:var(--stage-900)}
   .rant .stick.shake{animation:roomshake .55s}
@@ -283,21 +283,51 @@
   .rcap{position:absolute; left:50%; bottom:6svh; width:min(92%, 22ch); transform:translateX(-50%); text-align:center; opacity:0;
     font-size:clamp(2rem, 3.4vw, 3.4rem); line-height:.95}
   /* the answer takes the twist's place under the card: longer, so wider and a step smaller */
+  .rnext .rw{display:inline-block}
   .rcap.rnext{width:min(92%, 34ch); font-size:clamp(1.8rem, 2.7vw, 2.7rem); line-height:1}
+  /* the heartbreak's weather: an overcast, cold fog replaces the show's spotlight while she cries; two banks of mist drift slowly */
+  .gloom{position:absolute; inset:0; opacity:0; pointer-events:none; overflow:hidden;
+    background:radial-gradient(70% 55% at 50% 40%, rgba(150,165,190,.16), transparent 72%),
+      radial-gradient(140% 90% at 50% 120%, rgba(30,36,48,.95), transparent 60%), linear-gradient(180deg, #1A202B, #0B0E14)}
+  .gloom::before, .gloom::after{content:""; position:absolute; width:90%; height:60%; border-radius:50%; filter:blur(40px);
+    background:radial-gradient(closest-side, rgba(170,185,210,.16), transparent); animation:mist 18s ease-in-out infinite alternate}
+  .gloom::before{left:-20%; top:8%}
+  .gloom::after{right:-25%; bottom:4%; animation-duration:23s; animation-direction:alternate-reverse}
+  @keyframes mist{to{transform:translateX(22%) scale(1.15)}}
   .rwash{position:absolute; inset:0; z-index:5; pointer-events:none; opacity:0;
     background:radial-gradient(60% 60% at 50% 45%, rgba(255,45,111,.05), rgba(200,20,60,.55) 100%)}
-  /* the screen switching off: black closes in from top and bottom to one bright line */
-  .tvoff{position:absolute; inset:0; z-index:6; pointer-events:none; --off:0; --ln:0;
-    background:linear-gradient(#000,#000) top/100% calc(50.5% * var(--off)) no-repeat, linear-gradient(#000,#000) bottom/100% calc(50.5% * var(--off)) no-repeat}
-  .tvoff::after{content:""; position:absolute; left:50%; top:50%; height:4px; width:calc(100% * var(--ln)); transform:translate(-50%,-50%); border-radius:4px;
-    background:#fff; box-shadow:0 0 18px #fff, 0 0 60px rgba(110,155,255,.9); opacity:calc(var(--ln) * 4)}
-  /* back on air: the big screen's first words */
+  /* the big screen powers up its sign as the camera pulls back, all in white at first: the bulbs flicker on (--lights) and the
+     wordmark shimmers in (--tx) while the torn photo is still falling; then the sign's box and the screen's backdrop (--bg) and
+     the line (--line); last, everything warms to its own colour (--hue: gold bulbs, pink "a", pink rim and words). rant() drives them */
   .ontv{position:absolute; inset:0; z-index:7; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:clamp(20px, 4svh, 48px); padding:6%; text-align:center; opacity:0;
+    --lights:0; --tx:0; --join:0; --mist:1; --bg:0; --line:0; --hue:0}
+  .ontv::before{content:""; position:absolute; inset:0; z-index:-1; opacity:var(--bg);
     background:radial-gradient(circle at 1.5px 1.5px, rgba(255,182,39,.10) 1.2px, transparent 1.9px) 0 0/16px 16px,
       radial-gradient(60% 60% at 50% 50%, rgba(47,107,255,.28), transparent 75%), var(--stage-900)}
-  .ontv p{max-width:16ch; font-size:clamp(3rem, min(7.4vw, 12svh), 8.5rem); color:var(--ink); text-shadow:0 0 40px rgba(245,247,255,.25)}
+  .ontv .marquee{background:none; isolation:isolate;
+    box-shadow:0 0 0 2px color-mix(in srgb, rgba(255,45,111,.65) calc(var(--hue) * 100%), transparent),
+      0 0 26px color-mix(in srgb, rgba(255,45,111,.45) calc(var(--hue) * 100%), transparent)}
+  .ontv .marquee::after{content:""; position:absolute; inset:0; z-index:-1; border-radius:inherit; opacity:var(--bg);
+    background:linear-gradient(180deg, var(--stage-800), var(--stage-850))}
+  /* headlights in the mist: the bulbs and the words fade in slowly, soft and haloed at first, sharpening as the mist (--mist) clears */
+  .ontv .marquee::before{animation:none; opacity:var(--lights); border-color:color-mix(in srgb, var(--bulb) calc(var(--hue) * 100%), #fff);
+    filter:blur(calc((1 - var(--lights)) * 6px + var(--mist) * 1.5px))
+      drop-shadow(0 0 calc(5px + var(--mist) * 16px) color-mix(in srgb, rgba(255,182,39,.85) calc(var(--hue) * 100%), rgba(255,255,255,.85)))}
+  .tvmist{position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden; opacity:var(--mist);
+    background:radial-gradient(ellipse 50% 32% at 50% 42%, rgba(235,240,255,calc(var(--lights) * .16)), transparent 72%)}
+  .tvmist::before, .tvmist::after{content:""; position:absolute; width:80%; height:55%; border-radius:50%; filter:blur(36px);
+    background:radial-gradient(closest-side, rgba(175,190,215,.26), transparent); animation:mist 16s ease-in-out infinite alternate}
+  .tvmist::before{left:-18%; top:18%}
+  .tvmist::after{right:-22%; top:34%; animation-duration:21s; animation-direction:alternate-reverse}
+  .ontv .marquee .mark i{color:color-mix(in srgb, var(--move) calc(var(--hue) * 100%), #fff)}
+  .ontv.lit .marquee::before{animation:marq 2.2s steps(2) infinite}
+  /* "Make A Move" arrives as three white words; the gaps close (--join) into the MakeAMove logotype */
+  .ontv .marquee .mark{display:flex; justify-content:center; column-gap:calc((1 - var(--join)) * .34em); opacity:var(--tx);
+    filter:blur(calc((1 - var(--tx)) * 10px)) drop-shadow(0 0 calc(4px + var(--mist) * 26px) rgba(255,255,255,calc(.35 + var(--mist) * .4)))}
+  .ontv p{max-width:16ch; font-size:clamp(3rem, min(7.4vw, 12svh), 8.5rem); color:var(--ink); text-shadow:0 0 40px rgba(245,247,255,.25);
+    opacity:var(--line); transform:translateY(calc((1 - var(--line)) * 28px))}
   .ontv .marquee .mark{font-size:clamp(2.4rem, min(5.6vw, 9svh), 6rem)}
-  .ontv p span{color:var(--move); text-shadow:0 0 44px rgba(255,45,111,.55)}
+  .ontv p span{color:color-mix(in srgb, var(--move) calc(var(--hue) * 100%), #fff); text-shadow:0 0 44px color-mix(in srgb, rgba(255,45,111,.55) calc(var(--hue) * 100%), rgba(255,255,255,.2))}
 
   /* ---- the studio, after Millionaire: dark in-the-round, a ring of lights overhead, beams through haze, two seats facing ---- */
   .studio{position:absolute; inset:0; z-index:0; transform-origin:50% 35%; will-change:transform; overflow:hidden;
@@ -358,7 +388,6 @@
       radial-gradient(circle at 50% 30%, #060914 0 11px, transparent 12px) 28px calc(100% - 26px) / 56px 64px repeat-x,
       radial-gradient(ellipse 22px 24px at 50% 100%, #060914 0 96%, transparent 100%) 28px calc(100% - 26px) / 56px 64px repeat-x,
       linear-gradient(180deg, transparent 40%, var(--stage-900))}
-  .blk{position:absolute; inset:0; z-index:4; background:#000; opacity:0; pointer-events:none}
   /* house lights up: the rig and the ring turn gold */
   .rant .stick.lit .st-rig{border-color:#FFE3A6; box-shadow:0 0 60px rgba(255,182,39,.5), inset 0 -10px 60px rgba(255,182,39,.3)}
   .rant .stick.lit .st-beam{background:linear-gradient(180deg, rgba(255,214,140,.38), rgba(255,182,39,.08) 75%, transparent)}
@@ -378,10 +407,10 @@
   /* the stack: profile cards, top card first in source */
   .sstack{position:relative; isolation:isolate; justify-self:center; width:min(330px, 30vw); aspect-ratio:3 / 4.4; max-height:min(64svh, 540px)}
   /* on the studio floor: a spotlight from the rig, and the contestant's podium ring */
-  .sstack::before{content:""; position:absolute; z-index:-1; left:50%; bottom:30%; width:190%; height:calc(50svh + 70%); transform:translateX(-50%);
+  .sstack::before{content:""; position:absolute; z-index:-1; opacity:var(--stage, 1); left:50%; bottom:30%; width:190%; height:calc(50svh + 70%); transform:translateX(-50%);
     clip-path:polygon(45% 0, 55% 0, 100% 100%, 0 100%); filter:blur(10px); pointer-events:none;
     background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(210,225,255,.14) 70%, transparent)}
-  .sstack::after{content:""; position:absolute; z-index:-1; left:-28%; right:-28%; bottom:-46px; height:92px; border-radius:50%; pointer-events:none;
+  .sstack::after{content:""; position:absolute; z-index:-1; opacity:var(--stage, 1); left:-28%; right:-28%; bottom:-46px; height:92px; border-radius:50%; pointer-events:none;
     border:1px solid rgba(255,45,111,.45); box-shadow:0 0 0 12px rgba(255,45,111,.06), 0 0 40px rgba(255,45,111,.25);
     background:radial-gradient(closest-side, rgba(255,45,111,.3), transparent)}
   .scard{position:absolute; inset:0; border-radius:20px; overflow:hidden; will-change:transform;
@@ -452,7 +481,7 @@
   /* framed close on the family (scaled from just above them); --fz eases the zoom out a little as the photo comes into view */
   /* phones and tablets: the line on air sits above the stack */
   @media (max-width:900px){
-    .rant{height:520vh}
+    .rant{height:510vh}
     .rcap.rnext{width:min(100%, 24ch); font-size:clamp(1.4rem, 5.4vw, 2.2rem)}
     .rant .stick{--S:.5; --slot-top:10svh}
     .cam{grid-template-columns:1fr; grid-template-rows:auto 1fr; align-content:center; justify-items:center; gap:18px; padding:84px var(--gutter) 24px}
@@ -549,16 +578,32 @@
   .wl-edit{margin-top:18px; min-height:44px; padding:0 18px; border-radius:999px; border:1px solid var(--stay-soft); background:none; color:var(--ink); font:inherit; font-weight:600; cursor:pointer}
   .wl-edit:focus-visible{outline:2px solid var(--spotlight-soft); outline-offset:3px}
   @media (max-width:600px){ .wl-grid{grid-template-columns:1fr; gap:12px} .wl .wl-grid > .cta{margin-top:4px} }
-  .foot{position:absolute; left:var(--gutter); right:var(--gutter); bottom:26px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px 28px;
-    font-size:.875rem; color:var(--ink-faint)}
-  .foot ul{list-style:none; display:flex; flex-wrap:wrap; gap:8px 22px}
-  .foot a{color:var(--ink-dim); text-decoration:none} .foot a:hover{color:var(--ink)}
-  @media (max-width:600px){
-    .finale{padding-bottom:150px}
-    .foot{bottom:calc(14px + env(safe-area-inset-bottom, 0px)); gap:4px 20px}
-    .foot ul{gap:0 20px}
-    .foot a{display:inline-block; padding-block:12px}
-  }
+
+  /* ============ 8 · SITE FOOTER ============ */
+  /* the show's lit sign signs off the page; a bulb run (the marquee's dotted border) divides it from the finale */
+  .site-foot{position:relative; padding:clamp(52px, 7vw, 84px) var(--gutter) calc(24px + env(safe-area-inset-bottom, 0px));
+    background:radial-gradient(50% 70% at 12% 0%, rgba(255,45,111,.10), transparent 70%), var(--stage-850); color:var(--ink-dim); font-size:.9375rem}
+  .site-foot::before{content:""; position:absolute; left:var(--gutter); right:var(--gutter); top:0; border-top:3px dotted var(--bulb);
+    filter:drop-shadow(0 0 5px rgba(255,182,39,.8)); animation:marq 2.2s steps(2) infinite}
+  .sf-in{max-width:1180px; margin:0 auto; display:grid; grid-template-columns:minmax(0,1.4fr) repeat(3, minmax(0,1fr)); gap:44px 36px}
+  .sf-brand .marquee{display:block; width:fit-content; padding:14px 26px; border-radius:14px; color:var(--ink); text-decoration:none}
+  .sf-brand .marquee::before{inset:6px; border-width:2px; border-radius:9px}
+  .sf-brand .marquee .mark{font-size:clamp(1.75rem, 2.6vw, 2.25rem)}
+  .sf-brand p{margin-top:18px; max-width:34ch; line-height:1.5}
+  .sf-brand .sf-tag{font-family:var(--display); font-weight:900; text-transform:uppercase; letter-spacing:.03em; font-size:1.375rem; line-height:1.05; color:var(--ink); text-wrap:balance}
+  .sf-brand .sf-tag + p{margin-top:8px}
+  .sf-h{font-family:var(--display); font-weight:900; text-transform:uppercase; letter-spacing:.06em; font-size:1.0625rem; color:var(--bulb); margin-bottom:10px}
+  .site-foot ul{list-style:none}
+  .site-foot li a, .site-foot address a{display:inline-block; padding-block:10px; color:var(--ink-dim); text-decoration:none; overflow-wrap:anywhere}
+  @media (hover:hover){ .site-foot li a:hover, .site-foot address a:hover{color:var(--ink)} }
+  .site-foot address{font-style:normal}
+  .site-foot address p{padding-block:10px; line-height:1.4}
+  .sf-base{max-width:1180px; margin:clamp(40px, 5vw, 60px) auto 0; padding-top:20px; border-top:1px solid rgba(245,247,255,.10);
+    display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:4px 24px; font-size:.875rem; color:var(--ink-dim)}
+  .sf-base a{display:inline-block; padding-block:12px; color:var(--ink-dim); text-decoration:none}
+  @media (hover:hover){ .sf-base a:hover{color:var(--ink)} }
+  @media (max-width:900px){ .sf-in{grid-template-columns:repeat(2, minmax(0,1fr))} .sf-brand{grid-column:1 / -1} }
+  @media (max-width:600px){ .sf-in{gap:36px 20px} .sf-contact{grid-column:1 / -1} }
 
   /* ============ short screens ============ */
   /* small phones (SE-class): every pinned scene has less height to share */
@@ -631,11 +676,12 @@
       </div>
       <div class="st-slot" id="rantSlot" aria-hidden="true"></div>
       <div class="cam" id="rantCam">
+      <div class="gloom" id="rGloom" aria-hidden="true"></div>
       <div class="rtext">
         <h2 class="announce" id="h-swipe">
           <span class="ln">You swipe right all night, match with one who replies in a fortnight.</span>
           <span class="ln hot">Fall in love, then find out they're married!</span>
-          <span class="sr">Avoid heartbreaks, dump the dating debacle, and meet the one meant for you.</span>
+          <span class="sr">Avoid heartbreaks, dump the dating debacle. Meet the one meant for you.</span>
         </h2>
       </div>
       <div class="sstack" aria-hidden="true">
@@ -648,19 +694,17 @@
             <span class="nm">Dayo, 35</span>
             <span class="qmark" id="qMark">?</span>
           </div>
-          <div class="scard lady" id="ladyCard"><div class="half l"><img src="heartbreak.jpg" width="720" height="1056" alt="" loading="lazy" decoding="async"></div><div class="half r"><img src="heartbreak.jpg" width="720" height="1056" alt="" loading="lazy" decoding="async"></div></div>
+          <div class="scard lady" id="ladyCard"><div class="half l"><img src="heartbreak.jpg" width="720" height="1056" alt="" decoding="async"></div><div class="half r"><img src="heartbreak.jpg" width="720" height="1056" alt="" decoding="async"></div></div>
           <div class="bubble" id="mBubble">hey<small>Sent 14 days later</small></div>
       </div>
       <p class="rcap announce hot" id="rCap" aria-hidden="true">Fall in love, then find out they're married!</p>
-      <!-- the answer: lights up under the card as the heartbroken woman's photo tears in two; the big screen finishes the sentence -->
+      <!-- the answer: lights up under the card as the heartbroken woman's photo tears in two, then falls away with the pieces -->
       <p class="rcap rnext announce" id="rNext" aria-hidden="true"><span>Avoid heartbreaks,</span> <span class="hot">dump the dating debacle…</span></p>
       <div class="rwash" id="rWash" aria-hidden="true"></div>
-      <div class="tvoff" id="tvOff" aria-hidden="true"></div>
-      <div class="ontv" id="onTv" aria-hidden="true"><div class="marquee"><span class="mark">Make<i>a</i>Move</span></div><p class="announce">…and meet <span>the one meant for you.</span></p></div>
+      <div class="ontv" id="onTv" aria-hidden="true"><div class="tvmist"></div><div class="marquee"><span class="mark"><span>Make</span><i>a</i><span>Move</span></span></div><p class="announce">Meet <span>the one meant for you.</span></p></div>
       </div>
       <div class="st-frame" id="stFrame" aria-hidden="true"></div>
       <div class="st-crowd" id="stCrowd" aria-hidden="true"></div>
-      <div class="blk" id="rBlk" aria-hidden="true"></div>
     </div>
   </section>
   <!-- 3 · HOW IT WORKS: the game show, in plain words -->
@@ -740,8 +784,8 @@
       <h3 class="announce" id="h-wl">Meet the one meant for you</h3>
       <p class="wl-sub">Join the waitlist and be among the first to meet them.</p>
       <div class="wl-grid">
-        <div class="fld"><label for="wlName">First name</label>
-          <input id="wlName" name="name" autocomplete="given-name" required aria-describedby="wlNameErr"><p class="err" id="wlNameErr"></p></div>
+        <div class="fld"><label for="wlName">Full name</label>
+          <input id="wlName" name="name" autocomplete="name" required aria-describedby="wlNameErr"><p class="err" id="wlNameErr"></p></div>
         <div class="fld"><label for="wlEmail">Email</label>
           <input id="wlEmail" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required aria-describedby="wlEmailErr"><p class="err" id="wlEmailErr"></p></div>
         <fieldset class="fld" aria-describedby="wlGenderErr"><legend>I'm a</legend>
@@ -758,12 +802,48 @@
       <p class="wl-sub" id="wlDoneP"></p>
       <button type="button" class="wl-edit" id="wlEdit">Change my details</button>
     </div>
-    <footer class="foot">
-      <span>Make A Move. For singles 18 and over.</span>
-      <ul><li><a href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-A7">Sign in</a></li><li><a href="#rules">Safety</a></li><li><a href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-I1">Report a member</a></li></ul>
-    </footer>
   </section>
 </main>
+<footer class="site-foot" aria-labelledby="h-foot">
+  <h2 class="sr" id="h-foot">About Make A Move</h2>
+  <div class="sf-in">
+    <div class="sf-brand">
+      <a class="marquee" href="#top" aria-label="Make A Move, back to top"><span class="mark">Make<i>a</i>Move</span></a>
+      <p class="sf-tag">The online matchmaking game show.</p>
+      <p>Meet the one meant for you. For singles 18 and over.</p>
+    </div>
+    <nav aria-labelledby="h-sf-show">
+      <h3 class="sf-h" id="h-sf-show">The show</h3>
+      <ul>
+        <li><a href="#pitch">How it works</a></li>
+        <li><a href="#gamerules">How we find your match</a></li>
+        <li><a href="#rules">Safety</a></li>
+        <li><a href="#waitlist">Join the waitlist</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="h-sf-play">
+      <h3 class="sf-h" id="h-sf-play">Players</h3>
+      <ul>
+        <li><a href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-A7">Sign in</a></li>
+        <li><a href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-I1">Report a member</a></li>
+      </ul>
+    </nav>
+    <!-- PLACEHOLDER contact details: replace before launch -->
+    <div class="sf-contact">
+      <h3 class="sf-h" id="h-sf-contact">Contact</h3>
+      <address aria-labelledby="h-sf-contact">
+        <a href="mailto:hello@yourdomain.com">hello@yourdomain.com</a><br>
+        <a href="tel:+2340000000000">+234 000 000 0000</a>
+        <p>Office address<br>City, Country</p>
+        <p>Instagram · TikTok · X: @yourhandle</p>
+      </address>
+    </div>
+  </div>
+  <div class="sf-base">
+    <span>© 2026 Make A Move. Company name and registration no.</span>
+    <a href="#top">Back to top ↑</a>
+  </div>
+</footer>
 <script>
 (function(){
   const $ = id => document.getElementById(id);
@@ -891,22 +971,26 @@
      The rhyme's words light up with the scroll, and the swipes finish well before the first line does.
      .02–.34 line one lights; three swipes .03–.25, the late reply .26–.41 · .40–.48 desktop: the last card moves to centre stage
      .50 the card is stamped "Married" while the twist line lights under it (.50–.56); line two never shows before then
-     .60–.84 the camera pulls back; the clip was on the studio's big screen
-     .845–.88 the screen switches off, house goes dark · .885+ lights up gold, the screen airs the logo and the promise
+     .61–.84 the camera pulls back; the clip was on the studio's big screen. .61–.68 the torn halves fall and the answer's
+     words drop away. Headlights in the mist: white bulbs .62–.71 and the words "Make A Move" .645–.735 fade in slowly through the fog
+     (while the pieces fall) · .7–.79 the words close up into the logotype · .72–.8 the mist clears · box + backdrop .74–.79 ·
+     "Meet the one meant for you." .77–.82 · .78–.84 it all warms to gold and pink · .85+ the house lights go gold
      The question-mark beat: at .61 the timeline above holds for BEAT screens of scroll while b runs 0–1
-     (rantProg), so every timing above keeps its scroll position. b .04–.14 a big "?" slams onto Dayo, still whole ·
-     .2–.3 the rhyme and the twist fade · .3–.42 Dayo becomes the woman from the family photo · .46–.54 her photo
-     tears in two (a heartbreak) while .44–.8 the answer lights word by word under the card, where the twist was */
+     (rantProg), so every timing above keeps its scroll position. b .05–.19 a big "?" slams in above Dayo's head ·
+     .27–.4 the rhyme and the twist fade · .4–.56 Dayo becomes the crying woman, and the show's spotlight and podium
+     ring give way to cold fog and rain (.gloom) · .62–.72 her photo tears in two while .59–.88 the answer lights word
+     by word under the card · the beat ends there; the fall belongs to the pull-back below */
   const rcards = [...document.querySelectorAll('#swipe .scard:not(.match, .lady)')], RL = rcards.length;
   const rlines = [...document.querySelectorAll('#swipe .ln')];
   const words = el => { const ws = el.textContent.trim().split(/\s+/); el.textContent = ''; return ws.map(w => { const sp = document.createElement('span'); sp.className = 'rw'; sp.textContent = w; el.append(sp, ' '); return sp; }); };
   const rW = [words(rlines[0]), words($('rCap')), [...$('rNext').children].flatMap(words)];
   const rH2 = $('h-swipe'), qMark = $('qMark'), lady = $('ladyCard'), rNext = $('rNext');
   /* tears a card's two halves apart, k 0–1 */
-  const tear = (card, k) => { const spread = innerWidth < 600 ? 9 : 18;
-    card.querySelector('.l').style.transform = 'translate(' + (-k * spread).toFixed(1) + '%,' + (k * 6).toFixed(1) + '%) rotate(' + (-k * 9).toFixed(1) + 'deg)';
-    card.querySelector('.r').style.transform = 'translate(' + (k * spread).toFixed(1) + '%,' + (k * 10).toFixed(1) + '%) rotate(' + (k * 11).toFixed(1) + 'deg)'; };
-  const FZ = .61, BEAT = 1.2;
+  /* tears a card's two halves apart (k 0–1), then lets each half fall off the screen (fl, fr 0–1) */
+  const tear = (card, k, fl = 0, fr = 0) => { const spread = innerWidth < 600 ? 9 : 18, drop = innerHeight * 1.25;
+    card.querySelector('.l').style.transform = 'translateY(' + (fl * fl * drop).toFixed(1) + 'px) translate(' + (-k * spread - fl * 14).toFixed(1) + '%,' + (k * 6).toFixed(1) + '%) rotate(' + (-k * 9 - fl * 34).toFixed(1) + 'deg)';
+    card.querySelector('.r').style.transform = 'translateY(' + (fr * fr * drop).toFixed(1) + 'px) translate(' + (k * spread + fr * 12).toFixed(1) + '%,' + (k * 10).toFixed(1) + '%) rotate(' + (k * 11 + fr * 28).toFixed(1) + 'deg)'; };
+  const FZ = .61, BEAT = 1.1;
   function rantProg(){
     const r = $('swipe').getBoundingClientRect(), span = r.height - innerHeight, bp = BEAT * innerHeight, rest = span - bp;
     if (rest <= 0) return [0, 0];
@@ -929,19 +1013,27 @@
   function rant(p, b){
     light(rW[0], seg(p, .02, .34));
     light(rW[1], seg(p, .5, .56));      // the twist lights word by word as the card is stamped
-    light(rW[2], seg(b, .44, .68));     // the answer, under the card as she tears
-    rNext.style.opacity = seg(b, .42, .44).toFixed(3);
-    const away = seg(b, .2, .3);        // the rhyme and the twist step aside for it
+    light(rW[2], seg(b, .59, .88));     // the answer, under the card as she tears
+    rNext.style.opacity = seg(b, .56, .59).toFixed(3);
+    rW[2].forEach((w, i) => {             // ...then its words drop away one after another
+      const f = seg(p, .612 + i * .005, .645 + i * .005), dir = i % 2 ? 1 : -1;   // as the camera starts to pull back
+      w.style.transform = f ? 'translateY(' + (f * f * innerHeight * .5).toFixed(1) + 'px) rotate(' + (dir * f * 22).toFixed(1) + 'deg)' : '';
+      w.style.opacity = f ? (1 - seg(f, .4, 1)).toFixed(3) : '';
+    });
+    const away = seg(b, .27, .4);        // the rhyme and the twist step aside for it
     rH2.style.opacity = (1 - away).toFixed(3);
-    const qk = ease(seg(b, .04, .14));
-    qMark.style.opacity = (seg(b, .04, .08) * (1 - seg(b, .3, .4))).toFixed(3);
+    const qk = ease(seg(b, .05, .19));
+    qMark.style.opacity = (seg(b, .05, .1) * (1 - seg(b, .4, .54))).toFixed(3);
     qMark.style.transform = 'translate(-50%,-50%) rotate(' + (-6 * qk).toFixed(1) + 'deg) scale(' + (1 + 1.6 * (1 - qk)).toFixed(3) + ')';
     qMark.style.filter = 'blur(' + (8 * (1 - qk)).toFixed(1) + 'px)';
-    const lk = ease(seg(b, .3, .6));
-    lady.style.opacity = seg(b, .3, .42).toFixed(3);
+    const lk = ease(seg(b, .4, .8));
+    lady.style.opacity = seg(b, .4, .56).toFixed(3);
+    const swap = seg(b, .4, .56);         // the show's spotlight and podium ring go with Dayo; the gloom comes in with her
+    rStack.style.setProperty('--stage', (1 - swap).toFixed(3));
+    $('rGloom').style.opacity = (swap * (1 - seg(p, .72, .8))).toFixed(3);   // the fog lingers until the sign has come through it
     lady.style.transform = 'scale(' + lerp(1.1, 1, lk).toFixed(4) + ')';
-    tear(lady, ease(seg(b, .46, .54)));
-    if (lastB < .46 && b >= .46){ rStick.classList.remove('shake'); void rStick.offsetWidth; rStick.classList.add('shake'); }
+    tear(lady, ease(seg(b, .62, .72)), seg(p, .61, .67), seg(p, .615, .68));   // she tears; both halves fall as the camera starts to pull back
+    if (lastB < .62 && b >= .62){ rStick.classList.remove('shake'); void rStick.offsetWidth; rStick.classList.add('shake'); }
     lastB = b;
     let gone = 0;
     rcards.forEach((c, i) => {
@@ -955,7 +1047,7 @@
     });
     const md = Math.max(0, RL - gone), m = $('mCard');
     m.style.transform = 'translateY(' + (-Math.min(md, 3) * 26).toFixed(1) + 'px) scale(' + (1 - Math.min(md, 4) * .045).toFixed(3) + ')';
-    m.style.opacity = md > 3.5 ? 0 : (1 - seg(b, .3, .42)).toFixed(3);
+    m.style.opacity = md > 3.5 ? 0 : (1 - seg(b, .4, .56)).toFixed(3);
     $('mBubble').style.opacity = (seg(p, .26, .29) * (1 - seg(p, .38, .41))).toFixed(3);
 
     /* centre stage (desktop): the rhyme steps aside and the card walks to the middle */
@@ -971,7 +1063,7 @@
     if (lastR < .5 && p >= .5){ rStick.classList.remove('shake'); void rStick.offsetWidth; rStick.classList.add('shake'); }
 
     /* the pull-back: the camera shrinks onto the big screen's slot; the studio settles in behind at a slower rate (parallax) */
-    const pull = easeIO(seg(p, .6, .84));
+    const pull = easeIO(seg(p, .61, .84));
     const S = rSlot.offsetWidth / rStick.clientWidth, sc = 1 + (S - 1) * pull;
     rCam.style.transform = pull ? 'translate(' + (rSlot.offsetLeft * pull).toFixed(1) + 'px,' + (rSlot.offsetTop * pull).toFixed(1) + 'px) scale(' + sc.toFixed(4) + ')' : '';
     rCam.style.borderRadius = pull ? (6 * pull / sc).toFixed(1) + 'px' : '';
@@ -982,13 +1074,20 @@
     fr.style.opacity = seg(p, .62, .7).toFixed(3);
     rLayers.forEach(([els, a, b]) => { const o = seg(p, a, b); els.forEach(e => e.style.opacity = o.toFixed(3)); });
 
-    /* off air, blackout, lights up */
-    const tv = $('tvOff');
-    tv.style.setProperty('--off', seg(p, .845, .865).toFixed(3));
-    tv.style.setProperty('--ln', (p >= .862 ? 1 - seg(p, .865, .875) : 0).toFixed(3));
-    $('rBlk').style.opacity = (seg(p, .865, .88) * .9 * (1 - seg(p, .892, .92))).toFixed(3);
-    $('onTv').style.opacity = seg(p, .885, .895).toFixed(3);
-    rStick.classList.toggle('lit', p >= .885);
+    /* the big screen's sign powers up while the camera pulls back: bulbs, wordmark, box and backdrop, the line; then the house lights go gold */
+    /* headlights in the mist: white bulbs, then the words "Make A Move", fade in slowly through the fog while the pieces fall;
+       the words close up into the logotype as the mist clears, the box and the screen come in, and the colour arrives last */
+    const tvs = $('onTv'), hue = seg(p, .78, .84);
+    tvs.style.opacity = p > FZ ? 1 : 0;
+    tvs.style.setProperty('--lights', easeIO(seg(p, .62, .71)).toFixed(3));
+    tvs.style.setProperty('--tx', easeIO(seg(p, .645, .735)).toFixed(3));
+    tvs.style.setProperty('--join', easeIO(seg(p, .7, .79)).toFixed(3));
+    tvs.style.setProperty('--mist', (1 - seg(p, .72, .8)).toFixed(3));
+    tvs.style.setProperty('--bg', seg(p, .74, .79).toFixed(3));
+    tvs.style.setProperty('--line', ease(seg(p, .77, .82)).toFixed(3));
+    tvs.style.setProperty('--hue', hue.toFixed(3));
+    tvs.classList.toggle('lit', hue >= 1);
+    rStick.classList.toggle('lit', p >= .85);
     lastR = p;
   }
 
@@ -1072,7 +1171,7 @@
   /* ---------- the waitlist ---------- */
   const wl = $('waitlist'), wlDone = $('wlDone'), wlGo = $('wlGo');
   const wlRules = {
-    name:    v => v.trim() ? '' : 'Enter your first name.',
+    name:    v => v.trim() ? '' : 'Enter your full name.',
     email:   v => !v.trim() ? 'Enter your email address.' : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Enter an email like name@example.com.',
     gender:  v => v ? '' : 'Choose Woman or Man.'
   };
@@ -1085,7 +1184,7 @@
     return !msg;
   }
   /* check a field when you leave it, but only once you've typed in it (or tried to submit): landing on the form
-     puts the cursor in First name, and clicking away from an untouched field shouldn't scold anyone.
+     puts the cursor in Full name, and clicking away from an untouched field shouldn't scold anyone.
      Once a field shows an error, it re-checks as you type, so the message clears the moment it's fixed */
   const wlTouched = new Set();
   let wlTried = false;
@@ -1097,8 +1196,20 @@
       if (wlField(k).getAttribute('aria-invalid') === 'true' || k === 'gender') wlCheck(k);
     });
   });
-  /* backend not built yet: replace this with the real request; it must resolve on success and reject on failure */
-  const submitWaitlist = data => new Promise(res => setTimeout(() => res({ ok:true, data }), 700));
+  /* the waitlist is stored by a Google Form ("MakeaMove Sign-up"); each sign-up becomes one response row.
+     Google doesn't send CORS headers, so the POST goes out as no-cors: the reply is opaque, which means this
+     resolves once the request reaches Google and rejects only on a network failure (offline, blocked).
+     Entry IDs and the Male/Female choices must match the form exactly: re-check them if the form is edited */
+  const WL_FORM = 'https://docs.google.com/forms/d/e/1FAIpQLSc5bJ8twYrmRCw3w1RW0qF-X0dcXHGokQuN5aokUO1kjp7QdA/formResponse';
+  const WL_ENTRY = { name:'entry.526182137', email:'entry.404850496', gender:'entry.1880011117' };
+  const WL_GENDER = { woman:'Female', man:'Male' };
+  const submitWaitlist = data => {
+    const body = new URLSearchParams();
+    body.append(WL_ENTRY.name, data.name.trim());
+    body.append(WL_ENTRY.email, data.email.trim());
+    body.append(WL_ENTRY.gender, WL_GENDER[data.gender]);
+    return fetch(WL_FORM, { method:'POST', mode:'no-cors', body });
+  };
   let wlBusy = false;
   wl.addEventListener('submit', async e => {
     e.preventDefault();
@@ -1111,7 +1222,7 @@
     const data = Object.fromEntries(new FormData(wl));
     try {
       await submitWaitlist(data);
-      $('wlDoneH').textContent = 'You\'re on the list, ' + data.name.trim() + '.';
+      $('wlDoneH').textContent = 'You\'re on the list, ' + data.name.trim().split(/\s+/)[0] + '.';
       $('wlDoneP').textContent = 'We\'ll email ' + data.email.trim() + ' the moment we open.';
       wl.hidden = true; wlDone.hidden = false; wlDone.focus();
     } catch (err) {
