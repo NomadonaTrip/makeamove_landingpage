@@ -80,6 +80,10 @@
     .slate .navcta{padding:9px 16px; font-size:.9375rem}
   }
 
+  /* desktop: the header and footer keep their content in the middle 60% of the page (20% margin each side);
+     below 1024px that band is too narrow for the slate's brand + pill nav + CTA, so they keep the gutter */
+  @media (min-width:1024px){ .slate{padding-inline:20%} }
+
   /* ============ RUNDOWN: where you are in the show ============ */
   /* One segment per scene. The current segment stretches and fills with scroll, so there is
      always something moving while a pinned scene holds still. Desktop: a rail on the right
@@ -467,7 +471,7 @@
   /* ============ card deck: how we find your match ============ */
   .deck{padding:clamp(90px, 11vw, 140px) var(--gutter); background:
       radial-gradient(circle at 1.5px 1.5px, rgba(110,155,255,.07) 1.2px, transparent 1.9px) 0 0/16px 16px, var(--stage-900)}
-  .deck h2{max-width:1180px; margin-inline:auto; font-size:clamp(2.8rem, 7vw, 6rem)}
+  .deck h2{max-width:1180px; margin-inline:auto; font-size:clamp(1.95rem, 4.9vw, 4.2rem)}
   .deck h2 span{color:var(--move)}
   .cards{list-style:none; max-width:1180px; margin:clamp(32px, 5vw, 56px) auto 0; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:clamp(16px, 2vw, 28px)}
   .cards li{position:relative; padding:34px 30px 32px; border-radius:22px;
@@ -477,7 +481,12 @@
   .cards .no{display:block; font-family:var(--display); font-weight:900; font-size:2.75rem; line-height:1; color:var(--bulb); text-shadow:0 0 22px rgba(255,182,39,.4)}
   .cards h3{margin-top:14px; font-family:var(--display); font-weight:800; text-transform:uppercase; font-size:1.625rem; letter-spacing:.02em; line-height:1.05}
   .cards p{margin-top:10px; color:var(--ink-dim)}
+  @media (min-width:901px){ #gameover .cards{grid-template-columns:repeat(2, minmax(0,1fr))} }
   @media (max-width:900px){ .cards{grid-template-columns:1fr} }
+  /* desktop: the card sections (heading, cards, badge) keep to the middle 60% of the page, like the header and footer */
+  @media (min-width:1024px){ .deck{padding-inline:20%} .deck h2, .deck .cards{max-width:none} .deck .verified{margin-left:0}
+    /* in the narrower band (1024–1440px) three cards get tight: ease the heading size and padding with the width */
+    .deck .cards li{padding:34px clamp(22px, 2.1vw, 30px) 32px} .deck .cards h3{font-size:clamp(1.3rem, 1.8vw, 1.625rem)} }
   /* framed close on the family (scaled from just above them); --fz eases the zoom out a little as the photo comes into view */
   /* phones and tablets: the line on air sits above the stack */
   @media (max-width:900px){
@@ -516,7 +525,7 @@
   /* ============ 6 · BACKSTAGE: house lights up (paper, §2.8: no neon) ============ */
   .back{background:var(--paper); color:var(--t); padding:clamp(110px, 14vw, 170px) var(--gutter) clamp(80px, 10vw, 130px)}
   .back .in{max-width:1240px; margin-inline:auto; display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr); gap:clamp(40px, 7vw, 110px); align-items:start}
-  .back h2{font-size:clamp(3rem, 6.4vw, 6rem); line-height:.88}
+  .back h2{font-size:clamp(2.1rem, 4.5vw, 4.2rem); line-height:.88}
   .back .sub{margin-top:18px; color:var(--t-dim); font-size:1.125rem; max-width:44ch}
   .rules{list-style:none; margin-top:44px}
   .rules li{display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:24px; padding-block:20px; border-top:1px solid #CDD5EA}
@@ -529,7 +538,7 @@
   }
 
   /* the old way vs ours: gray for the apps, pink for the show (§4) */
-  .back .vs h2{font-size:clamp(2.2rem, 4.2vw, 3.75rem)}
+  .back .vs h2{font-size:clamp(1.75rem, 2.95vw, 2.6rem)}
   .way{margin-top:22px; padding:26px 28px; border-radius:18px}
   .way h3{font-family:var(--display); font-weight:800; text-transform:uppercase; font-size:1.5rem; letter-spacing:.02em; line-height:1.05}
   .way p{margin-top:8px}
@@ -552,8 +561,8 @@
   .wl-sub{margin-top:6px; text-align:center; color:var(--ink-dim); overflow-wrap:anywhere}   /* long emails wrap instead of spilling */
   /* two rows on wide screens: name | email, then I'm a | the button, so no row is left half empty */
   .wl-grid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px 16px; margin-top:18px; align-items:start}
-  /* the button lines up with the pills (it skips the height of the "I'm a" label), so an error under the pills doesn't move it */
-  .wl .wl-grid > .cta{margin-top:calc(.9375rem * 1.55 + 6px)}
+  /* the button takes its own full-width row under name and email */
+  .wl .wl-grid > .cta{grid-column:1 / -1; margin-top:4px}
   .fld{min-width:0; border:0; padding:0; margin:0}
   .fld label, .fld legend{display:block; padding:0; font-weight:600; font-size:.9375rem; color:var(--ink)}
   .fld input:not([type=radio]){display:block; width:100%; min-height:48px; margin-top:6px; padding:12px 14px; border-radius:12px;
@@ -564,20 +573,13 @@
   .err{margin-top:4px; font-size:.875rem; color:var(--move-soft)}
   .err:empty{display:none}
   /* I'm a: two pill radios; the real inputs stay in the accessibility tree */
-  .pills{display:flex; gap:10px; margin-top:6px}
-  .pills label{position:relative; display:block; flex:1 1 0}
-  .pills input{position:absolute; inset:0; opacity:0; margin:0; cursor:pointer}
-  .pills span{display:flex; align-items:center; justify-content:center; min-height:48px; padding:0 18px; border-radius:999px; border:1px solid var(--stay-soft); color:var(--ink); font-weight:600}
-  .pills input:checked + span{background:var(--move); border-color:var(--move); color:#fff; box-shadow:var(--glow-move)}
-  .pills input:focus-visible + span{outline:2px solid var(--spotlight-soft); outline-offset:3px}
-  .fld[aria-invalid=true] .pills span{border-color:var(--move-soft)}
   .wl .cta{width:100%; min-height:48px; margin-top:0; padding:14px 24px; border:0; cursor:pointer}
   .wl .cta[aria-disabled=true]{cursor:progress; filter:saturate(.7)}
   .wl-fine{margin-top:10px; text-align:center; font-size:.875rem; color:var(--ink-dim)}
   .wl-done{text-align:center} .wl-done:focus{outline:none}
   .wl-edit{margin-top:18px; min-height:44px; padding:0 18px; border-radius:999px; border:1px solid var(--stay-soft); background:none; color:var(--ink); font:inherit; font-weight:600; cursor:pointer}
   .wl-edit:focus-visible{outline:2px solid var(--spotlight-soft); outline-offset:3px}
-  @media (max-width:600px){ .wl-grid{grid-template-columns:1fr; gap:12px} .wl .wl-grid > .cta{margin-top:4px} }
+  @media (max-width:600px){ .wl-grid{grid-template-columns:1fr; gap:12px} }
 
   /* ============ 8 · SITE FOOTER ============ */
   /* the show's lit sign signs off the page; a bulb run (the marquee's dotted border) divides it from the finale */
@@ -585,7 +587,8 @@
     background:radial-gradient(50% 70% at 12% 0%, rgba(255,45,111,.10), transparent 70%), var(--stage-850); color:var(--ink-dim); font-size:.9375rem}
   .site-foot::before{content:""; position:absolute; left:var(--gutter); right:var(--gutter); top:0; border-top:3px dotted var(--bulb);
     filter:drop-shadow(0 0 5px rgba(255,182,39,.8)); animation:marq 2.2s steps(2) infinite}
-  .sf-in{max-width:1180px; margin:0 auto; display:grid; grid-template-columns:minmax(0,1.4fr) repeat(3, minmax(0,1fr)); gap:44px 36px}
+  .sf-in{max-width:1180px; margin:0 auto; display:grid; grid-template-columns:minmax(0,2fr) minmax(0,1fr); gap:36px}
+  .sf-in > nav{justify-self:end}
   .sf-brand .marquee{display:block; width:fit-content; padding:14px 26px; border-radius:14px; color:var(--ink); text-decoration:none}
   .sf-brand .marquee::before{inset:6px; border-width:2px; border-radius:9px}
   .sf-brand .marquee .mark{font-size:clamp(1.75rem, 2.6vw, 2.25rem)}
@@ -594,16 +597,14 @@
   .sf-brand .sf-tag + p{margin-top:8px}
   .sf-h{font-family:var(--display); font-weight:900; text-transform:uppercase; letter-spacing:.06em; font-size:1.0625rem; color:var(--bulb); margin-bottom:10px}
   .site-foot ul{list-style:none}
-  .site-foot li a, .site-foot address a{display:inline-block; padding-block:10px; color:var(--ink-dim); text-decoration:none; overflow-wrap:anywhere}
-  @media (hover:hover){ .site-foot li a:hover, .site-foot address a:hover{color:var(--ink)} }
-  .site-foot address{font-style:normal}
-  .site-foot address p{padding-block:10px; line-height:1.4}
+  .site-foot li a{display:inline-block; padding-block:10px; color:var(--ink-dim); text-decoration:none; overflow-wrap:anywhere}
+  @media (hover:hover){ .site-foot li a:hover{color:var(--ink)} }
   .sf-base{max-width:1180px; margin:clamp(40px, 5vw, 60px) auto 0; padding-top:20px; border-top:1px solid rgba(245,247,255,.10);
     display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:4px 24px; font-size:.875rem; color:var(--ink-dim)}
   .sf-base a{display:inline-block; padding-block:12px; color:var(--ink-dim); text-decoration:none}
   @media (hover:hover){ .sf-base a:hover{color:var(--ink)} }
-  @media (max-width:900px){ .sf-in{grid-template-columns:repeat(2, minmax(0,1fr))} .sf-brand{grid-column:1 / -1} }
-  @media (max-width:600px){ .sf-in{gap:36px 20px} .sf-contact{grid-column:1 / -1} }
+  @media (max-width:600px){ .sf-in{grid-template-columns:1fr} .sf-in > nav{justify-self:start} }
+  @media (min-width:1024px){ .site-foot{padding-inline:20%} .site-foot::before{left:20%; right:20%} .sf-in, .sf-base{max-width:none} }
 
   /* ============ short screens ============ */
   /* small phones (SE-class): every pinned scene has less height to share */
@@ -731,7 +732,6 @@
     <ol class="cards">
       <li><span class="no">01</span><h3>Exclusive Date Invite</h3><p>Hit the 70%+ mark and receive a private, secure invitation to connect and video chat with your match.</p></li>
       <li><span class="no">02</span><h3>Private Planning Channels</h3><p>Plan your first date safely within the app — no personal info shared until you're ready. Venues proposed but both of you decide where and when.</p></li>
-      <li><span class="no">03</span><h3>Game Show Contest, Real-Life Chemistry</h3><p>The excitement you felt during the game becomes the spark that ignites your first conversation.</p></li>
     </ol>
   </section>
 
@@ -785,14 +785,12 @@
       <p class="wl-sub">Join the waitlist and be among the first to meet them.</p>
       <div class="wl-grid">
         <div class="fld"><label for="wlName">Full name</label>
-          <input id="wlName" name="name" autocomplete="name" required aria-describedby="wlNameErr"><p class="err" id="wlNameErr"></p></div>
+          <input id="wlName" name="name" autocomplete="name" maxlength="80" required aria-describedby="wlNameErr"><p class="err" id="wlNameErr"></p></div>
         <div class="fld"><label for="wlEmail">Email</label>
-          <input id="wlEmail" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" required aria-describedby="wlEmailErr"><p class="err" id="wlEmailErr"></p></div>
-        <fieldset class="fld" aria-describedby="wlGenderErr"><legend>I'm a</legend>
-          <div class="pills">
-            <label><input type="radio" name="gender" value="woman" required><span>Woman</span></label>
-            <label><input type="radio" name="gender" value="man"><span>Man</span></label>
-          </div><p class="err" id="wlGenderErr"></p></fieldset>
+          <input id="wlEmail" name="email" type="email" inputmode="email" autocomplete="email" spellcheck="false" maxlength="254" required aria-describedby="wlEmailErr"><p class="err" id="wlEmailErr"></p></div>
+        <!-- honeypot: off-screen and out of the tab order, so people never fill it; form-filling bots do -->
+        <div aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden">
+          <label for="wlSite">Website</label><input id="wlSite" name="website" type="text" tabindex="-1" autocomplete="off"></div>
         <button class="cta" type="submit" id="wlGo">Join the waitlist</button>
       </div>
       <p class="wl-fine">For singles 18 and over. We'll only email you about launch.</p>
@@ -815,29 +813,12 @@
     <nav aria-labelledby="h-sf-show">
       <h3 class="sf-h" id="h-sf-show">The show</h3>
       <ul>
-        <li><a href="#pitch">How it works</a></li>
+        <li><a href="#pitch">About MakeAMove</a></li>
         <li><a href="#gamerules">How we find your match</a></li>
         <li><a href="#rules">Safety</a></li>
         <li><a href="#waitlist">Join the waitlist</a></li>
       </ul>
     </nav>
-    <nav aria-labelledby="h-sf-play">
-      <h3 class="sf-h" id="h-sf-play">Players</h3>
-      <ul>
-        <li><a href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-A7">Sign in</a></li>
-        <li><a href="https://nomadonatrip.github.io/Makeamove_UI_Mockup/index.html#S-I1">Report a member</a></li>
-      </ul>
-    </nav>
-    <!-- PLACEHOLDER contact details: replace before launch -->
-    <div class="sf-contact">
-      <h3 class="sf-h" id="h-sf-contact">Contact</h3>
-      <address aria-labelledby="h-sf-contact">
-        <a href="mailto:hello@yourdomain.com">hello@yourdomain.com</a><br>
-        <a href="tel:+2340000000000">+234 000 000 0000</a>
-        <p>Office address<br>City, Country</p>
-        <p>Instagram · TikTok · X: @yourhandle</p>
-      </address>
-    </div>
   </div>
   <div class="sf-base">
     <span>© 2026 Make A Move. Company name and registration no.</span>
@@ -1171,16 +1152,18 @@
   /* ---------- the waitlist ---------- */
   const wl = $('waitlist'), wlDone = $('wlDone'), wlGo = $('wlGo');
   const wlRules = {
-    name:    v => v.trim() ? '' : 'Enter your full name.',
-    email:   v => !v.trim() ? 'Enter your email address.' : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Enter an email like name@example.com.',
-    gender:  v => v ? '' : 'Choose Woman or Man.'
+    /* a name starts with a letter and holds only letters, spaces, hyphens, apostrophes and full stops (any script):
+       this keeps links, markup and spreadsheet formulas (=, +, @) out of the responses sheet */
+    name:    v => !v.trim() ? 'Enter your full name.'
+                : v.trim().length > 80 || !/^\p{L}[\p{L}\p{M} '’.\-]*$/u.test(v.trim()) ? 'Use letters only, like Ada Okafor-Bello.' : '',
+    email:   v => !v.trim() ? 'Enter your email address.'
+                : v.trim().length <= 254 && /^[^\s@<>"=+\-][^\s@<>"]*@[^\s@<>"]+\.[^\s@<>"]{2,}$/.test(v.trim()) ? '' : 'Enter an email like name@example.com.'
   };
-  const wlErrId = { name:'wlNameErr', email:'wlEmailErr', gender:'wlGenderErr' };
-  const wlField = k => k === 'gender' ? wl.querySelector('fieldset') : wl.elements[k];
+  const wlErrId = { name:'wlNameErr', email:'wlEmailErr' };
   function wlCheck(k){
-    const msg = wlRules[k](k === 'gender' ? (wl.elements.gender.value || '') : wl.elements[k].value);
+    const msg = wlRules[k](wl.elements[k].value);
     $(wlErrId[k]).textContent = msg;
-    wlField(k).setAttribute('aria-invalid', msg ? 'true' : 'false');
+    wl.elements[k].setAttribute('aria-invalid', msg ? 'true' : 'false');
     return !msg;
   }
   /* check a field when you leave it, but only once you've typed in it (or tried to submit): landing on the form
@@ -1189,39 +1172,61 @@
   const wlTouched = new Set();
   let wlTried = false;
   Object.keys(wlRules).forEach(k => {
-    const el = k === 'gender' ? wl.querySelector('fieldset') : wl.elements[k];
-    el.addEventListener('focusout', e => { if ((wlTried || wlTouched.has(k)) && (k !== 'gender' || !el.contains(e.relatedTarget))) wlCheck(k); });
-    el.addEventListener(k === 'gender' ? 'change' : 'input', () => {
+    const el = wl.elements[k];
+    el.addEventListener('focusout', () => { if (wlTried || wlTouched.has(k)) wlCheck(k); });
+    el.addEventListener('input', () => {
       wlTouched.add(k);
-      if (wlField(k).getAttribute('aria-invalid') === 'true' || k === 'gender') wlCheck(k);
+      if (el.getAttribute('aria-invalid') === 'true') wlCheck(k);
     });
   });
   /* the waitlist is stored by a Google Form ("MakeaMove Sign-up"); each sign-up becomes one response row.
      Google doesn't send CORS headers, so the POST goes out as no-cors: the reply is opaque, which means this
      resolves once the request reaches Google and rejects only on a network failure (offline, blocked).
-     Entry IDs and the Male/Female choices must match the form exactly: re-check them if the form is edited */
+     Entry IDs must match the form exactly: re-check them if the form is edited */
   const WL_FORM = 'https://docs.google.com/forms/d/e/1FAIpQLSc5bJ8twYrmRCw3w1RW0qF-X0dcXHGokQuN5aokUO1kjp7QdA/formResponse';
-  const WL_ENTRY = { name:'entry.526182137', email:'entry.404850496', gender:'entry.1880011117' };
-  const WL_GENDER = { woman:'Female', man:'Male' };
+  const WL_ENTRY = { name:'entry.526182137', email:'entry.404850496' };
   const submitWaitlist = data => {
     const body = new URLSearchParams();
     body.append(WL_ENTRY.name, data.name.trim());
     body.append(WL_ENTRY.email, data.email.trim());
-    body.append(WL_ENTRY.gender, WL_GENDER[data.gender]);
     return fetch(WL_FORM, { method:'POST', mode:'no-cors', body });
   };
+  /* bot screening. This only stops bots that go through the page: anyone posting straight to the Google Form
+     skips all of it (see the audit note in CLAUDE.md). A sign-up that fails screening gets the normal success
+     screen but is never sent, so a bot learns nothing about which check caught it.
+     - the honeypot (#wlSite) must be empty
+     - a person must really have used the form: at least one trusted key, pointer or input event inside it
+     - at least 3s from page load to submit (people take far longer; scripted fills take milliseconds)
+     - each browser sends at most WL_MAX sign-ups a day, and re-sending identical details is a no-op */
+  const wlBorn = performance.now();
+  let wlHuman = false;
+  ['keydown', 'pointerdown', 'input'].forEach(t => wl.addEventListener(t, e => { if (e.isTrusted) wlHuman = true; }, true));
+  const WL_MAX = 5, WL_LOG = 'mm_wl_log';
+  const wlLog = () => { try { const l = JSON.parse(localStorage.getItem(WL_LOG)) || []; return l.filter(x => Date.now() - x.t < 864e5); } catch (_) { return []; } };
+  const wlKey = d => [d.name.trim().toLowerCase(), d.email.trim().toLowerCase()].join('|');
+  function wlScreen(d){
+    if (d.website) return 'bot';
+    if (!wlHuman || performance.now() - wlBorn < 3000) return 'bot';
+    const log = wlLog();
+    if (log.some(x => x.k === wlKey(d))) return 'dupe';
+    if (log.length >= WL_MAX) return 'bot';
+    return 'ok';
+  }
+  function wlRemember(d){ try { localStorage.setItem(WL_LOG, JSON.stringify(wlLog().concat({ k: wlKey(d), t: Date.now() }))); } catch (_) {} }
   let wlBusy = false;
   wl.addEventListener('submit', async e => {
     e.preventDefault();
     if (wlBusy) return;
     wlTried = true;
     const bad = Object.keys(wlRules).filter(k => !wlCheck(k));
-    if (bad.length){ const f = bad[0] === 'gender' ? wl.elements.gender[0] : wl.elements[bad[0]]; f.focus(); return; }
+    if (bad.length){ wl.elements[bad[0]].focus(); return; }
     wlFail(false);
     wlBusy = true; wlGo.setAttribute('aria-disabled', 'true'); wlGo.textContent = 'Joining…';
     const data = Object.fromEntries(new FormData(wl));
     try {
-      await submitWaitlist(data);
+      const verdict = wlScreen(data);
+      if (verdict === 'ok'){ await submitWaitlist(data); wlRemember(data); }
+      else await new Promise(r => setTimeout(r, 700));   /* same pause as a real send, so nothing gives it away */
       $('wlDoneH').textContent = 'You\'re on the list, ' + data.name.trim().split(/\s+/)[0] + '.';
       $('wlDoneP').textContent = 'We\'ll email ' + data.email.trim() + ' the moment we open.';
       wl.hidden = true; wlDone.hidden = false; wlDone.focus();
